@@ -351,7 +351,8 @@
         let pyodide = null, micropip = null, completedLabs = new Set();
         const outputElement = document.getElementById("output"), statusText = document.getElementById("status-text"), statusInd = document.getElementById("status-indicator"), runBtn = document.getElementById("run-btn");
 
-        // FIX: Added 'inputStyle: "contenteditable"' to fix mobile keyboard backspacing across lines.
+        // FIX: Added 'inputStyle: "contenteditable"' and disabled smart-typing features
+        // that interfere with the mobile keyboard's continuous backspace buffer.
         const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
@@ -360,25 +361,42 @@
             autoCloseBrackets: true, 
             styleActiveLine: true, 
             lineWrapping: true,
-            inputStyle: "contenteditable", // <-- This fixes the mobile keyboard bug!
-            spellcheck: false
+            inputStyle: "contenteditable", 
+            spellcheck: false,
+            autocorrect: false,     // Crucial for continuous backspace
+            autocapitalize: false   // Crucial for continuous backspace
         });
 
-        // FIX FOR MOBILE KEYBOARD BACKSPACE ACROSS LINES
+        // ==========================================
+        // DUAL-LAYER CONTINUOUS BACKSPACE FIX
+        // ==========================================
+        
+        // 1. Catch hardware keyboards and some virtual keyboard signals
+        editor.on("keydown", function(cm, e) {
+            if (e.keyCode === 8 || e.key === "Backspace") {
+                const cursor = cm.getCursor();
+                if (cursor.ch === 0 && cursor.line > 0) {
+                    e.preventDefault();
+                    cm.execCommand("delCharBefore");
+                }
+            }
+        });
+
+        // 2. Catch native Android/iOS software keyboard mutations (Continuous Hold)
         const inputField = editor.display.input.getField();
         if (inputField) {
             inputField.addEventListener("beforeinput", function(e) {
-                // Intercept the exact moment the mobile keyboard tries to backspace
-                if (e.inputType === "deleteContentBackward") {
+                // Check if the input operation is any form of deletion
+                if (e.inputType && e.inputType.startsWith("delete")) {
                     const cursor = editor.getCursor();
-                    // If we are at the very beginning of a line (but not the top line)
                     if (cursor.ch === 0 && cursor.line > 0) {
-                        e.preventDefault(); // Stop the default broken mobile behavior
-                        editor.execCommand("delCharBefore"); // Force CodeMirror to delete the newline
+                        e.preventDefault();
+                        editor.execCommand("delCharBefore");
                     }
                 }
             });
         }
+        // ==========================================
 
         const defaultCode = `# Omni-Studio | Portrait Fixed\ndef check_system():\n    print(">>> System Ready")\ncheck_system()`;
         const savedCode = localStorage.getItem("omni_pro_v4");
