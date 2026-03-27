@@ -348,7 +348,8 @@
         });
         plotSnatcher.observe(document.body, { childList: true });
 
-        let pyodide = null, micropip = null, completedLabs = new Set();
+        // Added 'isMatplotlibReady' to track engine state
+        let pyodide = null, micropip = null, completedLabs = new Set(), isMatplotlibReady = false;
         const outputElement = document.getElementById("output"), statusText = document.getElementById("status-text"), statusInd = document.getElementById("status-indicator"), runBtn = document.getElementById("run-btn");
 
         // FIX: Added 'inputStyle: "contenteditable"' and disabled smart-typing features
@@ -481,12 +482,28 @@
             if(!code.trim()) return;
             runBtn.disabled = true;
             document.getElementById("mem-bar").style.width = "90%";
-            if(code.includes("matplotlib") || code.includes("plt.")) switchTab('plots'); else switchTab('terminal');
+            
+            const needsPlot = code.includes("matplotlib") || code.includes("plt.");
+            if(needsPlot) switchTab('plots'); else switchTab('terminal');
+            
             try {
-                if (code.includes("matplotlib")) {
+                if (needsPlot) {
                      preparePlots();
-                     await pyodide.runPythonAsync(`import matplotlib\nimport matplotlib.pyplot as plt\nmatplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")\nplt.close('all')\nplt.rcParams['figure.autolayout'] = True`);
                      window.document.pyodideMplTarget = document.getElementById("plot-target");
+                     
+                     // OPTIMIZATION: Only run the heavy setup once!
+                     if (!isMatplotlibReady) {
+                         await pyodide.runPythonAsync(`
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
+plt.rcParams['figure.autolayout'] = True
+                         `);
+                         isMatplotlibReady = true;
+                     } else {
+                         // If already loaded, just clear the previous plots instantly
+                         await pyodide.runPythonAsync(`plt.close('all')`);
+                     }
                 }
                 await pyodide.runPythonAsync(code);
                 checkLabCompletion(code);
@@ -506,9 +523,20 @@
             log("Installing Data Science packages (NumPy, SciPy, Matplotlib)...", "text-indigo-400");
             try {
                 await micropip.install(['numpy', 'scipy', 'matplotlib']);
+                
+                // OPTIMIZATION: Pre-warm the plotting engine in the background
+                log("Optimizing plotting engine...", "text-indigo-400");
+                await pyodide.runPythonAsync(`
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
+plt.rcParams['figure.autolayout'] = True
+                `);
+                isMatplotlibReady = true;
+                
                 bar.style.width = "100%";
                 bar.classList.replace("bg-indigo-500", "bg-green-400");
-                log("Data Science Pack fully installed!", "text-green-400");
+                log("Data Science Pack fully installed & optimized!", "text-green-400");
             } catch (e) {
                 bar.style.width = "0%";
                 log("Installation failed: " + e, "text-red-400");
@@ -564,4 +592,4 @@
         function downloadApp() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([document.documentElement.outerHTML], {type:'text/html'})); a.download = 'Omni_Studio_v4.html'; a.click(); }
     </script>
 </body>
-</html>
+    </html>
