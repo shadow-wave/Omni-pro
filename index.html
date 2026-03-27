@@ -192,7 +192,6 @@
         <!-- EDITOR TAB -->
         <div id="tab-editor" class="tab-content active h-full">
             <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 shadow-xl">
-                <!-- Cleaned up textarea ready for fresh init -->
                 <textarea id="code-editor"></textarea>
             </div>
             <div class="accessory-bar h-12 mt-2 flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0">
@@ -202,10 +201,7 @@
                 <button class="glass-panel text-white text-sm" onclick="insert('[]')">[ ]</button>
                 <button class="glass-panel text-white text-sm" onclick="insert('\'\'')">" "</button>
                 <button class="glass-panel px-4 text-indigo-400 text-[10px] font-bold" onclick="insert('print()')">PRINT</button>
-                
-                <!-- NEW BACKSPACE BUTTON FOR KEYBOARD EASE -->
                 <button class="glass-panel px-3 text-amber-400" onclick="backspaceCode()"><i class="fa-solid fa-delete-left"></i></button>
-
                 <button class="glass-panel px-3 text-red-400 ml-auto" onclick="clearEditor()"><i class="fa-solid fa-eraser"></i></button>
             </div>
         </div>
@@ -259,7 +255,7 @@
                 <!-- PROGRESS -->
                 <div class="glass-panel p-4">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] text-gray-400 font-bold uppercase">Training Progress</span>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase">Lab Progress</span>
                         <span id="progress-percent" class="text-xs font-mono text-indigo-400">0%</span>
                     </div>
                     <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -284,20 +280,16 @@
 
                 <!-- LABS LIST -->
                 <div class="space-y-2">
-                     <h3 class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-2">Modules</h3>
+                     <h3 class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-2">Lab Assignments</h3>
                      <div class="grid grid-cols-1 gap-2">
-                        <button onclick="loadSnippet('lab_1')" id="lab_1_btn" class="lab-card-mobile"><span class="n">01</span> Hello World <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_2')" id="lab_2_btn" class="lab-card-mobile"><span class="n">02</span> Variables <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_3')" id="lab_3_btn" class="lab-card-mobile"><span class="n">03</span> Logic Types <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_4')" id="lab_4_btn" class="lab-card-mobile"><span class="n">04</span> Input Stream <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_5')" id="lab_5_btn" class="lab-card-mobile"><span class="n">05</span> Math Ops <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_6')" id="lab_6_btn" class="lab-card-mobile"><span class="n">06</span> List Arrays <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_7')" id="lab_7_btn" class="lab-card-mobile"><span class="n">07</span> Conditionals <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_8')" id="lab_8_btn" class="lab-card-mobile"><span class="n">08</span> For Loops <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_9')" id="lab_9_btn" class="lab-card-mobile"><span class="n">09</span> Data Grades <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_10')" id="lab_10_btn" class="lab-card-mobile"><span class="n">10</span> Functions <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('data_science')" class="lab-card-mobile border-indigo-500/20"><span class="n">AI</span> Matplotlib Visuals</button>
-                        <button onclick="loadSnippet('web_request')" class="lab-card-mobile border-purple-500/20"><span class="n">NET</span> Fetch API Data</button>
+                        <button onclick="loadSnippet('lab_1')" id="lab_1_btn" class="lab-card-mobile"><span class="n">01</span> Triangle Area <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_2')" id="lab_2_btn" class="lab-card-mobile"><span class="n">02</span> Largest Number <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_3')" id="lab_3_btn" class="lab-card-mobile"><span class="n">03</span> Sort Dictionary <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_4')" id="lab_4_btn" class="lab-card-mobile"><span class="n">04</span> Create a Set <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_5')" id="lab_5_btn" class="lab-card-mobile"><span class="n">05</span> Union of Sets <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_6')" id="lab_6_btn" class="lab-card-mobile"><span class="n">06</span> Read CSV List <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_7')" id="lab_7_btn" class="lab-card-mobile border-indigo-500/20"><span class="n">07</span> Popularity Bar Chart <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_8')" id="lab_8_btn" class="lab-card-mobile border-purple-500/20"><span class="n">08</span> Olympic Pie Chart <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
                      </div>
                 </div>
 
@@ -348,12 +340,9 @@
         });
         plotSnatcher.observe(document.body, { childList: true });
 
-        // Added 'isMatplotlibReady' to track engine state
-        let pyodide = null, micropip = null, completedLabs = new Set(), isMatplotlibReady = false;
+        let pyodide = null, micropip = null, completedLabs = new Set();
         const outputElement = document.getElementById("output"), statusText = document.getElementById("status-text"), statusInd = document.getElementById("status-indicator"), runBtn = document.getElementById("run-btn");
 
-        // FIX: Added 'inputStyle: "contenteditable"' and disabled smart-typing features
-        // that interfere with the mobile keyboard's continuous backspace buffer.
         const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
@@ -371,8 +360,6 @@
         // ==========================================
         // DUAL-LAYER CONTINUOUS BACKSPACE FIX
         // ==========================================
-        
-        // 1. Catch hardware keyboards and some virtual keyboard signals
         editor.on("keydown", function(cm, e) {
             if (e.keyCode === 8 || e.key === "Backspace") {
                 const cursor = cm.getCursor();
@@ -383,11 +370,9 @@
             }
         });
 
-        // 2. Catch native Android/iOS software keyboard mutations (Continuous Hold)
         const inputField = editor.display.input.getField();
         if (inputField) {
             inputField.addEventListener("beforeinput", function(e) {
-                // Check if the input operation is any form of deletion
                 if (e.inputType && e.inputType.startsWith("delete")) {
                     const cursor = editor.getCursor();
                     if (cursor.ch === 0 && cursor.line > 0) {
@@ -399,12 +384,12 @@
         }
         // ==========================================
 
-        const defaultCode = `# Omni-Studio | Portrait Fixed\ndef check_system():\n    print(">>> System Ready")\ncheck_system()`;
+        const defaultCode = `# Omni-Studio | Lab Editor\nprint(">>> System Ready")`;
         const savedCode = localStorage.getItem("omni_pro_v4");
         editor.setValue(savedCode || defaultCode);
         editor.on("change", () => localStorage.setItem("omni_pro_v4", editor.getValue()));
 
-        // Boot core immediately in the background so it's ready when the user enters
+        // Boot core immediately
         window.addEventListener('DOMContentLoaded', () => {
             initPyodide(); 
         });
@@ -430,7 +415,6 @@
                 runBtn.disabled = false; document.getElementById("mem-usage").classList.remove("hidden");
                 refreshFileList(); loadProgress();
 
-                // AUTO-ENTER STUDIO ONCE READY
                 if(bootBtn) {
                     bootBtn.innerHTML = '<div class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]"></div> System Ready';
                     bootBtn.classList.replace("text-gray-400", "text-white");
@@ -444,36 +428,28 @@
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-red-500"; statusText.innerText = "Error";
                 if(bootBtn) bootBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500"></i> Offline Mode';
                 if(bootStatus) bootStatus.innerText = "Failed to fetch engine. Check connection.";
-                setTimeout(enterStudio, 2000); // Enter anyway in broken state
+                setTimeout(enterStudio, 2000);
             }
         }
 
-        // INTELLIGENT ERROR HANDLER
         function handlePythonError(err) {
             const errStr = err.toString();
             let lineNum = "Unknown";
-            
-            // Extract the user's specific line number from the Pyodide traceback
             const lineMatch = errStr.match(/File "<exec>", line (\d+)/);
-            if (lineMatch) {
-                lineNum = lineMatch[1];
-            }
+            if (lineMatch) lineNum = lineMatch[1];
             
-            // Isolate the actual error message (usually the last non-empty line)
             const lines = errStr.split('\n').filter(l => l.trim().length > 0);
             let errMsg = lines[lines.length - 1].replace("PythonError: ", "").trim();
             
-            // Generate a smart tip based on the error type
             let tip = "Check for typos or syntax issues.";
             if (errMsg.includes("NameError")) tip = "You are using a variable or function that hasn't been defined yet.";
             else if (errMsg.includes("SyntaxError")) tip = "Check your punctuation, brackets, quotes, and commas.";
             else if (errMsg.includes("TypeError")) tip = "You are mixing incompatible data types (like adding a string to a number).";
             else if (errMsg.includes("IndentationError")) tip = "Check the spacing at the start of your lines. Python relies on strict indentation.";
             else if (errMsg.includes("IndexError")) tip = "You are trying to access an item in a list that doesn't exist.";
+            else if (errMsg.includes("FileNotFoundError")) tip = "The file you are trying to read does not exist in the virtual environment.";
             
-            // Format output nicely
             const formattedError = `❌ ERROR ON LINE ${lineNum}\n\n${errMsg}\n\n💡 Tip: ${tip}`;
-            
             log(formattedError, "text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl mt-2 mb-2 font-mono text-[10px] leading-relaxed shadow-sm");
         }
 
@@ -482,39 +458,22 @@
             if(!code.trim()) return;
             runBtn.disabled = true;
             document.getElementById("mem-bar").style.width = "90%";
-            
-            const needsPlot = code.includes("matplotlib") || code.includes("plt.");
-            if(needsPlot) switchTab('plots'); else switchTab('terminal');
-            
+            if(code.includes("matplotlib") || code.includes("plt.")) switchTab('plots'); else switchTab('terminal');
             try {
-                if (needsPlot) {
+                if (code.includes("matplotlib")) {
                      preparePlots();
+                     await pyodide.runPythonAsync(`import matplotlib\nimport matplotlib.pyplot as plt\nmatplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")\nplt.close('all')\nplt.rcParams['figure.autolayout'] = True`);
                      window.document.pyodideMplTarget = document.getElementById("plot-target");
-                     
-                     // OPTIMIZATION: Only run the heavy setup once!
-                     if (!isMatplotlibReady) {
-                         await pyodide.runPythonAsync(`
-import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
-plt.rcParams['figure.autolayout'] = True
-                         `);
-                         isMatplotlibReady = true;
-                     } else {
-                         // If already loaded, just clear the previous plots instantly
-                         await pyodide.runPythonAsync(`plt.close('all')`);
-                     }
                 }
                 await pyodide.runPythonAsync(code);
                 checkLabCompletion(code);
             } catch (err) { 
-                handlePythonError(err); // <-- Using the new intelligent error handler 
+                handlePythonError(err);
             } finally { 
                 runBtn.disabled = false; document.getElementById("mem-bar").style.width = "30%"; 
             }
         }
 
-        // Added Data Science Pack Installation
         async function installDataScience() {
             if (!micropip) { alert("System starting. Please wait..."); return; }
             const bar = document.getElementById("ds-status").firstElementChild;
@@ -523,27 +482,15 @@ plt.rcParams['figure.autolayout'] = True
             log("Installing Data Science packages (NumPy, SciPy, Matplotlib)...", "text-indigo-400");
             try {
                 await micropip.install(['numpy', 'scipy', 'matplotlib']);
-                
-                // OPTIMIZATION: Pre-warm the plotting engine in the background
-                log("Optimizing plotting engine...", "text-indigo-400");
-                await pyodide.runPythonAsync(`
-import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
-plt.rcParams['figure.autolayout'] = True
-                `);
-                isMatplotlibReady = true;
-                
                 bar.style.width = "100%";
                 bar.classList.replace("bg-indigo-500", "bg-green-400");
-                log("Data Science Pack fully installed & optimized!", "text-green-400");
+                log("Data Science Pack fully installed!", "text-green-400");
             } catch (e) {
                 bar.style.width = "0%";
                 log("Installation failed: " + e, "text-red-400");
             }
         }
 
-        // Added PIP Custom Installation Event
         document.getElementById("pip-input").addEventListener("keypress", async function(e) {
             if (e.key === "Enter") {
                 const pkg = this.value.trim();
@@ -567,29 +514,43 @@ plt.rcParams['figure.autolayout'] = True
         function clearEditor() { if(confirm("Clear Script?")) editor.setValue("# New Script\n"); }
         function insert(t) { const d = editor.getDoc(), c = d.getCursor(); d.replaceRange(t, c); if(t.includes('()')||t.includes('[]')||t.includes('\'\'')) d.setCursor({line:c.line, ch:c.ch+1}); editor.focus(); }
         
-        // BACKSPACE FEATURE FIX
         function backspaceCode() { editor.execCommand("delCharBefore"); editor.focus(); }
 
         function preparePlots() { if(document.getElementById("plot-placeholder")) document.getElementById("plot-placeholder").style.display='none'; document.getElementById("btn-download-plot").classList.remove("hidden"); }
         function clearPlots() { document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-10"><i class="fa-solid fa-chart-area text-5xl mb-2"></i><p class="text-[10px] font-mono uppercase">No Data</p></div>`; document.getElementById("btn-download-plot").classList.add("hidden"); }
         function downloadPlot() { const c = document.querySelector("#plot-target canvas"); if(c) { const a = document.createElement('a'); a.download='OmniPlot.png'; a.href=c.toDataURL(); a.click(); } }
 
+        // ==========================================
+        // OPTIMIZED LAB MODULE SNIPPETS FROM PDF
+        // ==========================================
         const snippets = {
-            lab_1: `print("Hello, World!")`, lab_2: `name = "Omni"\nversion = 4.0\nprint(f"{name} v{version}")`, lab_3: `x = 10\ny = 5.5\nz = "A"\nprint(type(x), type(y), type(z))`, lab_4: `val = input("Name: ")\nprint(f"Hi {val}")`, lab_5: `a, b = 10, 3\nprint(a + b, a ** b)`, lab_6: `data = [1, 2, 3]\ndata.append(4)\nprint(data)`, lab_7: `x = 10\nif x > 5: print("Pass")`, lab_8: `for i in range(3): print(i)`, lab_9: `n = 85\nmsg = "A" if n > 80 else "B"\nprint(msg)`, lab_10: `def hi(n): return n*2\nprint(hi(10))`,
-            data_science: `import matplotlib.pyplot as plt\nimport numpy as np\nplt.style.use('dark_background')\nx = np.linspace(0, 10, 100)\ny = np.sin(x)\nplt.figure(figsize=(6,4))\nplt.plot(x, y, color='#6366f1', lw=3)\nplt.title("System Signal Output")\nplt.show()`,
-            web_request: `from pyodide.http import pyfetch\nasync def get():\n    r = await pyfetch("https://dummyjson.com/quotes/random")\n    j = await r.json()\n    print(j['quote'])\nawait get()`
+            lab_1: `# 1. Triangle Area\nbase = float(input("Enter the base: "))\nheight = float(input("Enter the height: "))\narea = 0.5 * base * height\nprint(f"The area of the triangle is: {area}")`,
+            
+            lab_2: `# 2. Get largest number\nmy_list = [14, 58, 2, 99, 31, 7]\nlargest = max(my_list)\nprint(f"Largest number: {largest}")`,
+            
+            lab_3: `# 3. Sort Dictionary\nmy_dict = {'apple': 50, 'banana': 20, 'cherry': 85, 'date': 15}\ndict_asc = dict(sorted(my_dict.items(), key=lambda item: item[1]))\ndict_desc = dict(sorted(my_dict.items(), key=lambda item: item[1], reverse=True))\nprint(f"Ascending: {dict_asc}")\nprint(f"Descending: {dict_desc}")`,
+            
+            lab_4: `# 4. Create a set\nmy_first_set = {1, 2, 3, 4, 5}\nmy_second_set = set([5, 6, 7, 8, 9, 9, 9])\nprint(f"Set 1: {my_first_set}")\nprint(f"Set 2: {my_second_set}")`,
+            
+            lab_5: `# 5. Union of Sets\nset_a = {1, 2, 3, 4}\nset_b = {3, 4, 5, 6}\nunion_set = set_a | set_b\nprint(f"Union Set: {union_set}")`,
+            
+            lab_6: `# 6. Read CSV as a list\nimport csv\n\n# NOTE: Creating a dummy CSV file so it works in browser!\nwith open('data.csv', 'w') as f: f.write("Name,Age\\nAlice,22\\nBob,25")\n\ntry:\n    with open('data.csv', 'r') as file:\n        csv_reader = csv.reader(file)\n        data_list = list(csv_reader)\n        print(data_list)\nexcept FileNotFoundError:\n    print("Error: 'data.csv' not found.")`,
+            
+            lab_7: `# 7. Bar Chart\nimport matplotlib.pyplot as plt\n\nlanguages = ['Java', 'Python', 'PHP', 'JavaScript', 'C#', 'C++']\npopularity = [22.2, 17.6, 8.8, 8.0, 7.7, 6.7]\n\nplt.bar(languages, popularity, color='skyblue')\nplt.xlabel('Programming Languages')\nplt.ylabel('Popularity (%)')\nplt.title('Popularity of Programming Languages')\nplt.tight_layout()\nplt.show()`,
+            
+            lab_8: `# 8. Olympic Pie Chart\nimport csv\nimport matplotlib.pyplot as plt\n\n# NOTE: Creating dummy CSV file so it works in browser!\nwith open('medals.csv', 'w') as f: f.write("Country,Gold Medals\\nUSA,46\\nGBR,27\\nChina,26\\nRussia,19")\n\ncountries = []\nmedals = []\n\ntry:\n    with open('medals.csv', 'r') as file:\n        csv_reader = csv.reader(file)\n        next(csv_reader)\n        for row in csv_reader:\n            countries.append(row[0])\n            medals.append(int(row[1]))\n\n    plt.pie(medals, labels=countries, autopct='%1.1f%%', startangle=140, shadow=True)\n    plt.title('Gold Medal Achievements 2016')\n    plt.axis('equal')\n    plt.show()\nexcept FileNotFoundError:\n    print("Error: 'medals.csv' not found.")`
         };
 
-        function loadSnippet(k) { if(confirm("Load Module?")) { editor.setValue(snippets[k]); switchTab('editor'); } }
+        function loadSnippet(k) { if(confirm("Load Lab Code?")) { editor.setValue(snippets[k]); switchTab('editor'); } }
         function checkLabCompletion(code) { for (let k in snippets) if (code.trim() === snippets[k].trim()) markLabDone(k); }
         function markLabDone(k) { completedLabs.add(k); const btn = document.getElementById(`${k}_btn`); if (btn) btn.classList.add("completed-lab"); saveProgress(); updateProgressUI(); }
-        function updateProgressUI() { const total = 10, percent = Math.round((completedLabs.size / total) * 100); if(document.getElementById("progress-percent")) document.getElementById("progress-percent").innerText = `${percent}%`; if(document.getElementById("progress-bar")) document.getElementById("progress-bar").style.width = `${percent}%`; }
-        function saveProgress() { localStorage.setItem("omni_progress", JSON.stringify([...completedLabs])); }
-        function loadProgress() { const data = localStorage.getItem("omni_progress"); if (data) { const arr = JSON.parse(data); arr.forEach(k => { completedLabs.add(k); const btn = document.getElementById(`${k}_btn`); if (btn) btn.classList.add("completed-lab"); }); updateProgressUI(); } }
+        function updateProgressUI() { const total = 8, percent = Math.round((completedLabs.size / total) * 100); if(document.getElementById("progress-percent")) document.getElementById("progress-percent").innerText = `${percent}%`; if(document.getElementById("progress-bar")) document.getElementById("progress-bar").style.width = `${percent}%`; }
+        function saveProgress() { localStorage.setItem("omni_progress_v4", JSON.stringify([...completedLabs])); }
+        function loadProgress() { const data = localStorage.getItem("omni_progress_v4"); if (data) { const arr = JSON.parse(data); arr.forEach(k => { completedLabs.add(k); const btn = document.getElementById(`${k}_btn`); if (btn) btn.classList.add("completed-lab"); }); updateProgressUI(); } }
         function saveFile() { const n = document.getElementById("filename-input").value; if(!n) return; const s = JSON.parse(localStorage.getItem("omni_local_v4")||"{}"); s[n] = editor.getValue(); localStorage.setItem("omni_local_v4", JSON.stringify(s)); refreshFileList(); }
         function refreshFileList() { const l = document.getElementById("file-list"); l.innerHTML=""; const s = JSON.parse(localStorage.getItem("omni_local_v4")||"{}"); Object.keys(s).forEach(k => { const d = document.createElement("div"); d.className = "flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/5"; d.innerHTML = `<span class="text-[10px] text-white font-mono">${k}</span><div class="flex gap-3"><button onclick="editor.setValue(JSON.parse(localStorage.getItem('omni_local_v4'))['${k}']);switchTab('editor')" class="text-indigo-400"><i class="fa-solid fa-folder-open"></i></button><button onclick="deleteFile('${k}')" class="text-red-500/50"><i class="fa-solid fa-trash"></i></button></div>`; l.appendChild(d); }); }
         function deleteFile(k) { if(confirm("Delete?")) { const x = JSON.parse(localStorage.getItem('omni_local_v4')); delete x[k]; localStorage.setItem('omni_local_v4', JSON.stringify(x)); refreshFileList(); } }
-        function downloadApp() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([document.documentElement.outerHTML], {type:'text/html'})); a.download = 'Omni_Studio_v4.html'; a.click(); }
     </script>
 </body>
-    </html>
+</html>
+
