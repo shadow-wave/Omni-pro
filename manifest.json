@@ -1,7 +1,7 @@
 {
-  "name": "Omni-Studio Data & Physics Lab",
+  "name": "Omni-Studio Data Science Lab",
   "short_name": "OmniLab",
-  "description": "Offline Pandas, DataFrames & Matplotlib Laboratory",
+  "description": "Offline Computational Physics, Pandas & Matplotlib Studio",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait-primary",
@@ -9,15 +9,9 @@
   "theme_color": "#030305",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/5968/5968350.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/5968/5968350.png",
-      "sizes": "512x512",
-      "type": "image/png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='50%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%239333ea'/%3E%3C/linearGradient%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='12' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Crect x='16' y='16' width='480' height='480' rx='112' fill='none' stroke='rgba(255,255,255,0.08)' stroke-width='4'/%3E%3Ccircle cx='256' cy='256' r='180' fill='url(%23g)' opacity='0.12' filter='url(%23glow)'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)' filter='url(%23glow)'/%3E%3C/svg%3E",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
