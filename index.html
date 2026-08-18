@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Omni-Studio | Pandas & Data Lab</title>
+    <title>Omni-Studio | Pandas & Data Science Lab</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#030305">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="OmniLab">
     
+    <!-- Vector Favicon & Touch Icon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +32,15 @@
                     spacing: {
                         'safe-top': 'env(safe-area-inset-top)',
                         'safe-bottom': 'env(safe-area-inset-bottom)',
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.08)' },
+                        }
                     }
                 }
             }
@@ -111,7 +125,6 @@
             font-size: 10.5px;
         }
 
-        /* Spyder White Card for DataFrames Plotting */
         .spyder-plot-card {
             background: #ffffff;
             border-radius: 16px;
@@ -187,13 +200,19 @@
 </head>
 <body class="flex flex-col select-none">
 
-    <!-- Splash Screen -->
+    <!-- Splash Screen with Vector Brand Icon -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-500">
-        <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl shadow-2xl border border-white/20">
-            <i class="fa-solid fa-table-cells"></i>
+        <div class="relative flex items-center justify-center">
+            <div class="absolute w-28 h-28 rounded-full bg-indigo-500/20 blur-2xl animate-pulse-glow"></div>
+            <div class="w-20 h-20 rounded-[24px] bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl shadow-2xl border border-white/20 relative z-10">
+                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C8.5 2 6 4 6 6.5V8.5H12V10.5H5C3 10.5 2 12 2 14.5S3 18.5 5 18.5H7V16C7 14.3431 8.34315 13 10 13H14C15.6569 13 17 11.6569 17 10V6.5C17 4 14.5 2 12 2ZM10.5 4.5C11.0523 4.5 11.5 4.94772 11.5 5.5C11.5 6.05228 11.0523 6.5 10.5 6.5C9.94772 6.5 9.5 6.05228 9.5 5.5C9.5 4.94772 9.94772 4.5 10.5 4.5Z" fill="white"/>
+                    <path d="M12 22C15.5 22 18 20 18 17.5V15.5H12V13.5H19C21 13.5 22 12 22 9.5S21 5.5 19 5.5H17V8C17 9.65685 15.6569 11 14 11H10C8.34315 11 7 12.3431 7 14V17.5C7 20 9.5 22 12 22ZM13.5 19.5C12.9477 19.5 12.5 19.0523 12.5 18.5C12.5 17.9477 12.9477 17.5 13.5 17.5C14.0523 17.5 14.5 17.9477 14.5 18.5C14.5 19.0523 14.0523 19.5 13.5 19.5Z" fill="white" fill-opacity="0.8"/>
+                </svg>
+            </div>
         </div>
         <h1 class="mt-6 text-2xl font-bold text-white tracking-tight">Omni-Studio<span class="text-indigo-400"> Pro</span></h1>
-        <p class="mt-1 text-indigo-300/60 text-[10px] font-bold tracking-[0.25em] uppercase">Pandas & Data Science Engine</p>
+        <p class="mt-1 text-indigo-300/60 text-[10px] font-bold tracking-[0.25em] uppercase">Pandas & Computational Lab</p>
         
         <div class="mt-8 w-full max-w-xs space-y-3">
             <div id="boot-box" class="py-3.5 px-4 glass-panel rounded-2xl flex items-center justify-center gap-3 border-indigo-500/20">
@@ -202,7 +221,7 @@
             </div>
             <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Mounting Pandas, NumPy & Matplotlib...</div>
         </div>
-        <div class="absolute bottom-8 text-[10px] text-gray-600 font-bold uppercase tracking-widest">[cite: 1]Aravind O K</div>
+        <div class="absolute bottom-8 text-[10px] text-gray-600 font-bold uppercase tracking-widest">Aravind O K</div>
     </div>
 
     <!-- Python Input Stream Dialog -->
@@ -217,11 +236,11 @@
         </div>
     </div>
 
-    <!-- Header -->
+    <!-- Header Navigation -->
     <header class="h-[3.75rem] pt-[var(--sat)] px-4 flex items-center justify-between shrink-0 z-40 bg-[#040508]/95 border-b border-white/5">
         <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs">
-                <i class="fa-solid fa-table"></i>
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs shadow-md border border-white/10">
+                <i class="fa-solid fa-table-cells"></i>
             </div>
             <div>
                 <h1 class="font-bold text-xs text-white leading-tight">Omni-Studio</h1>
@@ -244,7 +263,7 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Views -->
     <main class="flex-1 overflow-hidden p-2.5 pb-0">
         
         <!-- Tab 1: Editor -->
@@ -265,7 +284,7 @@
                 </div>
             </div>
 
-            <!-- Accessory Toolbar with Data Science Shortcuts -->
+            <!-- Virtual Keyboard Toolbar -->
             <div class="accessory-bar h-12 my-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0 px-0.5">
                 <button class="key-btn text-indigo-400 font-bold" onclick="insertMobile('    ')">TAB</button>
                 <button class="key-btn font-mono" onclick="insertMobile(':')">:</button>
@@ -298,12 +317,12 @@
             </div>
         </div>
 
-        <!-- Tab 3: Spyder Plots -->
+        <!-- Tab 3: Plots -->
         <div id="tab-plots" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg">
                 <div class="h-10 flex justify-between items-center px-3.5 bg-white/5 border-b border-white/5">
                     <span class="text-[9.5px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Matplotlib & Pandas Visualizer
+                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Spyder Plot Viewer
                     </span>
                     <div class="flex gap-1.5">
                         <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9.5px] font-bold bg-indigo-600 active:bg-indigo-500 px-3 py-1 rounded-lg text-white flex items-center gap-1">
@@ -323,21 +342,21 @@
             </div>
         </div>
 
-        <!-- Tab 4: Labs & Datasets -->
+        <!-- Tab 4: Syllabus & Storage -->
         <div id="tab-files" class="tab-content">
             <div class="flex-1 overflow-y-auto space-y-3.5 pr-0.5 no-scrollbar pb-6">
                 
-                <!-- Lead Architect Badge[cite: 1] -->
+                <!-- Lead Developer Badge -->
                 <div class="glass-panel p-3.5 rounded-2xl flex items-center gap-3 border-indigo-500/20">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">A</div>
                     <div>
-                        <h3 class="text-white font-bold text-xs leading-tight">[cite: 1]Aravind O K</h3>
-                        <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">[cite: 1]Lead Developer</p>
-                        <a href="tel:6238291791" class="text-[9.5px] text-gray-400 active:text-white transition">[cite: 1]ID: 6238291791</a>
+                        <h3 class="text-white font-bold text-xs leading-tight">Aravind O K</h3>
+                        <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">Lead Developer</p>
+                        <a href="tel:6238291791" class="text-[9.5px] text-gray-400 active:text-white transition">ID: 6238291791</a>
                     </div>
                 </div>
 
-                <!-- Progress Meter[cite: 1] -->
+                <!-- Progress Bar -->
                 <div class="glass-panel p-3.5 rounded-2xl">
                     <div class="flex justify-between items-center mb-1.5">
                         <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Pandas Syllabus Progress</span>
@@ -348,11 +367,11 @@
                     </div>
                 </div>
 
-                <!-- Virtual CSV / Dataset Mounter -->
+                <!-- Virtual Filesystem -->
                 <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
                     <div class="flex items-center justify-between">
                         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-file-csv text-indigo-400"></i> Mounted CSV / Data Files
+                            <i class="fa-solid fa-file-csv text-indigo-400"></i> Mounted Datasets
                         </span>
                         <label class="px-2.5 py-1 bg-white/10 active:bg-white/20 text-[9.5px] font-bold text-white rounded-lg cursor-pointer transition">
                             <i class="fa-solid fa-upload mr-1"></i> Mount CSV
@@ -364,7 +383,7 @@
                     </div>
                 </div>
 
-                <!-- Syllabus: Pandas & DataFrame Lab Experiments -->
+                <!-- Syllabus Experiments -->
                 <div class="space-y-1.5">
                     <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest ml-1">Pandas & DataFrame Experiments</span>
                     <div class="grid grid-cols-1 gap-1.5">
@@ -379,9 +398,9 @@
                     </div>
                 </div>
 
-                <!-- Local Script Storage[cite: 1] -->
+                <!-- Saved Scripts -->
                 <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
-                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Device Scripts</span>
+                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Saved Scripts</span>
                     <div class="flex gap-1.5">
                         <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-3 py-2 text-xs outline-none border border-white/10 text-gray-200" placeholder="pandas_exp.py">
                         <button onclick="saveFile()" class="bg-indigo-600 active:bg-indigo-500 px-3.5 py-2 rounded-xl text-xs font-bold text-white transition">Save</button>
@@ -392,7 +411,7 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation Dock -->
     <nav class="h-[4.5rem] pb-[var(--sab)] px-6 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10">
         <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400" data-target="editor">
             <i class="fa-solid fa-code text-lg"></i>
@@ -413,7 +432,6 @@
     </nav>
 
     <script>
-        // PWA Offline Cache Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').catch(() => {});
@@ -434,7 +452,6 @@
             });
         });
 
-        // App States
         let pyodide = null;
         let micropip = null;
         let currentFontSize = 13;
@@ -447,7 +464,6 @@
         const runBtn = document.getElementById("run-btn");
         const timerLabel = document.getElementById("exec-timer");
 
-        // CodeMirror Setup
         const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
@@ -482,7 +498,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Sample Experimental DataFrame
 data = {
     'Time_sec': [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
     'Voltage_V': [0.0, 1.8, 3.3, 4.5, 5.2, 5.7, 6.0, 6.2, 6.3],
@@ -490,10 +505,9 @@ data = {
 }
 df = pd.DataFrame(data)
 
-print(">>> Pandas DataFrame Loaded Successfully:")
+print(">>> Pandas DataFrame Loaded:")
 print(df.to_string(index=False))
 
-# Plotting directly using DataFrame & Matplotlib
 plt.figure(figsize=(6, 3.8))
 plt.plot(df['Time_sec'], df['Voltage_V'], marker='o', color='#4f46e5', lw=2.2, label='Voltage (V)')
 plt.plot(df['Time_sec'], df['Current_mA'], marker='s', color='#e11d48', lw=2.2, label='Current (mA)')
@@ -506,27 +520,25 @@ plt.legend(frameon=True, facecolor='white', edgecolor='#cbd5e1')
 plt.tight_layout()
 plt.show()`;
         
-        const savedCode = localStorage.getItem("omni_pandas_v9");
+        const savedCode = localStorage.getItem("omni_pandas_v10");
         editor.setValue(savedCode || initialCode);
-        editor.on("change", () => localStorage.setItem("omni_pandas_v9", editor.getValue()));
+        editor.on("change", () => localStorage.setItem("omni_pandas_v10", editor.getValue()));
 
         window.addEventListener('DOMContentLoaded', () => initPyodide());
 
-        // Initialize Pyodide with Pandas, NumPy and Matplotlib
         async function initPyodide() {
             const bootIcon = document.getElementById("boot-icon");
             const bootText = document.getElementById("boot-text");
             const bootStatus = document.getElementById("boot-status");
 
             try {
-                if (bootStatus) bootStatus.innerText = "Loading Pyodide WASM...";
+                if (bootStatus) bootStatus.innerText = "Loading Pyodide Core...";
                 pyodide = await loadPyodide();
 
                 if (bootStatus) bootStatus.innerText = "Mounting Pandas, NumPy & Matplotlib...";
                 await pyodide.loadPackage(["micropip", "numpy", "matplotlib", "pandas"]);
                 micropip = pyodide.pyimport("micropip");
 
-                // Configure clean DataFrame string printing and Spyder-white Matplotlib renderer
                 await pyodide.runPythonAsync(`
 import io, base64, sys, builtins
 import pandas as pd
@@ -535,11 +547,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from js import showPlotMobile, requestAsyncInput
 
-# Configure pandas display width for mobile terminal
 pd.set_option('display.width', 1000)
 pd.set_option('display.max_columns', 10)
 
-# Configure Matplotlib with Spyder high-contrast theme
 matplotlib.use("Agg")
 plt.rcParams['figure.facecolor'] = 'white'
 plt.rcParams['axes.facecolor'] = 'white'
@@ -554,7 +564,6 @@ plt.rcParams['grid.alpha'] = 0.7
 plt.rcParams['figure.autolayout'] = True
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial']
 
-# Default sample CSV file in virtual root
 sample_csv = """Student,Physics,Chemistry,Maths,Lab_Score
 Aravind,88,82,95,98
 Navaneeth,90,85,92,94
@@ -608,7 +617,6 @@ builtins.input = async_input
             }
         }
 
-        // Async Input Bridge
         window.requestAsyncInput = function(promptText) {
             triggerHaptic();
             return new Promise((resolve) => {
@@ -638,19 +646,17 @@ builtins.input = async_input
             if (e.key === 'Enter') submitModalInput();
         });
 
-        // Spyder Canvas Card Renderer
         window.showPlotMobile = function(base64Data) {
             const target = document.getElementById('plot-target');
             target.innerHTML = `
                 <div class="spyder-plot-card">
-                    <img src="data:image/png;base64,${base64Data}" alt="Pandas Matplotlib Plot">
+                    <img src="data:image/png;base64,${base64Data}" alt="Matplotlib Plot">
                 </div>
             `;
             document.getElementById("btn-download-plot").classList.remove("hidden");
             switchTab('plots');
         };
 
-        // Code Execution with Execution Benchmarking
         async function runCode() {
             triggerHaptic();
             const code = editor.getValue();
@@ -691,7 +697,6 @@ builtins.input = async_input
             log(formattedError, "text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl my-1.5 font-mono text-[11px] leading-relaxed");
         }
 
-        // Virtual Filesystem Upload / Download
         function uploadToVirtualFS(event) {
             const file = event.target.files[0];
             if (!file || !pyodide) return;
@@ -740,14 +745,10 @@ builtins.input = async_input
             }
         }
 
-        // ==========================================
-        // PANDAS & DATAFRAME SYLLABUS EXPERIMENTS[cite: 1]
-        // ==========================================
         const snippets = {
             df_create: `# 1. DataFrame Creation, Head & Summary Statistics
 import pandas as pd
 
-# Creating a DataFrame from Dictionary
 students_data = {
     'Name': ['Aravind', 'Navaneeth', 'Nandagopan', 'Aromal', 'Sangi'],
     'Physics': [92, 88, 85, 79, 94],
@@ -765,10 +766,7 @@ print(df.describe())`,
             df_csv: `# 2. Read CSV into DataFrame & Column Manipulation
 import pandas as pd
 
-# Reading the virtual data.csv
 df = pd.read_csv('data.csv')
-
-# Adding a Calculated Column (Total & Average)
 df['Total'] = df['Physics'] + df['Chemistry'] + df['Maths']
 df['Average'] = (df['Total'] / 3).round(2)
 
@@ -779,8 +777,6 @@ print(df[['Student', 'Physics', 'Total', 'Average']])`,
 import pandas as pd
 
 df = pd.read_csv('data.csv')
-
-# Filtering students scoring > 85 in Physics AND Maths
 high_achievers = df[(df['Physics'] >= 85) & (df['Maths'] >= 90)]
 
 print("--- High Achievers (Physics >= 85 & Maths >= 90) ---")
@@ -795,8 +791,6 @@ data = {
     'Score': [85, 90, 78, 82, 92, 95]
 }
 df = pd.DataFrame(data)
-
-# Calculating Mean and Max Score per Department
 grouped = df.groupby('Department')['Score'].agg(['mean', 'max', 'count'])
 
 print("--- Department-wise Score Analytics ---")
@@ -813,7 +807,6 @@ v2 = 5.0 * np.exp(-0.5 * time)
 
 df = pd.DataFrame({'Time': time, 'Resistor_10k': v1, 'Resistor_22k': v2})
 
-# Plotting directly using DataFrame columns
 plt.figure(figsize=(6, 3.8))
 plt.plot(df['Time'], df['Resistor_10k'], label='R = 10 kΩ', color='#4f46e5', lw=2)
 plt.plot(df['Time'], df['Resistor_22k'], label='R = 22 kΩ', color='#e11d48', lw=2, linestyle='--')
@@ -831,8 +824,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('data.csv')
-
-# Plotting Subject Comparison Bar Chart
 ax = df.plot(x='Student', y=['Physics', 'Chemistry', 'Maths'], kind='bar', figsize=(6, 3.8), colormap='viridis', width=0.7)
 
 plt.title('Comparative Subject Performance', fontsize=12, pad=10)
@@ -848,13 +839,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Experimental Readings (Force vs Extension - Hooke's Law)
 df = pd.DataFrame({
     'Mass_kg': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
     'Extension_cm': [1.9, 4.1, 6.2, 7.9, 10.1, 12.0, 14.2]
 })
 
-# Linear fit using numpy
 m, c = np.polyfit(df['Mass_kg'], df['Extension_cm'], 1)
 df['Fit_Line'] = m * df['Mass_kg'] + c
 
@@ -926,9 +915,9 @@ plt.show()`
             document.getElementById("progress-bar").style.width = `${percent}%`;
         }
 
-        function saveProgress() { localStorage.setItem("omni_progress_pandas_v9", JSON.stringify([...completedLabs])); }
+        function saveProgress() { localStorage.setItem("omni_progress_pandas_v10", JSON.stringify([...completedLabs])); }
         function loadProgress() {
-            const data = localStorage.getItem("omni_progress_pandas_v9");
+            const data = localStorage.getItem("omni_progress_pandas_v10");
             if (data) {
                 JSON.parse(data).forEach(k => {
                     completedLabs.add(k);
@@ -939,14 +928,13 @@ plt.show()`
             }
         }
 
-        // Script File Manager[cite: 1]
         function saveFile() {
             triggerHaptic();
             const n = document.getElementById("filename-input").value.trim();
             if (!n) return;
-            const s = JSON.parse(localStorage.getItem("omni_files_pandas_v9") || "{}");
+            const s = JSON.parse(localStorage.getItem("omni_files_pandas_v10") || "{}");
             s[n] = editor.getValue();
-            localStorage.setItem("omni_files_pandas_v9", JSON.stringify(s));
+            localStorage.setItem("omni_files_pandas_v10", JSON.stringify(s));
             document.getElementById("filename-input").value = "";
             refreshFileList();
         }
@@ -954,7 +942,7 @@ plt.show()`
         function refreshFileList() {
             const l = document.getElementById("file-list");
             l.innerHTML = "";
-            const s = JSON.parse(localStorage.getItem("omni_files_pandas_v9") || "{}");
+            const s = JSON.parse(localStorage.getItem("omni_files_pandas_v10") || "{}");
             Object.keys(s).forEach(k => {
                 const d = document.createElement("div");
                 d.className = "flex justify-between items-center p-2.5 rounded-xl bg-white/5 border border-white/5";
@@ -969,7 +957,7 @@ plt.show()`
 
         function loadFile(k) {
             triggerHaptic();
-            const s = JSON.parse(localStorage.getItem('omni_files_pandas_v9') || "{}");
+            const s = JSON.parse(localStorage.getItem('omni_files_pandas_v10') || "{}");
             if (s[k]) {
                 editor.setValue(s[k]);
                 document.getElementById('active-filename').innerText = k;
@@ -980,9 +968,9 @@ plt.show()`
         function deleteFile(k) {
             triggerHaptic();
             if (confirm(`Delete "${k}"?`)) {
-                const x = JSON.parse(localStorage.getItem('omni_files_pandas_v9') || "{}");
+                const x = JSON.parse(localStorage.getItem('omni_files_pandas_v10') || "{}");
                 delete x[k];
-                localStorage.setItem('omni_files_pandas_v9', JSON.stringify(x));
+                localStorage.setItem('omni_files_pandas_v10', JSON.stringify(x));
                 refreshFileList();
             }
         }
