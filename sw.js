@@ -1,10 +1,10 @@
-const CACHE_NAME = 'omni-studio-v5-cache';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'omni-studio-pandas-v9';
+const STATIC_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   'https://cdn.tailwindcss.com',
-  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap',
+  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js',
@@ -19,60 +19,43 @@ const ASSETS_TO_CACHE = [
   'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/repodata.json'
 ];
 
-// Install: Cache core assets and Pyodide binaries
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      // Cache critical assets immediately
-      await cache.addAll(ASSETS_TO_CACHE).catch(err => console.warn('Pre-cache warning:', err));
-    })
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS).catch(() => {}))
   );
   self.skipWaiting();
 });
 
-// Activate: Clean up old versions
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) return caches.delete(key);
-        })
-      );
-    })
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => Promise.all(
+      keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null))
+    ))
   );
   self.clients.claim();
 });
 
-// Fetch: Cache-First strategy for Pyodide packages (.whl, .wasm, CDN scripts)
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        // Cache dynamic wheels, CDN scripts, and data files
-        if (
-          networkResponse &&
-          networkResponse.status === 200 &&
-          (event.request.url.includes('jsdelivr.net') ||
-           event.request.url.includes('cdnjs.cloudflare.com') ||
-           event.request.url.includes('fonts.gstatic.com') ||
-           event.request.url.endsWith('.whl') ||
-           event.request.url.endsWith('.wasm') ||
-           event.request.url.endsWith('.json'))
-        ) {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return networkResponse;
-      }).catch(() => {
-        // Fallback for offline usage
-        return caches.match(event.request);
-      });
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    caches.match(e.request).then((cached) => {
+      if (cached) return cached;
+      return fetch(e.request).then((res) => {
+        if (!res || res.status !== 200) return res;
+        const clone = res.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          if (
+            e.request.url.includes('jsdelivr.net') ||
+            e.request.url.includes('cdnjs.cloudflare.com') ||
+            e.request.url.includes('fonts.gstatic.com') ||
+            e.request.url.endsWith('.whl') ||
+            e.request.url.endsWith('.wasm')
+          ) {
+            cache.put(e.request, clone);
+          }
+        });
+        return res;
+      }).catch(() => caches.match(e.request));
     })
   );
 });
