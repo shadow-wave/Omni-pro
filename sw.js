@@ -1,4 +1,4 @@
-const CACHE_NAME = 'omni-studio-pandas-v9';
+const CACHE_NAME = 'omni-studio-production-v10';
 const STATIC_ASSETS = [
   './',
   './index.html',
