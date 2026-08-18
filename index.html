@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Omni-Studio Mobile | Python Lab</title>
+    <title>Omni-Studio | Pandas & Data Lab</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#030305">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
 
     <style>
         :root {
-            --glass: rgba(13, 15, 24, 0.92);
+            --glass: rgba(13, 16, 26, 0.92);
             --glass-border: rgba(255, 255, 255, 0.08);
             --sat: env(safe-area-inset-top);
             --sab: env(safe-area-inset-bottom);
@@ -83,20 +83,19 @@
         
         .tab-content.active { 
             display: flex; 
-            animation: mobileFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            animation: tabFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
 
-        @keyframes mobileFade {
+        @keyframes tabFade {
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Mobile-Optimized CodeMirror */
         .CodeMirror {
             background: transparent !important;
             font-size: 13px;
             height: 100%;
-            line-height: 1.5;
+            line-height: 1.55;
             font-family: 'JetBrains Mono', monospace;
         }
         
@@ -112,11 +111,32 @@
             font-size: 10.5px;
         }
 
-        /* Mobile Accessory Key Styling */
+        /* Spyder White Card for DataFrames Plotting */
+        .spyder-plot-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .spyder-plot-card img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
         .key-btn {
             height: 38px;
             min-width: 38px;
-            padding: 0 10px;
+            padding: 0 9px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px;
@@ -135,23 +155,23 @@
             transform: scale(0.95);
         }
 
-        /* Touch-friendly lab items */
         .lab-card-touch {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.07);
-            padding: 14px;
+            padding: 13px 14px;
             border-radius: 14px;
             display: flex;
             align-items: center;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
             color: #cbd5e1;
             width: 100%;
             text-align: left;
+            transition: background 0.15s ease;
         }
 
         .lab-card-touch:active {
-            background: rgba(99, 102, 241, 0.15);
+            background: rgba(99, 102, 241, 0.18);
             border-color: rgba(99, 102, 241, 0.4);
         }
 
@@ -167,43 +187,41 @@
 </head>
 <body class="flex flex-col select-none">
 
-    <!-- Mobile Splash Screen -->
+    <!-- Splash Screen -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-500">
         <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl shadow-2xl border border-white/20">
-            <i class="fa-brands fa-python"></i>
+            <i class="fa-solid fa-table-cells"></i>
         </div>
-        <h1 class="mt-6 text-2xl font-bold text-white tracking-tight">Omni-Studio<span class="text-indigo-400"> Mobile</span></h1>
-        <p class="mt-1 text-indigo-300/60 text-[10px] font-bold tracking-[0.25em] uppercase">WebAssembly Python Lab</p>
+        <h1 class="mt-6 text-2xl font-bold text-white tracking-tight">Omni-Studio<span class="text-indigo-400"> Pro</span></h1>
+        <p class="mt-1 text-indigo-300/60 text-[10px] font-bold tracking-[0.25em] uppercase">Pandas & Data Science Engine</p>
         
         <div class="mt-8 w-full max-w-xs space-y-3">
             <div id="boot-box" class="py-3.5 px-4 glass-panel rounded-2xl flex items-center justify-center gap-3 border-indigo-500/20">
                 <i id="boot-icon" class="fa-solid fa-circle-notch fa-spin text-indigo-400 text-sm"></i>
-                <span id="boot-text" class="text-xs font-semibold text-gray-300">Starting Python Engine...</span>
+                <span id="boot-text" class="text-xs font-semibold text-gray-300">Waking WASM Kernel...</span>
             </div>
-            <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Mounting NumPy & Matplotlib...</div>
+            <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Mounting Pandas, NumPy & Matplotlib...</div>
         </div>
         <div class="absolute bottom-8 text-[10px] text-gray-600 font-bold uppercase tracking-widest">[cite: 1]Aravind O K</div>
     </div>
 
-    <!-- Mobile Async Python Input Dialog (Stays above software keyboard) -->
-    <div id="input-modal" class="fixed inset-0 z-[110] bg-black/75 backdrop-blur-md hidden items-start justify-center p-4 pt-16">
-        <div class="glass-panel w-full max-w-xs p-4 rounded-2xl border-indigo-500/30 shadow-2xl space-y-3 animate-slideUp">
+    <!-- Python Input Stream Dialog -->
+    <div id="input-modal" class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-md hidden items-start justify-center p-4 pt-16">
+        <div class="glass-panel w-full max-w-xs p-4 rounded-2xl border-indigo-500/30 shadow-2xl space-y-3">
             <div class="flex items-center gap-2 text-indigo-400 text-[11px] font-bold uppercase tracking-wider">
-                <i class="fa-solid fa-terminal"></i> Python Input Request
+                <i class="fa-solid fa-terminal"></i> Python Input
             </div>
             <p id="modal-prompt-label" class="text-xs text-gray-200 font-mono break-words"></p>
-            <input id="modal-input-field" type="text" inputmode="text" class="w-full bg-black/60 border border-white/20 rounded-xl px-3.5 py-3 text-sm font-mono text-white outline-none focus:border-indigo-500 transition" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Type here...">
-            <div class="flex gap-2">
-                <button onclick="submitModalInput()" class="w-full py-3 bg-indigo-600 active:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg transition">Submit</button>
-            </div>
+            <input id="modal-input-field" type="text" class="w-full bg-black/60 border border-white/20 rounded-xl px-3.5 py-3 text-sm font-mono text-white outline-none focus:border-indigo-500 transition" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Value...">
+            <button onclick="submitModalInput()" class="w-full py-3 bg-indigo-600 active:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg transition">Submit</button>
         </div>
     </div>
 
-    <!-- Top Navigation / Header (Safe for Notches) -->
+    <!-- Header -->
     <header class="h-[3.75rem] pt-[var(--sat)] px-4 flex items-center justify-between shrink-0 z-40 bg-[#040508]/95 border-b border-white/5">
         <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs">
-                <i class="fa-solid fa-atom"></i>
+                <i class="fa-solid fa-table"></i>
             </div>
             <div>
                 <h1 class="font-bold text-xs text-white leading-tight">Omni-Studio</h1>
@@ -226,10 +244,10 @@
         </div>
     </header>
 
-    <!-- Main Workspace Viewports -->
+    <!-- Main Content -->
     <main class="flex-1 overflow-hidden p-2.5 pb-0">
         
-        <!-- Tab 1: Code Editor -->
+        <!-- Tab 1: Editor -->
         <div id="tab-editor" class="tab-content active">
             <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 flex flex-col shadow-lg">
                 <div class="h-8 px-3 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
@@ -247,7 +265,7 @@
                 </div>
             </div>
 
-            <!-- Sticky Mobile Accessory Bar -->
+            <!-- Accessory Toolbar with Data Science Shortcuts -->
             <div class="accessory-bar h-12 my-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0 px-0.5">
                 <button class="key-btn text-indigo-400 font-bold" onclick="insertMobile('    ')">TAB</button>
                 <button class="key-btn font-mono" onclick="insertMobile(':')">:</button>
@@ -256,19 +274,20 @@
                 <button class="key-btn font-mono" onclick="insertMobile('{}')">{ }</button>
                 <button class="key-btn font-mono" onclick="insertMobile('\'\'')">" "</button>
                 <button class="key-btn font-mono" onclick="insertMobile('=')">=</button>
-                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile(',')">,</button>
-                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('print()')">print</button>
+                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('df.')">df.</button>
+                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('pd.')">pd.</button>
+                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('plt.')">plt.</button>
                 <button class="key-btn text-amber-400" onclick="backspaceCode()"><i class="fa-solid fa-delete-left"></i></button>
                 <button class="key-btn text-rose-400" onclick="clearEditor()"><i class="fa-solid fa-trash-can"></i></button>
             </div>
         </div>
 
-        <!-- Tab 2: Terminal Output -->
+        <!-- Tab 2: Terminal -->
         <div id="tab-terminal" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl p-3.5 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
                 <div class="flex justify-between items-center mb-2.5 border-b border-white/5 pb-2">
                     <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-terminal text-[10px]"></i> Standard Output
+                        <i class="fa-solid fa-terminal text-[10px]"></i> DataFrame / Console Output
                     </span>
                     <div class="flex gap-1.5">
                         <button onclick="copyOutput()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md">Copy</button>
@@ -279,47 +298,49 @@
             </div>
         </div>
 
-        <!-- Tab 3: Matplotlib Visualizer -->
+        <!-- Tab 3: Spyder Plots -->
         <div id="tab-plots" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg">
                 <div class="h-10 flex justify-between items-center px-3.5 bg-white/5 border-b border-white/5">
                     <span class="text-[9.5px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Canvas Output
+                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Matplotlib & Pandas Visualizer
                     </span>
                     <div class="flex gap-1.5">
-                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9px] font-bold bg-indigo-600 active:bg-indigo-500 px-2.5 py-1 rounded-md text-white">Save Image</button>
-                        <button onclick="clearPlots()" class="text-[9px] font-bold bg-white/10 active:bg-white/20 px-2.5 py-1 rounded-md text-gray-300">Clear</button>
+                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9.5px] font-bold bg-indigo-600 active:bg-indigo-500 px-3 py-1 rounded-lg text-white flex items-center gap-1">
+                            <i class="fa-solid fa-download"></i> Save PNG
+                        </button>
+                        <button onclick="clearPlots()" class="text-[9.5px] font-bold bg-white/10 active:bg-white/20 px-2.5 py-1 rounded-lg text-gray-300">Clear</button>
                     </div>
                 </div>
-                <div class="flex-1 p-2 flex items-center justify-center overflow-auto bg-black/25">
-                    <div id="plot-target" class="w-full h-full flex items-center justify-center">
+                <div class="flex-1 p-3 flex items-center justify-center overflow-auto bg-[#0a0c14]">
+                    <div id="plot-target" class="w-full flex items-center justify-center">
                         <div id="plot-placeholder" class="text-center opacity-30">
                             <i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300"></i>
-                            <p class="text-[10px] font-mono uppercase tracking-wider">No Plot Generated</p>
+                            <p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 4: Syllabus & Files -->
+        <!-- Tab 4: Labs & Datasets -->
         <div id="tab-files" class="tab-content">
             <div class="flex-1 overflow-y-auto space-y-3.5 pr-0.5 no-scrollbar pb-6">
                 
-                <!-- Lead Architect Profile Badge[cite: 1] -->
+                <!-- Lead Architect Badge[cite: 1] -->
                 <div class="glass-panel p-3.5 rounded-2xl flex items-center gap-3 border-indigo-500/20">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">A</div>
                     <div>
                         <h3 class="text-white font-bold text-xs leading-tight">[cite: 1]Aravind O K</h3>
-                        <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">[cite: 1]Lead Architect</p>
+                        <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">[cite: 1]Lead Developer</p>
                         <a href="tel:6238291791" class="text-[9.5px] text-gray-400 active:text-white transition">[cite: 1]ID: 6238291791</a>
                     </div>
                 </div>
 
-                <!-- Lab Progress Tracker[cite: 1] -->
+                <!-- Progress Meter[cite: 1] -->
                 <div class="glass-panel p-3.5 rounded-2xl">
                     <div class="flex justify-between items-center mb-1.5">
-                        <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Course Syllabus Progress</span>
+                        <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Pandas Syllabus Progress</span>
                         <span id="progress-percent" class="text-xs font-mono text-indigo-400 font-bold">0%</span>
                     </div>
                     <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -327,29 +348,42 @@
                     </div>
                 </div>
 
-                <!-- Syllabus Experiments[cite: 1] -->
-                <div class="space-y-1.5">
-                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest ml-1">Curriculum Experiments</span>
-                    <div class="grid grid-cols-1 gap-1.5">
-                        <button onclick="loadSnippet('sim_shm')" class="lab-card-touch border-indigo-500/30 bg-indigo-950/20"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">PHY</span> Damped Harmonic Wave</button>
-                        <button onclick="loadSnippet('sim_projectile')" class="lab-card-touch border-purple-500/30 bg-purple-950/20"><span class="font-mono text-[9px] text-purple-400 bg-purple-500/20 px-1.5 py-0.5 rounded mr-2">PHY</span> Projectile Motion (ODE)</button>
-                        <button onclick="loadSnippet('sim_regression')" class="lab-card-touch border-emerald-500/30 bg-emerald-950/20"><span class="font-mono text-[9px] text-emerald-400 bg-emerald-500/20 px-1.5 py-0.5 rounded mr-2">PHY</span> Least Squares Linear Fit</button>
-                        <button onclick="loadSnippet('lab_1')" id="lab_1_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">01</span> Triangle Area <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_2')" id="lab_2_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">02</span> Largest Number in List <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_3')" id="lab_3_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">03</span> Dictionary Sort <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_4')" id="lab_4_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">04</span> Set Operations <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_5')" id="lab_5_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">05</span> Union of Sets <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_6')" id="lab_6_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">06</span> CSV File Processor <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_7')" id="lab_7_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">07</span> Matplotlib Bar Chart <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_8')" id="lab_8_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-white/5 px-1.5 py-0.5 rounded mr-2">08</span> Olympic Pie Chart <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                <!-- Virtual CSV / Dataset Mounter -->
+                <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-csv text-indigo-400"></i> Mounted CSV / Data Files
+                        </span>
+                        <label class="px-2.5 py-1 bg-white/10 active:bg-white/20 text-[9.5px] font-bold text-white rounded-lg cursor-pointer transition">
+                            <i class="fa-solid fa-upload mr-1"></i> Mount CSV
+                            <input type="file" id="fs-file-uploader" class="hidden" accept=".csv,.txt,.dat" onchange="uploadToVirtualFS(event)">
+                        </label>
+                    </div>
+                    <div id="virtual-fs-list" class="space-y-1 max-h-24 overflow-y-auto">
+                        <div class="text-[9.5px] font-mono text-gray-500">data.csv (Default Mounted)</div>
                     </div>
                 </div>
 
-                <!-- Local File Storage[cite: 1] -->
+                <!-- Syllabus: Pandas & DataFrame Lab Experiments -->
+                <div class="space-y-1.5">
+                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest ml-1">Pandas & DataFrame Experiments</span>
+                    <div class="grid grid-cols-1 gap-1.5">
+                        <button onclick="loadSnippet('df_create')" id="df_create_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">01</span> DataFrame Creation & Summary <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_csv')" id="df_csv_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">02</span> CSV Data Wrangling & Indexing <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_filter')" id="df_filter_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">03</span> Boolean Masking & Querying <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_groupby')" id="df_groupby_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">04</span> GroupBy & Statistical Aggregation <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_lineplot')" id="df_lineplot_btn" class="lab-card-touch border-indigo-500/30 bg-indigo-950/20"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">05</span> DataFrame Line Plot (Time Series) <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_barchart')" id="df_barchart_btn" class="lab-card-touch border-purple-500/30 bg-purple-950/20"><span class="font-mono text-[9px] text-purple-400 bg-purple-500/20 px-1.5 py-0.5 rounded mr-2">06</span> Grouped & Stacked Bar Chart <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_scatter')" id="df_scatter_btn" class="lab-card-touch border-emerald-500/30 bg-emerald-950/20"><span class="font-mono text-[9px] text-emerald-400 bg-emerald-500/20 px-1.5 py-0.5 rounded mr-2">07</span> DataFrame Scatter & Fit Line <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('df_histogram')" id="df_histogram_btn" class="lab-card-touch border-rose-500/30 bg-rose-950/20"><span class="font-mono text-[9px] text-rose-400 bg-rose-500/20 px-1.5 py-0.5 rounded mr-2">08</span> Histogram & Subplot Analytics <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                    </div>
+                </div>
+
+                <!-- Local Script Storage[cite: 1] -->
                 <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
-                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Device Storage</span>
+                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Device Scripts</span>
                     <div class="flex gap-1.5">
-                        <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-3 py-2 text-xs outline-none border border-white/10 text-gray-200" placeholder="lab_script.py">
+                        <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-3 py-2 text-xs outline-none border border-white/10 text-gray-200" placeholder="pandas_exp.py">
                         <button onclick="saveFile()" class="bg-indigo-600 active:bg-indigo-500 px-3.5 py-2 rounded-xl text-xs font-bold text-white transition">Save</button>
                     </div>
                     <div id="file-list" class="space-y-1.5 pt-1"></div>
@@ -358,7 +392,7 @@
         </div>
     </main>
 
-    <!-- Bottom Thumb Navigation Bar (Optimized for Hand Ergonomics & Safe Area) -->
+    <!-- Bottom Navigation -->
     <nav class="h-[4.5rem] pb-[var(--sab)] px-6 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10">
         <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400" data-target="editor">
             <i class="fa-solid fa-code text-lg"></i>
@@ -374,21 +408,18 @@
         </button>
         <button onclick="switchTab('files')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-target="files">
             <i class="fa-solid fa-shapes text-lg"></i>
-            <span class="text-[9px] font-bold">Labs</span>
+            <span class="text-[9px] font-bold">Syllabus</span>
         </button>
     </nav>
 
     <script>
-        // PWA Offline Service Worker Registration
+        // PWA Offline Cache Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Mobile Kernel Offline Active'))
-                    .catch(err => console.warn('PWA Offline Cache:', err));
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
             });
         }
 
-        // PWA Installation Trigger
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -403,7 +434,7 @@
             });
         });
 
-        // App Engine State
+        // App States
         let pyodide = null;
         let micropip = null;
         let currentFontSize = 13;
@@ -429,10 +460,13 @@
             inputStyle: "contenteditable",
             spellcheck: false,
             autocorrect: false,
-            autocapitalize: false
+            autocapitalize: false,
+            extraKeys: {
+                "Ctrl-Enter": () => runCode(),
+                "Cmd-Enter": () => runCode()
+            }
         });
 
-        // Continuous backspace fix for mobile virtual keyboards
         editor.on("keydown", function(cm, e) {
             if (e.keyCode === 8 || e.key === "Backspace") {
                 const cursor = cm.getCursor();
@@ -443,43 +477,96 @@
             }
         });
 
-        const initialCode = `# Omni-Studio Mobile Lab\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nprint(">>> System Initialized. Plotting damped wave:")\nt = np.linspace(0, 10, 250)\ny = np.sin(2 * np.pi * 0.6 * t) * np.exp(-0.15 * t)\n\nplt.figure(figsize=(6, 3.8))\nplt.plot(t, y, color='#6366f1', lw=2)\nplt.title("Damped Wave Simulation", fontsize=11)\nplt.xlabel("Time (s)")\nplt.ylabel("Amplitude")\nplt.grid(True, linestyle='--', alpha=0.3)\nplt.tight_layout()\nplt.show()`;
+        const initialCode = `# Pandas DataFrame & Matplotlib Visualization
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sample Experimental DataFrame
+data = {
+    'Time_sec': [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    'Voltage_V': [0.0, 1.8, 3.3, 4.5, 5.2, 5.7, 6.0, 6.2, 6.3],
+    'Current_mA': [0.0, 0.4, 0.8, 1.2, 1.5, 1.8, 2.0, 2.1, 2.2]
+}
+df = pd.DataFrame(data)
+
+print(">>> Pandas DataFrame Loaded Successfully:")
+print(df.to_string(index=False))
+
+# Plotting directly using DataFrame & Matplotlib
+plt.figure(figsize=(6, 3.8))
+plt.plot(df['Time_sec'], df['Voltage_V'], marker='o', color='#4f46e5', lw=2.2, label='Voltage (V)')
+plt.plot(df['Time_sec'], df['Current_mA'], marker='s', color='#e11d48', lw=2.2, label='Current (mA)')
+
+plt.title('Capacitor Charging Dynamics', fontsize=12, pad=10)
+plt.xlabel('Time (seconds)', labelpad=6)
+plt.ylabel('Measured Output', labelpad=6)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend(frameon=True, facecolor='white', edgecolor='#cbd5e1')
+plt.tight_layout()
+plt.show()`;
         
-        const savedCode = localStorage.getItem("omni_mobile_v6");
+        const savedCode = localStorage.getItem("omni_pandas_v9");
         editor.setValue(savedCode || initialCode);
-        editor.on("change", () => localStorage.setItem("omni_mobile_v6", editor.getValue()));
+        editor.on("change", () => localStorage.setItem("omni_pandas_v9", editor.getValue()));
 
         window.addEventListener('DOMContentLoaded', () => initPyodide());
 
-        // Initialize Pyodide with Matplotlib & Async Input Patch
+        // Initialize Pyodide with Pandas, NumPy and Matplotlib
         async function initPyodide() {
-            const bootBox = document.getElementById("boot-box");
             const bootIcon = document.getElementById("boot-icon");
             const bootText = document.getElementById("boot-text");
             const bootStatus = document.getElementById("boot-status");
 
             try {
-                if (bootStatus) bootStatus.innerText = "Downloading WebAssembly Core...";
+                if (bootStatus) bootStatus.innerText = "Loading Pyodide WASM...";
                 pyodide = await loadPyodide();
 
-                if (bootStatus) bootStatus.innerText = "Loading NumPy & Matplotlib...";
-                await pyodide.loadPackage(["micropip", "numpy", "matplotlib"]);
+                if (bootStatus) bootStatus.innerText = "Mounting Pandas, NumPy & Matplotlib...";
+                await pyodide.loadPackage(["micropip", "numpy", "matplotlib", "pandas"]);
                 micropip = pyodide.pyimport("micropip");
 
-                // High-DPI Plot & Input Bridge
+                // Configure clean DataFrame string printing and Spyder-white Matplotlib renderer
                 await pyodide.runPythonAsync(`
 import io, base64, sys, builtins
+import pandas as pd
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from js import showPlotMobile, requestAsyncInput
 
+# Configure pandas display width for mobile terminal
+pd.set_option('display.width', 1000)
+pd.set_option('display.max_columns', 10)
+
+# Configure Matplotlib with Spyder high-contrast theme
 matplotlib.use("Agg")
-plt.rcParams['figure.dpi'] = 140
+plt.rcParams['figure.facecolor'] = 'white'
+plt.rcParams['axes.facecolor'] = 'white'
+plt.rcParams['axes.edgecolor'] = '#64748b'
+plt.rcParams['axes.labelcolor'] = '#0f172a'
+plt.rcParams['text.color'] = '#0f172a'
+plt.rcParams['xtick.color'] = '#1e293b'
+plt.rcParams['ytick.color'] = '#1e293b'
+plt.rcParams['grid.color'] = '#cbd5e1'
+plt.rcParams['grid.linestyle'] = '--'
+plt.rcParams['grid.alpha'] = 0.7
 plt.rcParams['figure.autolayout'] = True
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial']
+
+# Default sample CSV file in virtual root
+sample_csv = """Student,Physics,Chemistry,Maths,Lab_Score
+Aravind,88,82,95,98
+Navaneeth,90,85,92,94
+Nandagopan,84,78,89,90
+Aromal,82,88,85,92
+Sangi,91,90,94,96"""
+with open('data.csv', 'w') as f:
+    f.write(sample_csv)
 
 def custom_show(*args, **kwargs):
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', facecolor='#0d0f17', edgecolor='none')
+    plt.savefig(buf, format='png', bbox_inches='tight', facecolor='white', edgecolor='none', dpi=180)
     buf.seek(0)
     img_b64 = base64.b64encode(buf.read()).decode('utf-8')
     plt.close('all')
@@ -498,7 +585,7 @@ builtins.input = async_input
                 pyodide.setStdout({ batched: (msg) => log(msg) });
 
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]";
-                statusText.innerText = "Ready";
+                statusText.innerText = "Pandas Ready";
                 statusText.classList.replace("text-gray-400", "text-green-400");
                 runBtn.disabled = false;
 
@@ -507,26 +594,26 @@ builtins.input = async_input
 
                 if (bootIcon) bootIcon.className = "fa-solid fa-circle-check text-green-400 text-sm";
                 if (bootText) bootText.innerText = "Engine Ready";
-                if (bootStatus) bootStatus.innerText = "Opening Workspace...";
+                if (bootStatus) bootStatus.innerText = "Launching Lab...";
 
-                setTimeout(dismissSplash, 400);
+                setTimeout(dismissSplash, 250);
 
             } catch (err) {
                 console.error(err);
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
                 statusText.innerText = "Offline Err";
                 if (bootIcon) bootIcon.className = "fa-solid fa-triangle-exclamation text-rose-500 text-sm";
-                if (bootText) bootText.innerText = "Engine Offline";
-                setTimeout(dismissSplash, 1000);
+                if (bootText) bootText.innerText = "Boot Failed";
+                setTimeout(dismissSplash, 800);
             }
         }
 
-        // Async Mobile Input Bridge
+        // Async Input Bridge
         window.requestAsyncInput = function(promptText) {
             triggerHaptic();
             return new Promise((resolve) => {
                 modalResolve = resolve;
-                document.getElementById('modal-prompt-label').innerText = promptText || "Enter input:";
+                document.getElementById('modal-prompt-label').innerText = promptText || "Enter value:";
                 const inputField = document.getElementById('modal-input-field');
                 inputField.value = "";
                 document.getElementById('input-modal').classList.remove('hidden');
@@ -551,10 +638,14 @@ builtins.input = async_input
             if (e.key === 'Enter') submitModalInput();
         });
 
-        // Render Matplotlib Plot onto Mobile Canvas View
+        // Spyder Canvas Card Renderer
         window.showPlotMobile = function(base64Data) {
             const target = document.getElementById('plot-target');
-            target.innerHTML = `<img src="data:image/png;base64,${base64Data}" alt="Plot" class="max-w-full max-h-full object-contain rounded-xl">`;
+            target.innerHTML = `
+                <div class="spyder-plot-card">
+                    <img src="data:image/png;base64,${base64Data}" alt="Pandas Matplotlib Plot">
+                </div>
+            `;
             document.getElementById("btn-download-plot").classList.remove("hidden");
             switchTab('plots');
         };
@@ -569,7 +660,7 @@ builtins.input = async_input
             timerLabel.classList.remove('hidden');
             timerLabel.innerText = "...";
             
-            const isPlotCode = code.includes("plt.") || code.includes("matplotlib");
+            const isPlotCode = code.includes("plt.") || code.includes(".plot(") || code.includes("matplotlib");
             if (!isPlotCode) switchTab('terminal');
 
             const start = performance.now();
@@ -600,27 +691,215 @@ builtins.input = async_input
             log(formattedError, "text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl my-1.5 font-mono text-[11px] leading-relaxed");
         }
 
-        // Syllabus Snippets[cite: 1]
+        // Virtual Filesystem Upload / Download
+        function uploadToVirtualFS(event) {
+            const file = event.target.files[0];
+            if (!file || !pyodide) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                pyodide.FS.writeFile(file.name, data);
+                updateVirtualFSUI();
+                log(`Mounted '${file.name}' into virtual memory. Access with pd.read_csv('${file.name}')`, "text-indigo-400");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function updateVirtualFSUI() {
+            if (!pyodide) return;
+            const container = document.getElementById("virtual-fs-list");
+            const files = pyodide.FS.readdir('.').filter(f => f.endsWith('.csv') || f.endsWith('.txt') || f.endsWith('.dat'));
+            
+            if (files.length === 0) {
+                container.innerHTML = `<div class="text-[9.5px] font-mono text-gray-500">No CSV files in memory.</div>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            files.forEach(name => {
+                const div = document.createElement("div");
+                div.className = "flex items-center justify-between p-2 rounded-lg bg-white/5 text-[10.5px] font-mono text-gray-300";
+                div.innerHTML = `<span><i class="fa-solid fa-file-csv mr-1.5 text-indigo-400"></i>${name}</span>
+                    <button onclick="downloadFromFS('${name}')" class="text-indigo-400 active:text-indigo-300"><i class="fa-solid fa-download"></i></button>`;
+                container.appendChild(div);
+            });
+        }
+
+        function downloadFromFS(filename) {
+            if (!pyodide) return;
+            try {
+                const data = pyodide.FS.readFile(filename);
+                const blob = new Blob([data]);
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = filename;
+                a.click();
+            } catch(e) {
+                alert("Could not export file: " + e);
+            }
+        }
+
+        // ==========================================
+        // PANDAS & DATAFRAME SYLLABUS EXPERIMENTS[cite: 1]
+        // ==========================================
         const snippets = {
-            sim_shm: `# Physics: Damped Harmonic Oscillator\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ngamma, omega0 = 0.15, 2.0\nt = np.linspace(0, 20, 300)\nomega = np.sqrt(omega0**2 - gamma**2)\nx = np.exp(-gamma * t) * np.cos(omega * t)\n\nplt.figure(figsize=(6, 3.8))\nplt.plot(t, x, color='#6366f1', lw=2)\nplt.title('Damped Motion x(t)', fontsize=11)\nplt.xlabel('Time (s)')\nplt.ylabel('Displacement')\nplt.grid(True, alpha=0.3)\nplt.tight_layout()\nplt.show()`,
+            df_create: `# 1. DataFrame Creation, Head & Summary Statistics
+import pandas as pd
 
-            sim_projectile: `# Physics: Projectile Motion\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ng, dt = 9.81, 0.01\nv0, theta = 30.0, np.radians(45)\nx, y = [0.0], [0.0]\nvx, vy = v0 * np.cos(theta), v0 * np.sin(theta)\n\nwhile y[-1] >= 0:\n    x.append(x[-1] + vx * dt)\n    y.append(y[-1] + vy * dt)\n    vy -= g * dt\n\nplt.figure(figsize=(6, 3.8))\nplt.plot(x, y, color='#ec4899', lw=2)\nplt.title('Trajectory Trajectory', fontsize=11)\nplt.xlabel('Distance (m)')\nplt.ylabel('Height (m)')\nplt.grid(True, alpha=0.3)\nplt.tight_layout()\nplt.show()`,
+# Creating a DataFrame from Dictionary
+students_data = {
+    'Name': ['Aravind', 'Navaneeth', 'Nandagopan', 'Aromal', 'Sangi'],
+    'Physics': [92, 88, 85, 79, 94],
+    'Maths': [95, 90, 88, 84, 96],
+    'Attendance_%': [96.0, 91.5, 88.0, 85.0, 98.0]
+}
+df = pd.DataFrame(students_data)
 
-            sim_regression: `# Physics: Linear Regression\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nV = np.array([1, 2, 3, 4, 5, 6])\nI = np.array([0.2, 0.41, 0.59, 0.82, 1.01, 1.19])\n\nm, c = np.polyfit(V, I, 1)\nplt.figure(figsize=(6, 3.8))\nplt.scatter(V, I, color='#38bdf8', label='Data')\nplt.plot(V, m*V + c, color='#6366f1', label=f'Fit: I={m:.2f}V+{c:.2f}')\nplt.title('Linear Fit (Ohm\\'s Law)', fontsize=11)\nplt.xlabel('Voltage (V)')\nplt.ylabel('Current (A)')\nplt.legend()\nplt.grid(True, alpha=0.3)\nplt.tight_layout()\nplt.show()`,
+print("--- DataFrame Head ---")
+print(df)
 
-            lab_1: `# 1. Triangle Area[cite: 1]\nbase = float(input("Enter base: "))\nheight = float(input("Enter height: "))\narea = 0.5 * base * height\nprint(f"Area = {area}")`,
-            lab_2: `# 2. Largest in List[cite: 1]\nnumbers = [14, 58, 2, 99, 31, 7]\nprint(f"Largest: {max(numbers)}")`,
-            lab_3: `# 3. Dictionary Sort[cite: 1]\nmy_dict = {'apple': 50, 'banana': 20, 'cherry': 85}\nasc = dict(sorted(my_dict.items(), key=lambda item: item[1]))\nprint(f"Ascending: {asc}")`,
-            lab_4: `# 4. Set Operations[cite: 1]\nset_a = {1, 2, 3, 4, 5}\nset_b = set([5, 6, 7, 8, 9])\nprint(f"Set A: {set_a}\\nSet B: {set_b}")`,
-            lab_5: `# 5. Union of Sets[cite: 1]\nset_1, set_2 = {1, 2, 3}, {3, 4, 5}\nprint(f"Union: {set_1 | set_2}")`,
-            lab_6: `# 6. CSV Data Reader[cite: 1]\nimport csv\nwith open('data.csv', 'w') as f: f.write("Name,Score\\nAlice,95\\nBob,88")\nwith open('data.csv', 'r') as f: print(list(csv.reader(f)))`,
-            lab_7: `# 7. Bar Chart[cite: 1]\nimport matplotlib.pyplot as plt\nlangs = ['Python', 'C++', 'Java', 'JS']\npop = [30, 20, 15, 25]\nplt.figure(figsize=(6, 3.8))\nplt.bar(langs, pop, color='#6366f1')\nplt.title('Language Popularity')\nplt.tight_layout()\nplt.show()`,
-            lab_8: `# 8. Pie Chart[cite: 1]\nimport matplotlib.pyplot as plt\nmedals = [46, 27, 26, 19]\ncountries = ['USA', 'GBR', 'China', 'RUS']\nplt.figure(figsize=(5, 5))\nplt.pie(medals, labels=countries, autopct='%1.1f%%', colors=['#6366f1', '#a855f7', '#ec4899', '#38bdf8'])\nplt.title('Medal Distribution')\nplt.tight_layout()\nplt.show()`
+print("\n--- Summary Statistics (describe) ---")
+print(df.describe())`,
+
+            df_csv: `# 2. Read CSV into DataFrame & Column Manipulation
+import pandas as pd
+
+# Reading the virtual data.csv
+df = pd.read_csv('data.csv')
+
+# Adding a Calculated Column (Total & Average)
+df['Total'] = df['Physics'] + df['Chemistry'] + df['Maths']
+df['Average'] = (df['Total'] / 3).round(2)
+
+print("--- Processed Student DataFrame ---")
+print(df[['Student', 'Physics', 'Total', 'Average']])`,
+
+            df_filter: `# 3. DataFrame Filtering & Slicing (Boolean Indexing)
+import pandas as pd
+
+df = pd.read_csv('data.csv')
+
+# Filtering students scoring > 85 in Physics AND Maths
+high_achievers = df[(df['Physics'] >= 85) & (df['Maths'] >= 90)]
+
+print("--- High Achievers (Physics >= 85 & Maths >= 90) ---")
+print(high_achievers[['Student', 'Physics', 'Maths']])`,
+
+            df_groupby: `# 4. GroupBy Operations & Category Aggregation
+import pandas as pd
+
+data = {
+    'Department': ['Physics', 'Physics', 'Chemistry', 'Chemistry', 'Maths', 'Maths'],
+    'Semester': ['S1', 'S2', 'S1', 'S2', 'S1', 'S2'],
+    'Score': [85, 90, 78, 82, 92, 95]
+}
+df = pd.DataFrame(data)
+
+# Calculating Mean and Max Score per Department
+grouped = df.groupby('Department')['Score'].agg(['mean', 'max', 'count'])
+
+print("--- Department-wise Score Analytics ---")
+print(grouped)`,
+
+            df_lineplot: `# 5. DataFrame Line Plot: Experimental Voltage Discharge
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+time = np.linspace(0, 10, 50)
+v1 = 5.0 * np.exp(-0.2 * time)
+v2 = 5.0 * np.exp(-0.5 * time)
+
+df = pd.DataFrame({'Time': time, 'Resistor_10k': v1, 'Resistor_22k': v2})
+
+# Plotting directly using DataFrame columns
+plt.figure(figsize=(6, 3.8))
+plt.plot(df['Time'], df['Resistor_10k'], label='R = 10 kΩ', color='#4f46e5', lw=2)
+plt.plot(df['Time'], df['Resistor_22k'], label='R = 22 kΩ', color='#e11d48', lw=2, linestyle='--')
+
+plt.title('RC Circuit Discharge Characteristics', fontsize=12, pad=10)
+plt.xlabel('Time (seconds)', labelpad=6)
+plt.ylabel('Capacitor Voltage (V)', labelpad=6)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+plt.tight_layout()
+plt.show()`,
+
+            df_barchart: `# 6. Grouped Bar Chart from DataFrame
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('data.csv')
+
+# Plotting Subject Comparison Bar Chart
+ax = df.plot(x='Student', y=['Physics', 'Chemistry', 'Maths'], kind='bar', figsize=(6, 3.8), colormap='viridis', width=0.7)
+
+plt.title('Comparative Subject Performance', fontsize=12, pad=10)
+plt.xlabel('Student Name', labelpad=6)
+plt.ylabel('Marks Obtained', labelpad=6)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.xticks(rotation=15)
+plt.tight_layout()
+plt.show()`,
+
+            df_scatter: `# 7. DataFrame Scatter Plot & Linear Regression Fit
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Experimental Readings (Force vs Extension - Hooke's Law)
+df = pd.DataFrame({
+    'Mass_kg': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
+    'Extension_cm': [1.9, 4.1, 6.2, 7.9, 10.1, 12.0, 14.2]
+})
+
+# Linear fit using numpy
+m, c = np.polyfit(df['Mass_kg'], df['Extension_cm'], 1)
+df['Fit_Line'] = m * df['Mass_kg'] + c
+
+plt.figure(figsize=(6, 3.8))
+plt.scatter(df['Mass_kg'], df['Extension_cm'], color='#0284c7', s=45, label='Measured Extension', zorder=5)
+plt.plot(df['Mass_kg'], df['Fit_Line'], color='#4f46e5', lw=2, label=f'Fit: y = {m:.2f}x + {c:.2f}')
+
+plt.title('Hooke\\'s Law Verification', fontsize=12, pad=10)
+plt.xlabel('Mass (kg)', labelpad=6)
+plt.ylabel('Extension (cm)', labelpad=6)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+plt.tight_layout()
+plt.show()`,
+
+            df_histogram: `# 8. DataFrame Distribution Histogram & Subplots
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+df = pd.DataFrame({
+    'Lab_Batch_A': np.random.normal(75, 8, 100),
+    'Lab_Batch_B': np.random.normal(82, 6, 100)
+})
+
+fig, axes = plt.subplots(1, 2, figsize=(6.5, 3.4), sharey=True)
+
+df['Lab_Batch_A'].plot.hist(ax=axes[0], bins=8, color='#4f46e5', alpha=0.7, edgecolor='black')
+axes[0].set_title('Batch A Distribution', fontsize=10)
+axes[0].set_xlabel('Score')
+axes[0].grid(True, alpha=0.4)
+
+df['Lab_Batch_B'].plot.hist(ax=axes[1], bins=8, color='#0284c7', alpha=0.7, edgecolor='black')
+axes[1].set_title('Batch B Distribution', fontsize=10)
+axes[1].set_xlabel('Score')
+axes[1].grid(True, alpha=0.4)
+
+plt.tight_layout()
+plt.show()`
         };
 
         function loadSnippet(k) {
             triggerHaptic();
-            if (confirm("Load experiment script?")) {
+            if (confirm("Load Pandas experiment script into editor?")) {
                 editor.setValue(snippets[k]);
                 switchTab('editor');
             }
@@ -641,15 +920,15 @@ builtins.input = async_input
         }
 
         function updateProgressUI() {
-            const count = Array.from(completedLabs).filter(k => k.startsWith('lab_')).length;
+            const count = Array.from(completedLabs).length;
             const percent = Math.min(100, Math.round((count / 8) * 100));
             document.getElementById("progress-percent").innerText = `${percent}%`;
             document.getElementById("progress-bar").style.width = `${percent}%`;
         }
 
-        function saveProgress() { localStorage.setItem("omni_progress_m6", JSON.stringify([...completedLabs])); }
+        function saveProgress() { localStorage.setItem("omni_progress_pandas_v9", JSON.stringify([...completedLabs])); }
         function loadProgress() {
-            const data = localStorage.getItem("omni_progress_m6");
+            const data = localStorage.getItem("omni_progress_pandas_v9");
             if (data) {
                 JSON.parse(data).forEach(k => {
                     completedLabs.add(k);
@@ -660,14 +939,14 @@ builtins.input = async_input
             }
         }
 
-        // File Operations[cite: 1]
+        // Script File Manager[cite: 1]
         function saveFile() {
             triggerHaptic();
             const n = document.getElementById("filename-input").value.trim();
             if (!n) return;
-            const s = JSON.parse(localStorage.getItem("omni_files_m6") || "{}");
+            const s = JSON.parse(localStorage.getItem("omni_files_pandas_v9") || "{}");
             s[n] = editor.getValue();
-            localStorage.setItem("omni_files_m6", JSON.stringify(s));
+            localStorage.setItem("omni_files_pandas_v9", JSON.stringify(s));
             document.getElementById("filename-input").value = "";
             refreshFileList();
         }
@@ -675,7 +954,7 @@ builtins.input = async_input
         function refreshFileList() {
             const l = document.getElementById("file-list");
             l.innerHTML = "";
-            const s = JSON.parse(localStorage.getItem("omni_files_m6") || "{}");
+            const s = JSON.parse(localStorage.getItem("omni_files_pandas_v9") || "{}");
             Object.keys(s).forEach(k => {
                 const d = document.createElement("div");
                 d.className = "flex justify-between items-center p-2.5 rounded-xl bg-white/5 border border-white/5";
@@ -690,7 +969,7 @@ builtins.input = async_input
 
         function loadFile(k) {
             triggerHaptic();
-            const s = JSON.parse(localStorage.getItem('omni_files_m6') || "{}");
+            const s = JSON.parse(localStorage.getItem('omni_files_pandas_v9') || "{}");
             if (s[k]) {
                 editor.setValue(s[k]);
                 document.getElementById('active-filename').innerText = k;
@@ -701,21 +980,20 @@ builtins.input = async_input
         function deleteFile(k) {
             triggerHaptic();
             if (confirm(`Delete "${k}"?`)) {
-                const x = JSON.parse(localStorage.getItem('omni_files_m6') || "{}");
+                const x = JSON.parse(localStorage.getItem('omni_files_pandas_v9') || "{}");
                 delete x[k];
-                localStorage.setItem('omni_files_m6', JSON.stringify(x));
+                localStorage.setItem('omni_files_pandas_v9', JSON.stringify(x));
                 refreshFileList();
             }
         }
 
-        // Mobile Utility Actions
         function triggerHaptic() {
             if (navigator.vibrate) navigator.vibrate(12);
         }
 
         function changeFontSize(delta) {
             triggerHaptic();
-            currentFontSize = Math.max(10, Math.min(20, currentFontSize + delta));
+            currentFontSize = Math.max(10, Math.min(22, currentFontSize + delta));
             editor.getWrapperElement().style.fontSize = currentFontSize + 'px';
             editor.refresh();
         }
@@ -738,7 +1016,7 @@ builtins.input = async_input
 
         function clearEditor() {
             triggerHaptic();
-            if (confirm("Clear code editor?")) editor.setValue("# New Script\n");
+            if (confirm("Clear code editor?")) editor.setValue("# New Pandas Script\nimport pandas as pd\nimport matplotlib.pyplot as plt\n");
         }
 
         function switchTab(id) {
@@ -754,6 +1032,7 @@ builtins.input = async_input
             });
 
             if (id === 'editor') setTimeout(() => editor.refresh(), 30);
+            if (id === 'files') updateVirtualFSUI();
         }
 
         function log(msg, cls="text-emerald-400") {
@@ -765,6 +1044,7 @@ builtins.input = async_input
         }
 
         function clearTerminal() { triggerHaptic(); outputElement.innerHTML = ""; }
+        
         function copyOutput() {
             triggerHaptic();
             navigator.clipboard.writeText(outputElement.innerText)
@@ -773,7 +1053,7 @@ builtins.input = async_input
 
         function clearPlots() {
             triggerHaptic();
-            document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-30"><i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300"></i><p class="text-[10px] font-mono uppercase tracking-wider">No Plot Generated</p></div>`;
+            document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-30"><i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300"></i><p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p></div>`;
             document.getElementById("btn-download-plot").classList.add("hidden");
         }
 
@@ -782,7 +1062,7 @@ builtins.input = async_input
             const img = document.querySelector("#plot-target img");
             if (img) {
                 const a = document.createElement('a');
-                a.download = 'OmniPlot.png';
+                a.download = 'PandasPlot.png';
                 a.href = img.src;
                 a.click();
             }
@@ -791,7 +1071,7 @@ builtins.input = async_input
         function dismissSplash() {
             const s = document.getElementById('splash-screen');
             s.style.opacity = '0';
-            setTimeout(() => { s.style.display = 'none'; editor.refresh(); }, 400);
+            setTimeout(() => { s.style.display = 'none'; editor.refresh(); }, 300);
         }
     </script>
 </body>
