@@ -1,12 +1,15 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Omni-Studio Pro | Liquid Evolution</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#030305">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
@@ -39,7 +42,7 @@
         }
     </script>
     
-    <!-- Libraries -->
+    <!-- CodeMirror & Pyodide -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
@@ -51,7 +54,7 @@
 
     <style>
         :root {
-            --glass: rgba(10, 10, 15, 0.8);
+            --glass: rgba(10, 10, 15, 0.82);
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
@@ -80,11 +83,11 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .tab-content { display: none; height: 100%; width: 100%; flex-direction: column; padding-bottom: 100px; }
-        .tab-content.active { display: flex; animation: slideUp 0.4s ease-out forwards; }
+        .tab-content { display: none; height: 100%; width: 100%; flex-direction: column; padding-bottom: 96px; }
+        .tab-content.active { display: flex; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -94,67 +97,67 @@
             height: 100%;
         }
 
-        /* --- PLOT WINDOW FIX --- */
+        /* --- BULLETPROOF MATPLOTLIB DISPLAY --- */
         #plot-target {
             width: 100% !important;
             height: 100% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            overflow: hidden !important;
+            overflow: auto !important;
             position: relative !important;
             border-radius: 16px;
         }
 
-        /* Fix graph scaling to fill width */
-        #plot-target canvas {
-            width: 100% !important;
-            height: auto !important;
+        #plot-target canvas, #plot-target img {
+            max-width: 100% !important;
             max-height: 100% !important;
-            display: block !important;
-            margin: auto !important;
+            object-fit: contain !important;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
-        /* Hide the white buttons/toolbar and Figure labels */
-        #plot-target div[id^="matplotlib"] { background: transparent !important; border: none !important; width: 100% !important; }
+        #plot-target div[id^="matplotlib"] { background: transparent !important; border: none !important; width: 100% !important; height: 100% !important; display: flex; justify-content: center; align-items: center; }
         #plot-target .matplotlib-toolbar { display: none !important; }
         #plot-target span { display: none !important; }
 
-        body > div[id^="matplotlib"], body > canvas {
+        body > div[id^="matplotlib"], body > canvas:not(#plot-target canvas) {
             position: fixed !important;
             top: -5000px !important; 
             visibility: hidden !important;
+            pointer-events: none !important;
         }
 
         .accessory-bar button { flex-shrink: 0; min-width: 44px; height: 44px; }
-        ::-webkit-scrollbar { width: 0px; height: 0px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body class="font-sans">
 
-    <!-- Ambient Background -->
+    <!-- Ambient Glow Background -->
     <div class="fixed inset-0 -z-10 pointer-events-none">
         <div class="absolute top-0 left-0 w-full h-full bg-[#030305]"></div>
-        <div class="absolute top-[-10%] left-[-10%] w-[300px] h-[300px] bg-indigo-600/10 rounded-full animate-blob"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[300px] h-[300px] bg-purple-600/10 rounded-full animate-blob" style="animation-delay: -4s"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[320px] h-[320px] bg-indigo-600/10 rounded-full animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[320px] h-[320px] bg-purple-600/10 rounded-full animate-blob" style="animation-delay: -4s"></div>
     </div>
 
-    <!-- SPLASH SCREEN -->
+    <!-- SPLASH SCREEN & LOADER -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center transition-all duration-700">
         <div class="w-24 h-24 rounded-[28px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl shadow-2xl animate-float border border-white/10">
             <i class="fa-brands fa-python"></i>
         </div>
         <h1 class="mt-8 text-4xl font-bold text-white tracking-tighter">Omni-Studio<span class="text-indigo-500">.</span></h1>
-        <p class="mt-2 text-indigo-300/40 text-[10px] font-bold tracking-[0.2em] uppercase">Liquid Kernel v4.0</p>
-        <div class="mt-12 w-64 px-4 space-y-3">
-            <!-- AUTO-BOOT UI REPLACEMENT -->
-            <button id="boot-btn" class="w-full py-4 glass-panel rounded-2xl font-bold text-gray-400 flex items-center justify-center gap-3 cursor-wait">
-                <i class="fa-solid fa-circle-notch fa-spin text-indigo-500"></i>
-                Waking Kernel...
+        <p class="mt-2 text-indigo-300/60 text-[10px] font-bold tracking-[0.2em] uppercase">Liquid Kernel v5.0 • PWA</p>
+        
+        <div class="mt-10 w-72 px-4 space-y-3">
+            <button id="boot-btn" class="w-full py-4 glass-panel rounded-2xl font-bold text-gray-300 flex items-center justify-center gap-3 cursor-wait shadow-lg">
+                <i id="boot-icon" class="fa-solid fa-circle-notch fa-spin text-indigo-400"></i>
+                <span id="boot-text">Initializing Kernel...</span>
             </button>
-            <div id="boot-status" class="text-center text-[9px] text-gray-500 mt-2 font-mono uppercase tracking-widest">Connecting to CDN...</div>
+            <div id="boot-status" class="text-center text-[10px] text-gray-400 font-mono tracking-wider">Checking Local Cache...</div>
         </div>
-        <div class="absolute bottom-8 text-[10px] text-gray-700 font-bold uppercase tracking-widest">Aravind O K</div>
+        <div class="absolute bottom-8 text-[10px] text-gray-500 font-bold uppercase tracking-widest">[cite: 1]Aravind O K</div>
     </div>
 
     <!-- HEADER -->
@@ -166,39 +169,43 @@
             <div>
                 <h1 class="font-bold text-sm text-white leading-tight">Omni-Studio</h1>
                 <div class="flex items-center gap-1.5">
-                    <div id="status-indicator" class="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
-                    <span id="status-text" class="text-[9px] text-gray-500 font-bold uppercase tracking-tighter">Standby</span>
+                    <div id="status-indicator" class="w-2 h-2 rounded-full bg-amber-500"></div>
+                    <span id="status-text" class="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">Standby</span>
                 </div>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <div id="mem-usage" class="hidden flex-col items-end mr-2">
-                <div class="w-16 h-1 bg-white/5 rounded-full overflow-hidden">
+                <div class="w-16 h-1.5 bg-white/5 rounded-full overflow-hidden">
                     <div id="mem-bar" class="h-full bg-indigo-500 w-0 transition-all duration-700"></div>
                 </div>
             </div>
-            <button id="run-btn" onclick="runCode()" disabled="" class="w-11 h-11 rounded-xl flex items-center justify-center bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 active:scale-90 disabled:opacity-20 transition-all">
+            <button id="pwa-install-btn" class="hidden px-3 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-bold active:scale-95 transition-all">
+                <i class="fa-solid fa-download mr-1"></i> Install
+            </button>
+            <button id="run-btn" onclick="runCode()" disabled class="w-11 h-11 rounded-xl flex items-center justify-center bg-indigo-600/30 border border-indigo-500/40 text-indigo-400 active:scale-90 disabled:opacity-20 transition-all shadow-lg">
                 <i class="fa-solid fa-play text-lg ml-0.5"></i>
             </button>
         </div>
     </header>
 
-    <!-- SPACER -->
     <div class="h-16 shrink-0"></div>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN INTERFACE -->
     <main class="flex-1 overflow-hidden relative p-3">
         
-        <!-- EDITOR TAB -->
+        <!-- CODE EDITOR TAB -->
         <div id="tab-editor" class="tab-content active h-full">
-            <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 shadow-xl">
+            <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 shadow-2xl">
                 <textarea id="code-editor"></textarea>
             </div>
+            <!-- Interactive Accessory Keyboard Bar -->
             <div class="accessory-bar h-12 mt-2 flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0">
                 <button class="glass-panel text-indigo-400 text-xs font-bold" onclick="insert('    ')">TAB</button>
                 <button class="glass-panel text-white text-sm" onclick="insert(':')">:</button>
                 <button class="glass-panel text-white text-sm" onclick="insert('()')">( )</button>
                 <button class="glass-panel text-white text-sm" onclick="insert('[]')">[ ]</button>
+                <button class="glass-panel text-white text-sm" onclick="insert('{}')">{ }</button>
                 <button class="glass-panel text-white text-sm" onclick="insert('\'\'')">" "</button>
                 <button class="glass-panel px-4 text-indigo-400 text-[10px] font-bold" onclick="insert('print()')">PRINT</button>
                 <button class="glass-panel px-3 text-amber-400" onclick="backspaceCode()"><i class="fa-solid fa-delete-left"></i></button>
@@ -208,96 +215,100 @@
 
         <!-- TERMINAL TAB -->
         <div id="tab-terminal" class="tab-content h-full">
-            <div class="flex-1 glass-panel p-4 font-mono text-xs flex flex-col border-white/5">
-                <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                    <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">Output Log</span>
-                    <button onclick="clearTerminal()" class="text-[9px] text-gray-500 font-bold uppercase">Clear</button>
+            <div class="flex-1 glass-panel p-4 font-mono text-xs flex flex-col border-white/5 shadow-2xl">
+                <div class="flex justify-between items-center mb-3 border-b border-white/5 pb-2">
+                    <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                        <i class="fa-solid fa-terminal text-xs"></i> Console Output
+                    </span>
+                    <button onclick="clearTerminal()" class="text-[10px] text-gray-400 hover:text-white font-bold uppercase transition">Clear</button>
                 </div>
-                <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed custom-scroll"></div>
+                <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed font-mono custom-scroll select-text"></div>
             </div>
         </div>
 
-        <!-- PLOTS TAB -->
+        <!-- PLOTS VISUALIZER TAB -->
         <div id="tab-plots" class="tab-content h-full">
-            <div class="flex-1 glass-panel flex flex-col border-white/5 overflow-hidden">
-                <div class="h-12 flex justify-between items-center px-4 bg-white/5">
-                    <span class="text-[10px] font-bold text-white uppercase tracking-widest">Visualizer</span>
+            <div class="flex-1 glass-panel flex flex-col border-white/5 overflow-hidden shadow-2xl">
+                <div class="h-12 flex justify-between items-center px-4 bg-white/5 border-b border-white/5">
+                    <span class="text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Canvas Engine
+                    </span>
                     <div class="flex gap-2">
-                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9px] font-bold bg-indigo-600 px-3 py-1.5 rounded-lg">PNG</button>
-                        <button onclick="clearPlots()" class="text-[9px] font-bold bg-white/10 px-3 py-1.5 rounded-lg">Reset</button>
+                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[10px] font-bold bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg text-white transition">Export PNG</button>
+                        <button onclick="clearPlots()" class="text-[10px] font-bold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-gray-300 transition">Reset</button>
                     </div>
                 </div>
-                <div class="flex-1 p-2 flex items-center justify-center overflow-hidden">
+                <div class="flex-1 p-3 flex items-center justify-center overflow-hidden bg-black/20">
                     <div id="plot-target">
-                        <div id="plot-placeholder" class="text-center opacity-10">
-                            <i class="fa-solid fa-chart-area text-5xl mb-2"></i>
-                            <p class="text-[10px] font-mono uppercase">No Data</p>
+                        <div id="plot-placeholder" class="text-center opacity-20">
+                            <i class="fa-solid fa-chart-pie text-6xl mb-3 text-indigo-300"></i>
+                            <p class="text-[11px] font-mono uppercase tracking-wider">No Graph Generated</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- WORKSPACE TAB -->
+        <!-- WORKSPACE TAB & LAB SYLLABUS -->
         <div id="tab-files" class="tab-content h-full">
-            <div class="flex-1 overflow-y-auto space-y-6 pb-20 no-scrollbar">
+            <div class="flex-1 overflow-y-auto space-y-5 pb-20 no-scrollbar pr-1">
                 
-                <!-- DEVELOPER INFO -->
-                <div class="glass-panel p-4 flex items-center gap-4 border-indigo-500/20">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-lg">A</div>
+                <!-- LEAD ARCHITECT[cite: 1] -->
+                <div class="glass-panel p-4 flex items-center gap-4 border-indigo-500/20 shadow-xl">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-lg shadow-lg">A</div>
                     <div>
-                        <h3 class="text-white font-bold text-sm leading-tight">Aravind O K</h3>
-                        <p class="text-indigo-400 text-[9px] font-bold uppercase tracking-widest">Lead Architect</p>
-                        <a href="tel:6238291791" class="text-[10px] text-gray-500 hover:text-white transition">ID: 6238291791</a>
+                        <h3 class="text-white font-bold text-sm leading-tight">[cite: 1]Aravind O K</h3>
+                        <p class="text-indigo-400 text-[9px] font-bold uppercase tracking-widest">[cite: 1]Lead Architect</p>
+                        <a href="tel:6238291791" class="text-[10px] text-gray-400 hover:text-white transition">[cite: 1]ID: 6238291791</a>
                     </div>
                 </div>
 
-                <!-- PROGRESS -->
+                <!-- PROGRESS TRACKER[cite: 1] -->
                 <div class="glass-panel p-4">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-[10px] text-gray-400 font-bold uppercase">Lab Progress</span>
-                        <span id="progress-percent" class="text-xs font-mono text-indigo-400">0%</span>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Lab Completion</span>
+                        <span id="progress-percent" class="text-xs font-mono text-indigo-400 font-bold">0%</span>
                     </div>
-                    <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="h-full bg-indigo-500 w-0 transition-all duration-500"></div>
+                    <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 w-0 transition-all duration-500"></div>
                     </div>
                 </div>
 
-                <!-- QUICK PACKS -->
+                <!-- QUICK PACKAGES & PIP -->
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="installDataScience()" class="glass-panel p-4 text-left border-white/5 active:scale-95 transition-transform">
-                        <i class="fa-solid fa-vials text-indigo-400 mb-2"></i>
-                        <h4 class="text-[10px] font-bold text-white uppercase">Data Science</h4>
-                        <div id="ds-status" class="h-0.5 bg-white/5 mt-2 rounded-full overflow-hidden">
+                    <button onclick="installDataScience()" class="glass-panel p-4 text-left border-white/5 active:scale-95 transition-transform hover:border-indigo-500/30">
+                        <i class="fa-solid fa-square-root-variable text-indigo-400 mb-2 text-base"></i>
+                        <h4 class="text-[10px] font-bold text-white uppercase">Physics & SciPack</h4>
+                        <div id="ds-status" class="h-1 bg-white/5 mt-2 rounded-full overflow-hidden">
                             <div class="h-full bg-indigo-500 w-0 transition-all duration-500"></div>
                         </div>
                     </button>
                     <div class="glass-panel p-4 border-white/5">
-                        <i class="fa-solid fa-box-open text-purple-400 mb-2"></i>
-                        <input id="pip-input" class="w-full bg-black/30 text-[10px] p-1 border-b border-white/10 outline-none" placeholder="PIP INSTALL (Enter)">
+                        <i class="fa-solid fa-box-archive text-purple-400 mb-2 text-base"></i>
+                        <input id="pip-input" class="w-full bg-black/40 text-[10px] p-1.5 rounded border border-white/10 outline-none text-gray-200 placeholder-gray-500" placeholder="pip install ...">
                     </div>
                 </div>
 
-                <!-- LABS LIST -->
+                <!-- LAB ASSIGNMENTS[cite: 1] -->
                 <div class="space-y-2">
-                     <h3 class="text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-2">Lab Assignments</h3>
+                     <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Lab Experiments</h3>
                      <div class="grid grid-cols-1 gap-2">
-                        <button onclick="loadSnippet('lab_1')" id="lab_1_btn" class="lab-card-mobile"><span class="n">01</span> Triangle Area <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_2')" id="lab_2_btn" class="lab-card-mobile"><span class="n">02</span> Largest Number <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_3')" id="lab_3_btn" class="lab-card-mobile"><span class="n">03</span> Sort Dictionary <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_4')" id="lab_4_btn" class="lab-card-mobile"><span class="n">04</span> Create a Set <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_5')" id="lab_5_btn" class="lab-card-mobile"><span class="n">05</span> Union of Sets <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_6')" id="lab_6_btn" class="lab-card-mobile"><span class="n">06</span> Read CSV List <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_7')" id="lab_7_btn" class="lab-card-mobile border-indigo-500/20"><span class="n">07</span> Popularity Bar Chart <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('lab_8')" id="lab_8_btn" class="lab-card-mobile border-purple-500/20"><span class="n">08</span> Olympic Pie Chart <i class="fa-solid fa-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_1')" id="lab_1_btn" class="lab-card-mobile"><span class="n">01</span> Triangle Area <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_2')" id="lab_2_btn" class="lab-card-mobile"><span class="n">02</span> Largest Number in List <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_3')" id="lab_3_btn" class="lab-card-mobile"><span class="n">03</span> Dictionary Sort (Asc/Desc) <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_4')" id="lab_4_btn" class="lab-card-mobile"><span class="n">04</span> Set Operations <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_5')" id="lab_5_btn" class="lab-card-mobile"><span class="n">05</span> Union of Sets <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_6')" id="lab_6_btn" class="lab-card-mobile"><span class="n">06</span> CSV File Processor <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_7')" id="lab_7_btn" class="lab-card-mobile border-indigo-500/20"><span class="n">07</span> Matplotlib Bar Chart <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
+                        <button onclick="loadSnippet('lab_8')" id="lab_8_btn" class="lab-card-mobile border-purple-500/20"><span class="n">08</span> Olympic Medals Pie Chart <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
                      </div>
                 </div>
 
-                <!-- STORAGE -->
-                <div class="glass-panel p-4 border-white/5">
-                     <div class="flex gap-2 mb-4">
-                         <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-4 text-xs outline-none py-2" placeholder="script.py">
-                         <button onclick="saveFile()" class="bg-indigo-600 px-4 py-2 rounded-xl text-xs font-bold text-white active:scale-95 transition-transform">Save</button>
+                <!-- PERSISTENT STORAGE[cite: 1] -->
+                <div class="glass-panel p-4 border-white/5 space-y-3">
+                     <div class="flex gap-2">
+                         <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-3 text-xs outline-none border border-white/10 text-gray-200" placeholder="my_experiment.py">
+                         <button onclick="saveFile()" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-xl text-xs font-bold text-white active:scale-95 transition-transform">Save</button>
                      </div>
                      <div id="file-list" class="space-y-2"></div>
                 </div>
@@ -305,32 +316,60 @@
         </div>
     </main>
 
-    <!-- FLOATING DOCK -->
-    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm h-16 rounded-[24px] bg-black/80 backdrop-blur-2xl border border-white/10 shadow-2xl flex justify-around items-center z-[60]">
-        <button onclick="switchTab('editor')" class="nav-item active" data-target="editor"><i class="fa-solid fa-code"></i></button>
-        <button onclick="switchTab('terminal')" class="nav-item" data-target="terminal"><i class="fa-solid fa-terminal"></i></button>
-        <button onclick="switchTab('plots')" class="nav-item" data-target="plots"><i class="fa-solid fa-chart-pie"></i></button>
-        <button onclick="switchTab('files')" class="nav-item" data-target="files"><i class="fa-solid fa-shapes"></i></button>
+    <!-- FLOATING DOCK[cite: 1] -->
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm h-16 rounded-[24px] bg-black/85 backdrop-blur-2xl border border-white/10 shadow-2xl flex justify-around items-center z-[60]">
+        <button onclick="switchTab('editor')" class="nav-item active" data-target="editor" title="Editor"><i class="fa-solid fa-code"></i></button>
+        <button onclick="switchTab('terminal')" class="nav-item" data-target="terminal" title="Terminal"><i class="fa-solid fa-terminal"></i></button>
+        <button onclick="switchTab('plots')" class="nav-item" data-target="plots" title="Plots"><i class="fa-solid fa-chart-pie"></i></button>
+        <button onclick="switchTab('files')" class="nav-item" data-target="files" title="Labs & Files"><i class="fa-solid fa-shapes"></i></button>
     </nav>
 
     <style>
-        .lab-card-mobile { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px 16px; border-radius: 16px; display: flex; align-items: center; font-size: 12px; font-weight: 600; color: #94a3b8; text-align: left; transition: transform 0.2s; }
+        .lab-card-mobile { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px 16px; border-radius: 16px; display: flex; align-items: center; font-size: 12px; font-weight: 600; color: #94a3b8; text-align: left; transition: all 0.2s; }
         .lab-card-mobile:active { transform: scale(0.98); }
-        .lab-card-mobile .n { font-family: 'JetBrains Mono'; font-size: 9px; color: #6366f1; margin-right: 12px; background: rgba(99, 102, 241, 0.1); padding: 2px 6px; border-radius: 6px; }
-        .completed-lab { color: #4ade80 !important; border-color: #4ade8022 !important; }
+        .lab-card-mobile .n { font-family: 'JetBrains Mono'; font-size: 10px; color: #818cf8; margin-right: 12px; background: rgba(99, 102, 241, 0.15); padding: 2px 7px; border-radius: 6px; }
+        .completed-lab { color: #4ade80 !important; border-color: rgba(74, 222, 128, 0.3) !important; background: rgba(74, 222, 128, 0.05) !important; }
         .completed-lab i { display: inline !important; }
-        .nav-item { color: #475569; font-size: 18px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: 0.3s; border-radius: 12px; }
-        .nav-item.active { color: #6366f1; background: rgba(99, 102, 241, 0.1); }
+        .nav-item { color: #64748b; font-size: 18px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: 0.3s; border-radius: 14px; }
+        .nav-item.active { color: #818cf8; background: rgba(99, 102, 241, 0.15); }
     </style>
 
     <script>
-        // --- SNATCHER TO PREVENT STRAY PLOTS ---
+        // ==========================================
+        // SERVICE WORKER REGISTRATION (OFFLINE SUPPORT)
+        // ==========================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker Registered (Offline Ready)', reg))
+                    .catch(err => console.error('Service Worker Registration Failed:', err));
+            });
+        }
+
+        // PWA Install Prompt Listener
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const pwaBtn = document.getElementById('pwa-install-btn');
+            pwaBtn.classList.remove('hidden');
+            pwaBtn.addEventListener('click', async () => {
+                pwaBtn.classList.add('hidden');
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+            });
+        });
+
+        // ==========================================
+        // PLOT SNATCHER (CLEAN CONTAINER INJECTION)
+        // ==========================================
         const plotSnatcher = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 for (const node of mutation.addedNodes) {
-                    if (node.id && node.id.startsWith('matplotlib')) {
+                    if (node.id && (node.id.startsWith('matplotlib') || node.tagName === 'CANVAS')) {
                         const target = document.getElementById('plot-target');
-                        if (target) {
+                        if (target && !target.contains(node)) {
                             target.innerHTML = ''; 
                             target.appendChild(node);
                         }
@@ -341,8 +380,12 @@
         plotSnatcher.observe(document.body, { childList: true });
 
         let pyodide = null, micropip = null, completedLabs = new Set();
-        const outputElement = document.getElementById("output"), statusText = document.getElementById("status-text"), statusInd = document.getElementById("status-indicator"), runBtn = document.getElementById("run-btn");
+        const outputElement = document.getElementById("output"), 
+              statusText = document.getElementById("status-text"), 
+              statusInd = document.getElementById("status-indicator"), 
+              runBtn = document.getElementById("run-btn");
 
+        // Code Editor Setup
         const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
@@ -353,13 +396,11 @@
             lineWrapping: true,
             inputStyle: "contenteditable", 
             spellcheck: false,
-            autocorrect: false,     // Crucial for continuous backspace
-            autocapitalize: false   // Crucial for continuous backspace
+            autocorrect: false,
+            autocapitalize: false
         });
 
-        // ==========================================
-        // DUAL-LAYER CONTINUOUS BACKSPACE FIX
-        // ==========================================
+        // Continuous backspace fix
         editor.on("keydown", function(cm, e) {
             if (e.keyCode === 8 || e.key === "Backspace") {
                 const cursor = cm.getCursor();
@@ -370,68 +411,86 @@
             }
         });
 
-        const inputField = editor.display.input.getField();
-        if (inputField) {
-            inputField.addEventListener("beforeinput", function(e) {
-                if (e.inputType && e.inputType.startsWith("delete")) {
-                    const cursor = editor.getCursor();
-                    if (cursor.ch === 0 && cursor.line > 0) {
-                        e.preventDefault();
-                        editor.execCommand("delCharBefore");
-                    }
-                }
-            });
-        }
-        // ==========================================
-
-        const defaultCode = `# Omni-Studio | Lab Editor\nprint(">>> System Ready")`;
-        const savedCode = localStorage.getItem("omni_pro_v4");
+        const defaultCode = `# Omni-Studio | Python Lab Environment\nprint(">>> System Online. Type your Python script below:")`;
+        const savedCode = localStorage.getItem("omni_pro_v5");
         editor.setValue(savedCode || defaultCode);
-        editor.on("change", () => localStorage.setItem("omni_pro_v4", editor.getValue()));
+        editor.on("change", () => localStorage.setItem("omni_pro_v5", editor.getValue()));
 
-        // Boot core immediately
         window.addEventListener('DOMContentLoaded', () => {
             initPyodide(); 
         });
 
+        // ==========================================
+        // PYODIDE INITIALIZATION & ENGINE MOUNT
+        // ==========================================
         async function initPyodide() {
             const bootBtn = document.getElementById("boot-btn");
             const bootStatus = document.getElementById("boot-status");
+            const bootIcon = document.getElementById("boot-icon");
+            const bootText = document.getElementById("boot-text");
 
             try {
-                if(bootStatus) bootStatus.innerText = "Downloading Python Engine...";
+                if (bootStatus) bootStatus.innerText = "Loading WebAssembly Engine...";
                 pyodide = await loadPyodide();
                 
-                if(bootStatus) bootStatus.innerText = "Mounting File System...";
-                await pyodide.loadPackage(["micropip", "matplotlib"]);
+                if (bootStatus) bootStatus.innerText = "Mounting NumPy & Matplotlib...";
+                await pyodide.loadPackage(["micropip", "numpy", "matplotlib"]);
                 micropip = pyodide.pyimport("micropip");
                 
-                if(bootStatus) bootStatus.innerText = "Configuring Input Stream...";
-                await pyodide.runPythonAsync(`import builtins\nfrom js import prompt\ndef custom_input(p=""):\n val = prompt(p)\n print(f"{p}{val}")\n return val\nbuiltins.input = custom_input`);
+                if (bootStatus) bootStatus.innerText = "Configuring I/O Virtual System...";
+                await pyodide.runPythonAsync(`
+import builtins
+import sys
+from js import prompt
+
+def custom_input(p=""):
+    val = prompt(p)
+    if val is None:
+        val = ""
+    print(f"{p}{val}")
+    return val
+
+builtins.input = custom_input
+`);
                 pyodide.setStdout({ batched: (msg) => log(msg) });
                 
-                statusInd.className = "w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]";
-                statusText.innerText = "Online"; statusText.classList.replace("text-gray-500", "text-green-400");
-                runBtn.disabled = false; document.getElementById("mem-usage").classList.remove("hidden");
-                refreshFileList(); loadProgress();
+                // Configure Matplotlib Backend globally
+                await pyodide.runPythonAsync(`
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")
+plt.rcParams['figure.autolayout'] = True
+`);
 
-                if(bootBtn) {
-                    bootBtn.innerHTML = '<div class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]"></div> System Ready';
-                    bootBtn.classList.replace("text-gray-400", "text-white");
-                    bootBtn.classList.remove("cursor-wait");
-                }
-                if(bootStatus) bootStatus.innerText = "Entering Workspace...";
+                statusInd.className = "w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]";
+                statusText.innerText = "Engine Ready"; 
+                statusText.classList.replace("text-gray-400", "text-green-400");
+                runBtn.disabled = false; 
+                document.getElementById("mem-usage").classList.remove("hidden");
                 
-                setTimeout(enterStudio, 800);
+                refreshFileList(); 
+                loadProgress();
+
+                if (bootIcon) bootIcon.className = "fa-solid fa-circle-check text-green-400";
+                if (bootText) bootText.innerText = "System Ready";
+                if (bootStatus) bootStatus.innerText = "Entering Studio...";
+                
+                setTimeout(enterStudio, 600);
 
             } catch (err) { 
-                statusInd.className = "w-1.5 h-1.5 rounded-full bg-red-500"; statusText.innerText = "Error";
-                if(bootBtn) bootBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500"></i> Offline Mode';
-                if(bootStatus) bootStatus.innerText = "Failed to fetch engine. Check connection.";
-                setTimeout(enterStudio, 2000);
+                console.error(err);
+                statusInd.className = "w-2 h-2 rounded-full bg-red-500"; 
+                statusText.innerText = "Offline Error";
+                if (bootIcon) bootIcon.className = "fa-solid fa-triangle-exclamation text-red-500";
+                if (bootText) bootText.innerText = "Kernel Failed";
+                if (bootStatus) bootStatus.innerText = "Verify file permissions or reload.";
+                setTimeout(enterStudio, 1500);
             }
         }
 
+        // ==========================================
+        // EXECUTION ENGINE & ERROR FORMATTER
+        // ==========================================
         function handlePythonError(err) {
             const errStr = err.toString();
             let lineNum = "Unknown";
@@ -441,53 +500,58 @@
             const lines = errStr.split('\n').filter(l => l.trim().length > 0);
             let errMsg = lines[lines.length - 1].replace("PythonError: ", "").trim();
             
-            let tip = "Check for typos or syntax issues.";
-            if (errMsg.includes("NameError")) tip = "You are using a variable or function that hasn't been defined yet.";
-            else if (errMsg.includes("SyntaxError")) tip = "Check your punctuation, brackets, quotes, and commas.";
-            else if (errMsg.includes("TypeError")) tip = "You are mixing incompatible data types (like adding a string to a number).";
-            else if (errMsg.includes("IndentationError")) tip = "Check the spacing at the start of your lines. Python relies on strict indentation.";
-            else if (errMsg.includes("IndexError")) tip = "You are trying to access an item in a list that doesn't exist.";
-            else if (errMsg.includes("FileNotFoundError")) tip = "The file you are trying to read does not exist in the virtual environment.";
+            let tip = "Review syntax or variable definitions.";
+            if (errMsg.includes("NameError")) tip = "Variable or function used without being declared.";
+            else if (errMsg.includes("SyntaxError")) tip = "Check missing colons (:), brackets, or quotes.";
+            else if (errMsg.includes("TypeError")) tip = "Mismatched data types in operation.";
+            else if (errMsg.includes("IndentationError")) tip = "Ensure uniform spaces/tabs.";
+            else if (errMsg.includes("IndexError")) tip = "List index out of bounds.";
+            else if (errMsg.includes("FileNotFoundError")) tip = "File not created or mounted in memory.";
             
-            const formattedError = `❌ ERROR ON LINE ${lineNum}\n\n${errMsg}\n\n💡 Tip: ${tip}`;
-            log(formattedError, "text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl mt-2 mb-2 font-mono text-[10px] leading-relaxed shadow-sm");
+            const formattedError = `❌ Execution Error (Line ${lineNum})\n↳ ${errMsg}\n\n💡 Tip: ${tip}`;
+            log(formattedError, "text-rose-400 bg-rose-500/10 border border-rose-500/20 p-3 rounded-xl mt-2 mb-2 font-mono text-[11px] leading-relaxed");
         }
 
         async function runCode() {
             const code = editor.getValue();
-            if(!code.trim()) return;
+            if (!code.trim() || !pyodide) return;
+            
             runBtn.disabled = true;
             document.getElementById("mem-bar").style.width = "90%";
-            if(code.includes("matplotlib") || code.includes("plt.")) switchTab('plots'); else switchTab('terminal');
+            
+            const isPlotCode = code.includes("matplotlib") || code.includes("plt.");
+            if (isPlotCode) switchTab('plots'); else switchTab('terminal');
+
             try {
-                if (code.includes("matplotlib")) {
-                     preparePlots();
-                     await pyodide.runPythonAsync(`import matplotlib\nimport matplotlib.pyplot as plt\nmatplotlib.use("module://matplotlib_pyodide.html5_canvas_backend")\nplt.close('all')\nplt.rcParams['figure.autolayout'] = True`);
-                     window.document.pyodideMplTarget = document.getElementById("plot-target");
+                if (isPlotCode) {
+                    preparePlots();
+                    window.document.pyodideMplTarget = document.getElementById("plot-target");
+                    await pyodide.runPythonAsync(`plt.close('all')`);
                 }
                 await pyodide.runPythonAsync(code);
                 checkLabCompletion(code);
             } catch (err) { 
                 handlePythonError(err);
             } finally { 
-                runBtn.disabled = false; document.getElementById("mem-bar").style.width = "30%"; 
+                runBtn.disabled = false; 
+                document.getElementById("mem-bar").style.width = "25%"; 
             }
         }
 
         async function installDataScience() {
-            if (!micropip) { alert("System starting. Please wait..."); return; }
+            if (!micropip) return;
             const bar = document.getElementById("ds-status").firstElementChild;
             bar.style.width = "50%";
             switchTab('terminal');
-            log("Installing Data Science packages (NumPy, SciPy, Matplotlib)...", "text-indigo-400");
+            log("Loading SciPy and Math packages...", "text-indigo-400");
             try {
-                await micropip.install(['numpy', 'scipy', 'matplotlib']);
+                await micropip.install(['scipy', 'sympy']);
                 bar.style.width = "100%";
                 bar.classList.replace("bg-indigo-500", "bg-green-400");
-                log("Data Science Pack fully installed!", "text-green-400");
+                log("Scientific Suite Ready!", "text-green-400");
             } catch (e) {
                 bar.style.width = "0%";
-                log("Installation failed: " + e, "text-red-400");
+                log("SciPack Error: " + e, "text-red-400");
             }
         }
 
@@ -497,59 +561,179 @@
                 if (!pkg || !micropip) return;
                 this.value = "";
                 switchTab('terminal');
-                log(`Installing package '${pkg}'...`, "text-indigo-400");
+                log(`Fetching package '${pkg}'...`, "text-indigo-400");
                 try {
                     await micropip.install(pkg);
                     log(`Package '${pkg}' installed successfully!`, "text-green-400");
                 } catch(err) {
-                    log(`Failed to install '${pkg}': ${err}`, "text-red-400");
+                    log(`Package error: ${err}`, "text-red-400");
                 }
             }
         });
 
-        function enterStudio() { const s = document.getElementById('splash-screen'); s.style.opacity = '0'; setTimeout(() => { s.style.display = 'none'; editor.refresh(); }, 700); }
-        function switchTab(id) { document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(`tab-${id}`).classList.add('active'); document.querySelectorAll('.nav-item').forEach(btn => btn.classList.toggle('active', btn.dataset.target === id)); if(id === 'editor') setTimeout(() => editor.refresh(), 50); }
-        function log(msg, cls="text-emerald-400") { const d = document.createElement("div"); d.className = cls + " mb-1"; d.innerText = msg; outputElement.appendChild(d); outputElement.scrollTop = outputElement.scrollHeight; }
-        function clearTerminal() { outputElement.innerHTML=""; }
-        function clearEditor() { if(confirm("Clear Script?")) editor.setValue("# New Script\n"); }
-        function insert(t) { const d = editor.getDoc(), c = d.getCursor(); d.replaceRange(t, c); if(t.includes('()')||t.includes('[]')||t.includes('\'\'')) d.setCursor({line:c.line, ch:c.ch+1}); editor.focus(); }
+        // UI Helpers
+        function enterStudio() { 
+            const s = document.getElementById('splash-screen'); 
+            s.style.opacity = '0'; 
+            setTimeout(() => { s.style.display = 'none'; editor.refresh(); }, 650); 
+        }
+
+        function switchTab(id) { 
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); 
+            document.getElementById(`tab-${id}`).classList.add('active'); 
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.toggle('active', btn.dataset.target === id)); 
+            if (id === 'editor') setTimeout(() => editor.refresh(), 50); 
+        }
+
+        function log(msg, cls="text-emerald-400") { 
+            const d = document.createElement("div"); 
+            d.className = cls + " mb-1"; 
+            d.innerText = msg; 
+            outputElement.appendChild(d); 
+            outputElement.scrollTop = outputElement.scrollHeight; 
+        }
+
+        function clearTerminal() { outputElement.innerHTML = ""; }
+        function clearEditor() { if (confirm("Clear code editor?")) editor.setValue("# New Script\n"); }
+        function insert(t) { 
+            const d = editor.getDoc(), c = d.getCursor(); 
+            d.replaceRange(t, c); 
+            if (t.includes('()') || t.includes('[]') || t.includes('{}') || t.includes('\'\'')) {
+                d.setCursor({line: c.line, ch: c.ch + 1});
+            }
+            editor.focus(); 
+        }
         
         function backspaceCode() { editor.execCommand("delCharBefore"); editor.focus(); }
 
-        function preparePlots() { if(document.getElementById("plot-placeholder")) document.getElementById("plot-placeholder").style.display='none'; document.getElementById("btn-download-plot").classList.remove("hidden"); }
-        function clearPlots() { document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-10"><i class="fa-solid fa-chart-area text-5xl mb-2"></i><p class="text-[10px] font-mono uppercase">No Data</p></div>`; document.getElementById("btn-download-plot").classList.add("hidden"); }
-        function downloadPlot() { const c = document.querySelector("#plot-target canvas"); if(c) { const a = document.createElement('a'); a.download='OmniPlot.png'; a.href=c.toDataURL(); a.click(); } }
+        function preparePlots() { 
+            const placeholder = document.getElementById("plot-placeholder");
+            if (placeholder) placeholder.style.display = 'none'; 
+            document.getElementById("btn-download-plot").classList.remove("hidden"); 
+        }
+
+        function clearPlots() { 
+            document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-20"><i class="fa-solid fa-chart-pie text-6xl mb-3 text-indigo-300"></i><p class="text-[11px] font-mono uppercase tracking-wider">No Graph Generated</p></div>`; 
+            document.getElementById("btn-download-plot").classList.add("hidden"); 
+        }
+
+        function downloadPlot() { 
+            const c = document.querySelector("#plot-target canvas"); 
+            if (c) { 
+                const a = document.createElement('a'); 
+                a.download = 'OmniPlot.png'; 
+                a.href = c.toDataURL(); 
+                a.click(); 
+            } 
+        }
 
         // ==========================================
-        // OPTIMIZED LAB MODULE SNIPPETS FROM PDF
+        // UNIVERSITY LAB SYLLABUS DATA[cite: 1]
         // ==========================================
         const snippets = {
-            lab_1: `# 1. Triangle Area\nbase = float(input("Enter the base: "))\nheight = float(input("Enter the height: "))\narea = 0.5 * base * height\nprint(f"The area of the triangle is: {area}")`,
+            lab_1: `# 1. Triangle Area[cite: 1]\nbase = float(input("Enter base: "))\nheight = float(input("Enter height: "))\narea = 0.5 * base * height\nprint(f"Area of triangle = {area}")`,
             
-            lab_2: `# 2. Get largest number\nmy_list = [14, 58, 2, 99, 31, 7]\nlargest = max(my_list)\nprint(f"Largest number: {largest}")`,
+            lab_2: `# 2. Largest Number in List[cite: 1]\nnumbers = [14, 58, 2, 99, 31, 7]\nlargest = max(numbers)\nprint(f"List: {numbers}")\nprint(f"Largest Number: {largest}")`,
             
-            lab_3: `# 3. Sort Dictionary\nmy_dict = {'apple': 50, 'banana': 20, 'cherry': 85, 'date': 15}\ndict_asc = dict(sorted(my_dict.items(), key=lambda item: item[1]))\ndict_desc = dict(sorted(my_dict.items(), key=lambda item: item[1], reverse=True))\nprint(f"Ascending: {dict_asc}")\nprint(f"Descending: {dict_desc}")`,
+            lab_3: `# 3. Sort Dictionary by Value[cite: 1]\nmy_dict = {'apple': 50, 'banana': 20, 'cherry': 85, 'date': 15}\nasc = dict(sorted(my_dict.items(), key=lambda item: item[1]))\ndesc = dict(sorted(my_dict.items(), key=lambda item: item[1], reverse=True))\nprint(f"Ascending: {asc}")\nprint(f"Descending: {desc}")`,
             
-            lab_4: `# 4. Create a set\nmy_first_set = {1, 2, 3, 4, 5}\nmy_second_set = set([5, 6, 7, 8, 9, 9, 9])\nprint(f"Set 1: {my_first_set}")\nprint(f"Set 2: {my_second_set}")`,
+            lab_4: `# 4. Create and Display Sets[cite: 1]\nset_a = {1, 2, 3, 4, 5}\nset_b = set([5, 6, 7, 8, 9])\nprint(f"Set A: {set_a}")\nprint(f"Set B: {set_b}")`,
             
-            lab_5: `# 5. Union of Sets\nset_a = {1, 2, 3, 4}\nset_b = {3, 4, 5, 6}\nunion_set = set_a | set_b\nprint(f"Union Set: {union_set}")`,
+            lab_5: `# 5. Union of Two Sets[cite: 1]\nset_1 = {1, 2, 3, 4}\nset_2 = {3, 4, 5, 6}\nunion_result = set_1 | set_2\nprint(f"Set 1: {set_1}")\nprint(f"Set 2: {set_2}")\nprint(f"Union Set: {union_result}")`,
             
-            lab_6: `# 6. Read CSV as a list\nimport csv\n\n# NOTE: Creating a dummy CSV file so it works in browser!\nwith open('data.csv', 'w') as f: f.write("Name,Age\\nAlice,22\\nBob,25")\n\ntry:\n    with open('data.csv', 'r') as file:\n        csv_reader = csv.reader(file)\n        data_list = list(csv_reader)\n        print(data_list)\nexcept FileNotFoundError:\n    print("Error: 'data.csv' not found.")`,
+            lab_6: `# 6. Read CSV Data into List[cite: 1]\nimport csv\n\n# Creating virtual data.csv[cite: 1]\nwith open('data.csv', 'w') as f:\n    f.write("Name,Score\\nAlice,95\\nBob,88\\nCharlie,92")\n\nwith open('data.csv', 'r') as file:\n    reader = csv.reader(file)\n    records = list(reader)\n    print("CSV Content List:")\n    print(records)`,
             
-            lab_7: `# 7. Bar Chart\nimport matplotlib.pyplot as plt\n\nlanguages = ['Java', 'Python', 'PHP', 'JavaScript', 'C#', 'C++']\npopularity = [22.2, 17.6, 8.8, 8.0, 7.7, 6.7]\n\nplt.bar(languages, popularity, color='skyblue')\nplt.xlabel('Programming Languages')\nplt.ylabel('Popularity (%)')\nplt.title('Popularity of Programming Languages')\nplt.tight_layout()\nplt.show()`,
+            lab_7: `# 7. Matplotlib Bar Chart[cite: 1]\nimport matplotlib.pyplot as plt\n\nlanguages = ['Java', 'Python', 'PHP', 'JavaScript', 'C#', 'C++']\npopularity = [22.2, 17.6, 8.8, 8.0, 7.7, 6.7]\n\nplt.figure(figsize=(7, 4.5))\nplt.bar(languages, popularity, color='#6366f1')\nplt.xlabel('Programming Languages')\nplt.ylabel('Popularity (%)')\nplt.title('Language Popularity Index')\nplt.grid(axis='y', linestyle='--', alpha=0.3)\nplt.tight_layout()\nplt.show()`,
             
-            lab_8: `# 8. Olympic Pie Chart\nimport csv\nimport matplotlib.pyplot as plt\n\n# NOTE: Creating dummy CSV file so it works in browser!\nwith open('medals.csv', 'w') as f: f.write("Country,Gold Medals\\nUSA,46\\nGBR,27\\nChina,26\\nRussia,19")\n\ncountries = []\nmedals = []\n\ntry:\n    with open('medals.csv', 'r') as file:\n        csv_reader = csv.reader(file)\n        next(csv_reader)\n        for row in csv_reader:\n            countries.append(row[0])\n            medals.append(int(row[1]))\n\n    plt.pie(medals, labels=countries, autopct='%1.1f%%', startangle=140, shadow=True)\n    plt.title('Gold Medal Achievements 2016')\n    plt.axis('equal')\n    plt.show()\nexcept FileNotFoundError:\n    print("Error: 'medals.csv' not found.")`
+            lab_8: `# 8. Olympic Medals Pie Chart[cite: 1]\nimport csv\nimport matplotlib.pyplot as plt\n\nwith open('medals.csv', 'w') as f:\n    f.write("Country,Gold\\nUSA,46\\nGBR,27\\nChina,26\\nRussia,19")\n\ncountries = []\nmedals = []\n\nwith open('medals.csv', 'r') as file:\n    reader = csv.reader(file)\n    next(reader)\n    for row in reader:\n        countries.append(row[0])\n        medals.append(int(row[1]))\n\nplt.figure(figsize=(6, 6))\nplt.pie(medals, labels=countries, autopct='%1.1f%%', startangle=140, colors=['#6366f1', '#a855f7', '#ec4899', '#3b82f6'])\nplt.title('Gold Medal Achievements')\nplt.axis('equal')\nplt.show()`
         };
 
-        function loadSnippet(k) { if(confirm("Load Lab Code?")) { editor.setValue(snippets[k]); switchTab('editor'); } }
-        function checkLabCompletion(code) { for (let k in snippets) if (code.trim() === snippets[k].trim()) markLabDone(k); }
-        function markLabDone(k) { completedLabs.add(k); const btn = document.getElementById(`${k}_btn`); if (btn) btn.classList.add("completed-lab"); saveProgress(); updateProgressUI(); }
-        function updateProgressUI() { const total = 8, percent = Math.round((completedLabs.size / total) * 100); if(document.getElementById("progress-percent")) document.getElementById("progress-percent").innerText = `${percent}%`; if(document.getElementById("progress-bar")) document.getElementById("progress-bar").style.width = `${percent}%`; }
-        function saveProgress() { localStorage.setItem("omni_progress_v4", JSON.stringify([...completedLabs])); }
-        function loadProgress() { const data = localStorage.getItem("omni_progress_v4"); if (data) { const arr = JSON.parse(data); arr.forEach(k => { completedLabs.add(k); const btn = document.getElementById(`${k}_btn`); if (btn) btn.classList.add("completed-lab"); }); updateProgressUI(); } }
-        function saveFile() { const n = document.getElementById("filename-input").value; if(!n) return; const s = JSON.parse(localStorage.getItem("omni_local_v4")||"{}"); s[n] = editor.getValue(); localStorage.setItem("omni_local_v4", JSON.stringify(s)); refreshFileList(); }
-        function refreshFileList() { const l = document.getElementById("file-list"); l.innerHTML=""; const s = JSON.parse(localStorage.getItem("omni_local_v4")||"{}"); Object.keys(s).forEach(k => { const d = document.createElement("div"); d.className = "flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/5"; d.innerHTML = `<span class="text-[10px] text-white font-mono">${k}</span><div class="flex gap-3"><button onclick="editor.setValue(JSON.parse(localStorage.getItem('omni_local_v4'))['${k}']);switchTab('editor')" class="text-indigo-400"><i class="fa-solid fa-folder-open"></i></button><button onclick="deleteFile('${k}')" class="text-red-500/50"><i class="fa-solid fa-trash"></i></button></div>`; l.appendChild(d); }); }
-        function deleteFile(k) { if(confirm("Delete?")) { const x = JSON.parse(localStorage.getItem('omni_local_v4')); delete x[k]; localStorage.setItem('omni_local_v4', JSON.stringify(x)); refreshFileList(); } }
+        function loadSnippet(k) { 
+            if (confirm("Load this lab snippet into the editor?")) { 
+                editor.setValue(snippets[k]); 
+                switchTab('editor'); 
+            } 
+        }
+
+        function checkLabCompletion(code) { 
+            for (let k in snippets) {
+                if (code.trim() === snippets[k].trim()) markLabDone(k); 
+            }
+        }
+
+        function markLabDone(k) { 
+            completedLabs.add(k); 
+            const btn = document.getElementById(`${k}_btn`); 
+            if (btn) btn.classList.add("completed-lab"); 
+            saveProgress(); 
+            updateProgressUI(); 
+        }
+
+        function updateProgressUI() { 
+            const total = 8;
+            const percent = Math.round((completedLabs.size / total) * 100); 
+            if (document.getElementById("progress-percent")) document.getElementById("progress-percent").innerText = `${percent}%`; 
+            if (document.getElementById("progress-bar")) document.getElementById("progress-bar").style.width = `${percent}%`; 
+        }
+
+        function saveProgress() { localStorage.setItem("omni_progress_v5", JSON.stringify([...completedLabs])); }
+        
+        function loadProgress() { 
+            const data = localStorage.getItem("omni_progress_v5"); 
+            if (data) { 
+                const arr = JSON.parse(data); 
+                arr.forEach(k => { 
+                    completedLabs.add(k); 
+                    const btn = document.getElementById(`${k}_btn`); 
+                    if (btn) btn.classList.add("completed-lab"); 
+                }); 
+                updateProgressUI(); 
+            } 
+        }
+
+        // Local Storage File Manager[cite: 1]
+        function saveFile() { 
+            const n = document.getElementById("filename-input").value.trim(); 
+            if (!n) return; 
+            const s = JSON.parse(localStorage.getItem("omni_local_v5") || "{}"); 
+            s[n] = editor.getValue(); 
+            localStorage.setItem("omni_local_v5", JSON.stringify(s)); 
+            document.getElementById("filename-input").value = "";
+            refreshFileList(); 
+        }
+
+        function refreshFileList() { 
+            const l = document.getElementById("file-list"); 
+            l.innerHTML = ""; 
+            const s = JSON.parse(localStorage.getItem("omni_local_v5") || "{}"); 
+            Object.keys(s).forEach(k => { 
+                const d = document.createElement("div"); 
+                d.className = "flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/5"; 
+                d.innerHTML = `<span class="text-[11px] text-white font-mono">${k}</span>
+                    <div class="flex gap-3">
+                        <button onclick="loadFile('${k}')" class="text-indigo-400 hover:text-indigo-300"><i class="fa-solid fa-folder-open"></i></button>
+                        <button onclick="deleteFile('${k}')" class="text-red-400/60 hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    </div>`; 
+                l.appendChild(d); 
+            }); 
+        }
+
+        function loadFile(k) {
+            const s = JSON.parse(localStorage.getItem('omni_local_v5') || "{}");
+            if (s[k]) {
+                editor.setValue(s[k]);
+                switchTab('editor');
+            }
+        }
+
+        function deleteFile(k) { 
+            if (confirm(`Delete file "${k}"?`)) { 
+                const x = JSON.parse(localStorage.getItem('omni_local_v5') || "{}"); 
+                delete x[k]; 
+                localStorage.setItem('omni_local_v5', JSON.stringify(x)); 
+                refreshFileList(); 
+            } 
+        }
     </script>
 </body>
 </html>
