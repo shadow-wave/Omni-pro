@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Omni-Studio | Python & Computational Lab</title>
+    <title>Omni-Studio | Spyder Lab Edition</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#030305">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="OmniLab">
     
-    <!-- Vector Favicon & Touch Icon -->
+    <!-- Vector Favicon & Apple Touch Icon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
 
-    <!-- Fonts -->
+    <!-- Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS Framework CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,12 +34,12 @@
                         'safe-bottom': 'env(safe-area-inset-bottom)',
                     },
                     animation: {
-                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'pulse-glow': 'pulseGlow 2.8s infinite ease-in-out',
                     },
                     keyframes: {
                         pulseGlow: {
                             '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-                            '50%': { opacity: '0.85', transform: 'scale(1.08)' },
+                            '50%': { opacity: '0.9', transform: 'scale(1.08)' },
                         }
                     }
                 }
@@ -47,20 +47,25 @@
         }
     </script>
     
-    <!-- CodeMirror & Pyodide -->
+    <!-- CodeMirror 5 Core & AutoComplete Extensions -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
+
+    <!-- Pyodide Python WASM Engine & Font Awesome -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --glass: rgba(13, 16, 26, 0.94);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.07);
             --sat: env(safe-area-inset-top);
             --sab: env(safe-area-inset-bottom);
         }
@@ -79,12 +84,13 @@
             background-color: #030305;
             color: #f1f5f9;
             overscroll-behavior: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .glass-panel {
             background: var(--glass);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
         }
 
@@ -98,26 +104,20 @@
         
         .tab-content.active { 
             display: flex; 
-            animation: fluidTabIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            animation: fluidTabIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
 
         @keyframes fluidTabIn {
-            0% { 
-                opacity: 0; 
-                transform: translateY(8px) scale(0.985); 
-            }
-            100% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            }
+            0% { opacity: 0; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .modal-sheet-enter {
-            animation: springPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: springPop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         @keyframes springPop {
-            0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
@@ -130,9 +130,9 @@
         }
         
         .CodeMirror-gutters {
-            background: rgba(0, 0, 0, 0.28) !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
-            width: 34px;
+            background: rgba(0, 0, 0, 0.25) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            width: 42px;
         }
 
         .CodeMirror-linenumber {
@@ -141,17 +141,81 @@
             font-size: 11px;
         }
 
+        /* Spyder Real-Time Error Underline & Highlights */
+        .spyder-error-line {
+            background: rgba(239, 68, 68, 0.08) !important;
+        }
+
+        .spyder-error-wave {
+            text-decoration: underline wavy #f43f5e 2px !important;
+            text-underline-offset: 3.5px;
+            background: rgba(244, 63, 94, 0.12) !important;
+            border-radius: 2px;
+        }
+
+        .spyder-gutter-marker {
+            width: 12px;
+            text-align: center;
+            font-size: 10px;
+            cursor: pointer;
+            color: #f43f5e;
+            filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.7));
+        }
+
+        /* Spyder Clean Autocompletion Popup */
+        .CodeMirror-hints {
+            background: rgba(12, 15, 24, 0.98) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.4) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8) !important;
+            padding: 4px !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 12px !important;
+            max-height: 200px !important;
+            z-index: 1000 !important;
+            min-width: 190px !important;
+        }
+
+        .CodeMirror-hint {
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            color: #cbd5e1 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            cursor: pointer !important;
+        }
+
+        li.CodeMirror-hint-active {
+            background: rgba(99, 102, 241, 0.35) !important;
+            color: #ffffff !important;
+        }
+
+        .hint-badge {
+            font-size: 8.5px;
+            font-weight: 700;
+            padding: 1px 4.5px;
+            border-radius: 4px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .hint-badge.fn { background: rgba(99, 102, 241, 0.25); color: #a5b4fc; }
+        .hint-badge.var { background: rgba(245, 158, 11, 0.25); color: #fcd34d; }
+        .hint-badge.kw { background: rgba(56, 189, 248, 0.25); color: #7dd3fc; }
+
         .omni-plot-card {
             background: #ffffff;
-            border-radius: 18px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 8px;
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 6px;
         }
 
         .omni-plot-card img {
@@ -160,7 +224,7 @@
             max-height: 100%;
             object-fit: contain;
             display: block;
-            border-radius: 12px;
+            border-radius: 10px;
         }
 
         .csv-table input {
@@ -206,7 +270,7 @@
         .lab-card-touch {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.07);
-            padding: 13px 14px;
+            padding: 12px 14px;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -215,7 +279,7 @@
             color: #cbd5e1;
             width: 100%;
             text-align: left;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .lab-card-touch:active {
@@ -236,149 +300,161 @@
 </head>
 <body class="flex flex-col select-none">
 
-    <!-- Splash Screen with Vector Brand Icon -->
-    <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-500">
+    <!-- Clean Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-300">
         <div class="relative flex items-center justify-center">
-            <div class="absolute w-28 h-28 rounded-full bg-indigo-500/20 blur-2xl animate-pulse-glow"></div>
-            <div class="w-20 h-20 rounded-[24px] bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl shadow-2xl border border-white/20 relative z-10">
-                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="absolute w-24 h-24 rounded-full bg-indigo-500/20 blur-xl animate-pulse-glow"></div>
+            <div class="w-16 h-16 rounded-[20px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl shadow-2xl border border-white/20 relative z-10">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C8.5 2 6 4 6 6.5V8.5H12V10.5H5C3 10.5 2 12 2 14.5S3 18.5 5 18.5H7V16C7 14.3431 8.34315 13 10 13H14C15.6569 13 17 11.6569 17 10V6.5C17 4 14.5 2 12 2ZM10.5 4.5C11.0523 4.5 11.5 4.94772 11.5 5.5C11.5 6.05228 11.0523 6.5 10.5 6.5C9.94772 6.5 9.5 6.05228 9.5 5.5C9.5 4.94772 9.94772 4.5 10.5 4.5Z" fill="white"/>
                     <path d="M12 22C15.5 22 18 20 18 17.5V15.5H12V13.5H19C21 13.5 22 12 22 9.5S21 5.5 19 5.5H17V8C17 9.65685 15.6569 11 14 11H10C8.34315 11 7 12.3431 7 14V17.5C7 20 9.5 22 12 22ZM13.5 19.5C12.9477 19.5 12.5 19.0523 12.5 18.5C12.5 17.9477 12.9477 17.5 13.5 17.5C14.0523 17.5 14.5 17.9477 14.5 18.5C14.5 19.0523 14.0523 19.5 13.5 19.5Z" fill="white" fill-opacity="0.8"/>
                 </svg>
             </div>
         </div>
-        <h1 class="mt-6 text-2xl font-bold text-white tracking-tight">Omni-Studio<span class="text-indigo-400"> Pro</span></h1>
-        <p class="mt-1 text-indigo-300/60 text-[10px] font-bold tracking-[0.25em] uppercase">Python & Computational Lab</p>
+        <h1 class="mt-5 text-xl font-bold text-white tracking-tight">Omni-Studio<span class="text-indigo-400 font-mono text-sm ml-1.5 px-1.5 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20">Spyder</span></h1>
         
-        <div class="mt-8 w-full max-w-xs space-y-3">
-            <div id="boot-box" class="py-3.5 px-4 glass-panel rounded-2xl flex items-center justify-center gap-3 border-indigo-500/20">
-                <i id="boot-icon" class="fa-solid fa-circle-notch fa-spin text-indigo-400 text-sm"></i>
+        <div class="mt-6 w-full max-w-xs space-y-2.5">
+            <div id="boot-box" class="py-3 px-4 glass-panel rounded-xl flex items-center justify-center gap-2.5 border-indigo-500/20">
+                <i id="boot-icon" class="fa-solid fa-circle-notch fa-spin text-indigo-400 text-xs"></i>
                 <span id="boot-text" class="text-xs font-semibold text-gray-300">Waking WASM Kernel...</span>
             </div>
             <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Mounting Pandas, NumPy & Matplotlib...</div>
         </div>
-        <div class="absolute bottom-8 text-[10px] text-gray-600 font-bold uppercase tracking-widest">Aravind O K</div>
+        <div class="absolute bottom-6 text-[10px] text-gray-600 font-bold uppercase tracking-widest">Aravind O K</div>
     </div>
 
-    <!-- Python Input Stream Dialog -->
+    <!-- Python Input Modal (Handles input() in experiments) -->
     <div id="input-modal" class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-md hidden items-start justify-center p-4 pt-16">
         <div class="glass-panel w-full max-w-xs p-4 rounded-2xl border-indigo-500/30 shadow-2xl space-y-3">
             <div class="flex items-center gap-2 text-indigo-400 text-[11px] font-bold uppercase tracking-wider">
                 <i class="fa-solid fa-terminal"></i> Python Input
             </div>
             <p id="modal-prompt-label" class="text-xs text-gray-200 font-mono break-words"></p>
-            <input id="modal-input-field" type="text" class="w-full bg-black/60 border border-white/20 rounded-xl px-3.5 py-3 text-sm font-mono text-white outline-none focus:border-indigo-500 transition" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Value...">
-            <button onclick="submitModalInput()" class="w-full py-3 bg-indigo-600 active:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg transition">Submit</button>
+            <input id="modal-input-field" type="text" class="w-full bg-black/60 border border-white/20 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white outline-none focus:border-indigo-500 transition" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Value...">
+            <button onclick="submitModalInput()" class="w-full py-2.5 bg-indigo-600 active:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg transition">Submit</button>
         </div>
     </div>
 
-    <!-- Custom Confirmation Modal (Replaces native confirm dialog) -->
+    <!-- Custom Confirmation Modal -->
     <div id="custom-confirm-modal" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md hidden items-center justify-center p-5">
         <div class="glass-panel w-full max-w-xs p-5 rounded-2xl border-white/10 shadow-2xl space-y-4">
-            <div class="flex items-center gap-2.5 text-indigo-400 font-bold text-xs uppercase tracking-wider">
-                <i class="fa-solid fa-circle-question text-base"></i>
-                <span id="confirm-modal-title">Confirm Action</span>
+            <div class="flex items-center gap-2 text-indigo-400 font-bold text-xs uppercase tracking-wider">
+                <i class="fa-solid fa-circle-question text-sm"></i>
+                <span id="confirm-modal-title">Confirm</span>
             </div>
             <p id="confirm-modal-msg" class="text-xs text-gray-300 leading-relaxed"></p>
             <div class="flex gap-2 pt-1">
-                <button id="confirm-modal-cancel" class="flex-1 py-2.5 rounded-xl bg-white/10 active:bg-white/15 text-xs font-semibold text-gray-300 transition">Cancel</button>
-                <button id="confirm-modal-ok" class="flex-1 py-2.5 rounded-xl bg-indigo-600 active:bg-indigo-500 text-xs font-bold text-white shadow-lg transition">Continue</button>
+                <button id="confirm-modal-cancel" class="flex-1 py-2 rounded-xl bg-white/10 active:bg-white/15 text-xs font-semibold text-gray-300 transition">Cancel</button>
+                <button id="confirm-modal-ok" class="flex-1 py-2 rounded-xl bg-indigo-600 active:bg-indigo-500 text-xs font-bold text-white shadow-lg transition">Continue</button>
             </div>
         </div>
     </div>
 
-    <!-- Custom Toast Message (Replaces native alert dialog) -->
+    <!-- Syllabus Record Output Preview Modal -->
+    <div id="syllabus-preview-modal" class="fixed inset-0 z-[122] bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md max-h-[85vh] p-4 rounded-2xl border-white/10 shadow-2xl flex flex-col modal-sheet-enter space-y-3">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <div class="flex items-center gap-2 text-indigo-400 font-bold text-xs">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    <span id="preview-modal-title">Lab Record & Expected Output</span>
+                </div>
+                <button onclick="closeSyllabusPreview()" class="w-6 h-6 rounded-lg bg-white/5 active:bg-white/15 text-gray-400 text-xs flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-2.5 text-xs no-scrollbar">
+                <div>
+                    <span class="text-[9.5px] font-bold uppercase tracking-wider text-gray-400">Verified Output:</span>
+                    <pre id="preview-modal-output" class="bg-black/60 border border-white/10 rounded-xl p-3 font-mono text-[11px] text-emerald-400 whitespace-pre-wrap leading-relaxed mt-1"></pre>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-1 border-t border-white/10 shrink-0">
+                <button onclick="closeSyllabusPreview()" class="flex-1 py-2 rounded-xl bg-white/10 active:bg-white/15 text-xs font-semibold text-gray-300">Close</button>
+                <button id="preview-modal-load-btn" class="flex-1 py-2 rounded-xl bg-indigo-600 active:bg-indigo-500 text-xs font-bold text-white shadow-lg">Load Code</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Toast Notification -->
     <div id="toast-box" class="fixed top-4 left-1/2 -translate-x-1/2 z-[130] pointer-events-none transition-all duration-300 opacity-0 -translate-y-4">
-        <div class="px-4 py-2.5 rounded-xl glass-panel border-indigo-500/40 text-xs font-medium text-white shadow-2xl flex items-center gap-2">
+        <div class="px-4 py-2 rounded-xl glass-panel border-indigo-500/40 text-xs font-medium text-white shadow-xl flex items-center gap-2">
             <i id="toast-icon" class="fa-solid fa-circle-check text-green-400"></i>
-            <span id="toast-message">Message</span>
+            <span id="toast-message">Ready</span>
         </div>
     </div>
 
     <!-- Virtual CSV Creator Modal -->
     <div id="csv-creator-modal" class="fixed inset-0 z-[125] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md max-h-[86vh] rounded-2xl border-white/10 shadow-2xl flex flex-col modal-sheet-enter overflow-hidden">
-            <!-- Modal Header -->
             <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
                 <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs">
-                        <i class="fa-solid fa-table"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-xs font-bold text-white tracking-wide">Virtual CSV Creator</h2>
-                        <p class="text-[9px] text-gray-400">Design datasets directly on mobile</p>
-                    </div>
+                    <i class="fa-solid fa-file-csv text-indigo-400 text-sm"></i>
+                    <h2 class="text-xs font-bold text-white tracking-wide">Virtual CSV Creator</h2>
                 </div>
-                <button onclick="closeCsvCreatorModal()" class="w-7 h-7 rounded-lg bg-white/5 active:bg-white/15 text-gray-400 active:text-white flex items-center justify-center text-xs transition">
+                <button onclick="closeCsvCreatorModal()" class="w-6 h-6 rounded-lg bg-white/5 active:bg-white/15 text-gray-400 text-xs flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <!-- Modal Body -->
             <div class="p-3.5 overflow-y-auto space-y-3.5 flex-1 no-scrollbar">
-                <!-- File Name & Mode Toggle -->
                 <div class="flex items-center gap-2">
                     <div class="flex-1 bg-black/40 border border-white/10 rounded-xl px-3 py-2 flex items-center gap-2">
-                        <i class="fa-solid fa-file-csv text-indigo-400 text-xs"></i>
-                        <input id="csv-filename" type="text" value="dataset.csv" class="bg-transparent text-xs font-mono text-white outline-none w-full" placeholder="filename.csv">
+                        <i class="fa-solid fa-file-lines text-indigo-400 text-xs"></i>
+                        <input id="csv-filename" type="text" value="data.csv" class="bg-transparent text-xs font-mono text-white outline-none w-full" placeholder="filename.csv">
                     </div>
-                    <button onclick="toggleCsvEditorMode()" id="csv-mode-toggle-btn" class="px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold text-indigo-300 active:bg-white/15 transition shrink-0">
+                    <button onclick="toggleCsvEditorMode()" id="csv-mode-toggle-btn" class="px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold text-indigo-300 active:bg-white/15 shrink-0">
                         Raw Text
                     </button>
                 </div>
 
-                <!-- Presets Bar -->
                 <div>
-                    <span class="text-[8.5px] font-bold uppercase tracking-widest text-gray-400 block mb-1.5">Quick Presets:</span>
+                    <span class="text-[8.5px] font-bold uppercase tracking-widest text-gray-400 block mb-1.5">Presets:</span>
                     <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-                        <button onclick="loadCsvPreset('physics')" class="px-2.5 py-1 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-[9.5px] font-semibold active:scale-95 shrink-0 transition">⚡ Physics Exp</button>
-                        <button onclick="loadCsvPreset('marks')" class="px-2.5 py-1 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-300 text-[9.5px] font-semibold active:scale-95 shrink-0 transition">📊 Marks List</button>
-                        <button onclick="loadCsvPreset('timeseries')" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-[9.5px] font-semibold active:scale-95 shrink-0 transition">📈 Sensor Stream</button>
-                        <button onclick="loadCsvPreset('blank')" class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-[9.5px] font-semibold active:scale-95 shrink-0 transition">✨ Blank 3×3</button>
+                        <button onclick="loadCsvPreset('physics')" class="px-2.5 py-1 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-[9.5px] font-semibold shrink-0">⚡ Physics</button>
+                        <button onclick="loadCsvPreset('marks')" class="px-2.5 py-1 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-300 text-[9.5px] font-semibold shrink-0">📊 Marks</button>
+                        <button onclick="loadCsvPreset('timeseries')" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-[9.5px] font-semibold shrink-0">📈 Sensor</button>
+                        <button onclick="loadCsvPreset('blank')" class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-[9.5px] font-semibold shrink-0">✨ Blank</button>
                     </div>
                 </div>
 
-                <!-- Visual Grid View Container -->
                 <div id="csv-grid-container" class="space-y-2">
                     <div class="flex items-center justify-between text-[10px] text-gray-400 px-1">
-                        <span>Tap cells to edit data:</span>
+                        <span>Tap cells to edit:</span>
                         <div class="flex items-center gap-1.5">
-                            <button onclick="addCsvColumn()" class="px-2 py-0.5 rounded bg-white/5 active:bg-white/15 text-[9px] font-bold text-indigo-300 border border-white/10">+ Column</button>
+                            <button onclick="addCsvColumn()" class="px-2 py-0.5 rounded bg-white/5 active:bg-white/15 text-[9px] font-bold text-indigo-300 border border-white/10">+ Col</button>
                             <button onclick="addCsvRow()" class="px-2 py-0.5 rounded bg-white/5 active:bg-white/15 text-[9px] font-bold text-indigo-300 border border-white/10">+ Row</button>
                         </div>
                     </div>
                     <div class="overflow-x-auto rounded-xl border border-white/10 bg-black/30 max-h-48">
-                        <table id="csv-editable-table" class="csv-table w-full text-left border-collapse">
-                            <!-- Populated dynamically via JS -->
-                        </table>
+                        <table id="csv-editable-table" class="csv-table w-full text-left border-collapse"></table>
                     </div>
                 </div>
 
-                <!-- Raw Text Area (Fallback & quick paste mode) -->
                 <div id="csv-raw-container" class="hidden space-y-1.5">
-                    <span class="text-[9px] font-mono text-gray-400">Comma-Separated Text:</span>
-                    <textarea id="csv-raw-input" rows="7" class="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs font-mono text-emerald-400 outline-none focus:border-indigo-500 transition leading-relaxed"></textarea>
+                    <span class="text-[9px] font-mono text-gray-400">Comma-Separated Values:</span>
+                    <textarea id="csv-raw-input" rows="7" class="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-xs font-mono text-emerald-400 outline-none focus:border-indigo-500 leading-relaxed"></textarea>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
             <div class="px-4 py-3 bg-white/5 border-t border-white/10 flex items-center justify-end gap-2 shrink-0">
-                <button onclick="closeCsvCreatorModal()" class="px-3.5 py-2 rounded-xl bg-white/5 active:bg-white/10 text-xs font-semibold text-gray-300 transition">Cancel</button>
-                <button onclick="saveCreatedCsv()" class="px-4 py-2 rounded-xl bg-indigo-600 active:bg-indigo-500 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 active:scale-95 transition flex items-center gap-1.5">
+                <button onclick="closeCsvCreatorModal()" class="px-3.5 py-2 rounded-xl bg-white/5 active:bg-white/10 text-xs font-semibold text-gray-300">Cancel</button>
+                <button onclick="saveCreatedCsv()" class="px-4 py-2 rounded-xl bg-indigo-600 active:bg-indigo-500 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
                     <i class="fa-solid fa-floppy-disk"></i> Save & Mount
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Header Navigation -->
     <header class="h-[3.75rem] pt-[var(--sat)] px-4 flex items-center justify-between shrink-0 z-40 bg-[#040508]/95 border-b border-white/5">
         <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs shadow-md border border-white/10">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs shadow-md">
                 <i class="fa-brands fa-python"></i>
             </div>
             <div>
-                <h1 class="font-bold text-xs text-white leading-tight">Omni-Studio</h1>
+                <h1 class="font-bold text-xs text-white leading-tight flex items-center gap-1.5">
+                    Omni-Studio 
+                    <span class="text-[8.5px] font-mono bg-indigo-500/15 text-indigo-300 px-1 py-0.2 rounded border border-indigo-500/20">Spyder</span>
+                </h1>
                 <div class="flex items-center gap-1.5">
                     <div id="status-indicator" class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
                     <span id="status-text" class="text-[8.5px] text-gray-400 font-bold uppercase tracking-wider">Loading</span>
@@ -387,164 +463,368 @@
             </div>
         </div>
         
-        <div class="flex items-center gap-2">
-            <button id="pwa-install-btn" class="hidden px-2.5 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-300 text-[10px] font-bold active:scale-95 transition">
-                <i class="fa-solid fa-download"></i>
+        <!-- Clean Spyder Action Buttons -->
+        <div class="flex items-center gap-1.5">
+            <button id="run-selection-btn" onclick="runSelectionOrLine()" title="Spyder F9: Run Selection / Current Line" class="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/5 hover:bg-white/10 active:bg-indigo-600/30 text-indigo-300 font-bold text-xs border border-white/10 transition">
+                <i class="fa-solid fa-play text-[8px] text-indigo-400"></i>
+                <span class="text-[10px]">Line</span>
             </button>
-            <button id="run-btn" onclick="runCode()" disabled class="h-9 px-4 rounded-xl flex items-center gap-1.5 bg-indigo-600 active:bg-indigo-500 text-white font-bold text-xs disabled:opacity-30 transition-all shadow-md shadow-indigo-600/20">
-                <i class="fa-solid fa-play text-[10px]"></i>
+            <button id="run-btn" onclick="runCode()" disabled title="Run Entire Script (Ctrl+Enter)" class="h-8 px-3.5 rounded-lg flex items-center gap-1.5 bg-indigo-600 active:bg-indigo-500 text-white font-bold text-xs disabled:opacity-30 transition shadow-md shadow-indigo-600/20">
+                <i class="fa-solid fa-play text-[9px]"></i>
                 <span>Run</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Views -->
-    <main class="flex-1 overflow-hidden p-2.5 pb-0">
+    <main class="flex-1 overflow-hidden p-2 pb-0">
         
         <!-- Tab 1: Editor -->
         <div id="tab-editor" class="tab-content active">
             <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 flex flex-col shadow-lg">
-                <div class="h-8 px-3 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
+                <!-- Editor Top Info Bar -->
+                <div class="h-7 px-3 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
                     <span class="flex items-center gap-1.5 text-gray-300">
-                        <i class="fa-brands fa-python text-indigo-400"></i>
+                        <i class="fa-brands fa-python text-indigo-400 text-xs"></i>
                         <span id="active-filename">temp.py</span>
                     </span>
-                    <div class="flex items-center gap-2.5">
-                        <button onclick="changeFontSize(-1)" title="Zoom Out" class="w-6 h-6 flex items-center justify-center active:text-white"><i class="fa-solid fa-minus text-[9px]"></i></button>
-                        <button onclick="changeFontSize(1)" title="Zoom In" class="w-6 h-6 flex items-center justify-center active:text-white"><i class="fa-solid fa-plus text-[9px]"></i></button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="triggerSpyderHint(editor)" title="Autocomplete (Ctrl+Space)" class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono hover:bg-indigo-500/30">
+                            Auto <i class="fa-solid fa-bolt text-[7px]"></i>
+                        </button>
+                        <button onclick="changeFontSize(-1)" title="Zoom Out" class="w-5 h-5 flex items-center justify-center active:text-white"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                        <button onclick="changeFontSize(1)" title="Zoom In" class="w-5 h-5 flex items-center justify-center active:text-white"><i class="fa-solid fa-plus text-[8px]"></i></button>
                     </div>
                 </div>
+
+                <!-- Code Editor Container -->
                 <div class="flex-1 relative overflow-hidden">
                     <textarea id="code-editor"></textarea>
+                </div>
+
+                <!-- Minimalist Spyder Real-Time Diagnostics Footer -->
+                <div id="spyder-diagnostics-bar" class="h-5 px-3 bg-black/50 border-t border-white/5 flex items-center justify-between text-[9.5px] font-mono text-gray-400 shrink-0">
+                    <div id="linter-status-display" class="flex items-center gap-1.5 truncate">
+                        <i class="fa-solid fa-check text-green-400 text-[9px]"></i>
+                        <span class="text-green-400">Clean</span>
+                    </div>
+                    <span id="cursor-pos-display" class="text-gray-500 text-[8.5px] shrink-0">Ln 1, Col 1</span>
                 </div>
             </div>
 
             <!-- Virtual Keyboard Toolbar -->
-            <div class="accessory-bar h-12 my-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0 px-0.5">
+            <div class="accessory-bar h-11 my-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0 px-0.5">
                 <button class="key-btn text-indigo-400 font-bold" onclick="insertMobile('    ')">TAB</button>
+                <button class="key-btn font-mono" onclick="insertMobile('.')">.</button>
                 <button class="key-btn font-mono" onclick="insertMobile(':')">:</button>
                 <button class="key-btn font-mono" onclick="insertMobile('()')">( )</button>
                 <button class="key-btn font-mono" onclick="insertMobile('[]')">[ ]</button>
                 <button class="key-btn font-mono" onclick="insertMobile('{}')">{ }</button>
                 <button class="key-btn font-mono" onclick="insertMobile('\'\'')">" "</button>
                 <button class="key-btn font-mono" onclick="insertMobile('=')">=</button>
-                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('print()')">print</button>
-                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('df.')">df.</button>
-                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('pd.')">pd.</button>
-                <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('plt.')">plt.</button>
+                <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('np.')">np.</button>
+                <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('pd.')">pd.</button>
+                <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('plt.')">plt.</button>
+                <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('print()')">print</button>
                 <button class="key-btn text-amber-400" onclick="backspaceCode()"><i class="fa-solid fa-delete-left"></i></button>
                 <button class="key-btn text-rose-400" onclick="clearEditor()"><i class="fa-solid fa-trash-can"></i></button>
             </div>
         </div>
 
-        <!-- Tab 2: Terminal -->
-        <div id="tab-terminal" class="tab-content">
-            <div class="flex-1 glass-panel rounded-2xl p-3.5 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
-                <div class="flex justify-between items-center mb-2.5 border-b border-white/5 pb-2">
-                    <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-terminal text-[10px]"></i> Console Output
-                    </span>
-                    <div class="flex gap-1.5">
-                        <button onclick="copyOutput()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md">Copy</button>
-                        <button onclick="clearTerminal()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md">Clear</button>
+        <!-- Tab 2: Spyder Variable Explorer -->
+        <div id="tab-variables" class="tab-content">
+            <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
+                <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-cube text-[10px]"></i> Variable Explorer
+                        </span>
+                        <span id="vars-count-badge" class="px-1.5 py-0.2 rounded bg-white/5 text-[9px] text-gray-400 font-mono">0 vars</span>
                     </div>
+                    <button onclick="refreshVariableExplorer()" class="text-[9px] text-indigo-300 font-bold px-2 py-0.8 bg-indigo-600/20 active:bg-indigo-600/40 rounded border border-indigo-500/30 flex items-center gap-1">
+                        <i class="fa-solid fa-arrows-rotate text-[8px]"></i> Refresh
+                    </button>
                 </div>
-                <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed font-mono select-text pb-4 text-[11.5px]"></div>
+
+                <div class="mb-2 bg-black/40 border border-white/10 rounded-xl px-2.5 py-1.5 flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-magnifying-glass text-[9px] text-gray-500"></i>
+                    <input id="var-search-input" oninput="filterVariablesTable()" type="text" placeholder="Filter variables..." class="bg-transparent text-[10.5px] font-mono text-white outline-none w-full">
+                </div>
+
+                <div class="flex-1 overflow-auto rounded-xl border border-white/10 bg-black/30">
+                    <table class="w-full text-left border-collapse text-[10.5px] font-mono">
+                        <thead class="bg-white/5 text-gray-400 text-[9px] uppercase tracking-wider sticky top-0 border-b border-white/10">
+                            <tr>
+                                <th class="p-2">Name</th>
+                                <th class="p-2">Type</th>
+                                <th class="p-2">Size</th>
+                                <th class="p-2">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="variables-table-body">
+                            <tr>
+                                <td colspan="4" class="p-4 text-center text-gray-500 text-[10px]">
+                                    Run code to inspect variables in memory.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Tab 3: Plots -->
-        <div id="tab-plots" class="tab-content">
-            <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg">
-                <div class="h-10 flex justify-between items-center px-3.5 bg-white/5 border-b border-white/5">
-                    <span class="text-[9.5px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Omni Plot Studio
+        <!-- Tab 3: Terminal Console -->
+        <div id="tab-terminal" class="tab-content">
+            <div class="flex-1 glass-panel rounded-2xl p-3.5 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
+                <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
+                    <span class="text-[9px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                        <i class="fa-solid fa-terminal text-[9px]"></i> Console Output
                     </span>
                     <div class="flex gap-1.5">
-                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9.5px] font-bold bg-indigo-600 active:bg-indigo-500 px-3 py-1 rounded-lg text-white flex items-center gap-1">
+                        <button onclick="copyOutput()" class="text-[8.5px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded">Copy</button>
+                        <button onclick="clearTerminal()" class="text-[8.5px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded">Clear</button>
+                    </div>
+                </div>
+                <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed font-mono select-text pb-4 text-[11px]"></div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Plots -->
+        <div id="tab-plots" class="tab-content">
+            <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg">
+                <div class="h-9 flex justify-between items-center px-3 bg-white/5 border-b border-white/5">
+                    <span class="text-[9px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
+                        <i class="fa-solid fa-chart-line text-indigo-400"></i> Plot Studio
+                    </span>
+                    <div class="flex gap-1.5">
+                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9px] font-bold bg-indigo-600 active:bg-indigo-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1">
                             <i class="fa-solid fa-download"></i> Save PNG
                         </button>
-                        <button onclick="clearPlots()" class="text-[9.5px] font-bold bg-white/10 active:bg-white/20 px-2.5 py-1 rounded-lg text-gray-300">Clear</button>
+                        <button onclick="clearPlots()" class="text-[9px] font-bold bg-white/10 active:bg-white/20 px-2 py-1 rounded-lg text-gray-300">Clear</button>
                     </div>
                 </div>
                 <div class="flex-1 p-3 flex items-center justify-center overflow-auto bg-[#0a0c14]">
                     <div id="plot-target" class="w-full flex items-center justify-center">
                         <div id="plot-placeholder" class="text-center opacity-30">
-                            <i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300"></i>
-                            <p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p>
+                            <i class="fa-solid fa-chart-pie text-4xl mb-2 text-indigo-300"></i>
+                            <p class="text-[9.5px] font-mono uppercase tracking-wider">No Graph Generated</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 4: Syllabus & Storage -->
+        <!-- Tab 5: College Lab Syllabus & Datasets -->
         <div id="tab-files" class="tab-content">
-            <div class="flex-1 overflow-y-auto space-y-3.5 pr-0.5 no-scrollbar pb-6">
-                
+            <div class="flex-1 overflow-y-auto space-y-3 pr-0.5 no-scrollbar pb-6">
                 <!-- Lead Developer Badge -->
-                <div class="glass-panel p-3.5 rounded-2xl flex items-center gap-3 border-indigo-500/20">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">A</div>
+                <div class="glass-panel p-3 rounded-2xl flex items-center gap-3 border-indigo-500/20">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-xs shadow-md">A</div>
                     <div>
                         <h3 class="text-white font-bold text-xs leading-tight">Aravind O K</h3>
-                        <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">Omni-Studio Core</p>
-                        <span class="text-[9.5px] text-gray-400">Python & Data Science Lab</span>
+                        <p class="text-indigo-400 text-[8px] font-bold uppercase tracking-widest">Omni-Studio Spyder Edition</p>
+                        <span class="text-[9px] text-gray-400">Python Lab Record & Computational Suite</span>
                     </div>
                 </div>
 
                 <!-- Progress Bar -->
-                <div class="glass-panel p-3.5 rounded-2xl">
+                <div class="glass-panel p-3 rounded-2xl">
                     <div class="flex justify-between items-center mb-1.5">
-                        <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Pandas Syllabus Progress</span>
+                        <span class="text-[8.5px] text-gray-400 font-bold uppercase tracking-wider">Lab Record Experiments Completed</span>
                         <span id="progress-percent" class="text-xs font-mono text-indigo-400 font-bold">0%</span>
                     </div>
                     <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 w-0 transition-all duration-500"></div>
+                        <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 w-0 transition-all duration-500"></div>
                     </div>
                 </div>
 
-                <!-- Virtual Filesystem -->
-                <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
+                <!-- College Syllabus Experiments Library (1 - 10) -->
+                <div class="space-y-1.5">
+                    <div class="flex items-center justify-between ml-1">
+                        <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-widest">College Lab Experiments (1 - 10)</span>
+                        <span class="text-[8.5px] font-mono text-indigo-400">Tap to load / inspect</span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1.5">
+                        
+                        <!-- Exp 1 -->
+                        <div class="lab-card-touch justify-between" id="exp1_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp1')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">01</span>
+                                <div>
+                                    <div class="text-white font-semibold">Arithmetic Operations</div>
+                                    <div class="text-[9.5px] text-gray-400">+ , - , * , / on user inputs</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp1')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp1_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 2 -->
+                        <div class="lab-card-touch justify-between" id="exp2_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp2')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">02</span>
+                                <div>
+                                    <div class="text-white font-semibold">Sorting a List of Numbers</div>
+                                    <div class="text-[9.5px] text-gray-400">Dynamic list input & sort()</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp2')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp2_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 3 -->
+                        <div class="lab-card-touch justify-between" id="exp3_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp3')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">03</span>
+                                <div>
+                                    <div class="text-white font-semibold">Even or Odd Number Check</div>
+                                    <div class="text-[9.5px] text-gray-400">Conditional modulo test</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp3')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp3_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 4 -->
+                        <div class="lab-card-touch justify-between" id="exp4_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp4')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">04</span>
+                                <div>
+                                    <div class="text-white font-semibold">Factorial of a Given Number</div>
+                                    <div class="text-[9.5px] text-gray-400">Loop factorial & zero checks</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp4')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp4_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 5 -->
+                        <div class="lab-card-touch justify-between" id="exp5_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp5')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">05</span>
+                                <div>
+                                    <div class="text-white font-semibold">Prime Number Verification</div>
+                                    <div class="text-[9.5px] text-gray-400">Square root optimized search</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp5')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp5_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 6 -->
+                        <div class="lab-card-touch justify-between" id="exp6_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp6')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">06</span>
+                                <div>
+                                    <div class="text-white font-semibold">Pandas Duplicate Detection</div>
+                                    <div class="text-[9.5px] text-gray-400">df.duplicated() Boolean Series</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp6')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp6_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 7 -->
+                        <div class="lab-card-touch justify-between" id="exp7_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp7')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">07</span>
+                                <div>
+                                    <div class="text-white font-semibold">Pandas Pivot Table Region Sale</div>
+                                    <div class="text-[9.5px] text-gray-400">pd.pivot_table sum aggregation</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp7')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp7_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 8 -->
+                        <div class="lab-card-touch justify-between" id="exp8_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp8')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">08</span>
+                                <div>
+                                    <div class="text-white font-semibold">DataFrame Split by School Code</div>
+                                    <div class="text-[9.5px] text-gray-400">df.groupby('school') grouping</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp8')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp8_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 9 -->
+                        <div class="lab-card-touch justify-between" id="exp9_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp9')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">09</span>
+                                <div>
+                                    <div class="text-white font-semibold">Bar Chart (Matplotlib)</div>
+                                    <div class="text-[9.5px] text-gray-400">plt.bar() with title, labels & y-grid</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp9')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp9_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                        <!-- Exp 10 -->
+                        <div class="lab-card-touch justify-between" id="exp10_card">
+                            <div class="flex items-center flex-1 cursor-pointer" onclick="loadSnippet('exp10')">
+                                <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">10</span>
+                                <div>
+                                    <div class="text-white font-semibold">Pie Chart (Matplotlib)</div>
+                                    <div class="text-[9.5px] text-gray-400">plt.pie() with autopct, explode & legend</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 ml-2">
+                                <button onclick="viewExpectedOutput('exp10')" title="View Record Output" class="px-2 py-1 rounded-lg bg-white/5 text-[9px] text-indigo-300 font-mono hover:bg-white/10">Output</button>
+                                <i id="exp10_done" class="fa-solid fa-circle-check text-green-400 hidden text-sm"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Virtual Datasets -->
+                <div class="glass-panel p-3 rounded-2xl border-white/5 space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-file-csv text-indigo-400"></i> Virtual Memory Datasets
+                        <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-csv text-indigo-400"></i> Virtual CSV Datasets
                         </span>
                         <div class="flex items-center gap-1.5">
-                            <button onclick="openCsvCreatorModal()" class="px-2.5 py-1 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-[9.5px] font-bold text-indigo-200 rounded-lg active:scale-95 transition flex items-center gap-1">
+                            <button onclick="openCsvCreatorModal()" class="px-2 py-0.8 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-[9px] font-bold text-indigo-200 rounded active:scale-95 transition flex items-center gap-1">
                                 <i class="fa-solid fa-plus text-[8px]"></i> New CSV
                             </button>
-                            <label class="px-2.5 py-1 bg-white/10 active:bg-white/20 text-[9.5px] font-bold text-white rounded-lg cursor-pointer transition">
-                                <i class="fa-solid fa-upload mr-1"></i> Mount CSV
+                            <label class="px-2 py-0.8 bg-white/10 active:bg-white/20 text-[9px] font-bold text-white rounded cursor-pointer transition">
+                                <i class="fa-solid fa-upload mr-0.5"></i> Mount
                                 <input type="file" id="fs-file-uploader" class="hidden" accept=".csv,.txt,.dat" onchange="uploadToVirtualFS(event)">
                             </label>
                         </div>
                     </div>
-                    <div id="virtual-fs-list" class="space-y-1.5 max-h-40 overflow-y-auto">
-                        <div class="text-[9.5px] font-mono text-gray-500">data.csv (Default Mounted)</div>
+                    <div id="virtual-fs-list" class="space-y-1.5 max-h-36 overflow-y-auto">
+                        <div class="text-[9px] font-mono text-gray-500">data.csv (Default Loaded)</div>
                     </div>
                 </div>
 
-                <!-- Syllabus Experiments Library -->
-                <div class="space-y-1.5">
-                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest ml-1">Pandas & Matplotlib Presets (Optional)</span>
-                    <div class="grid grid-cols-1 gap-1.5">
-                        <button onclick="loadSnippet('df_create')" id="df_create_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">01</span> DataFrame Creation & Summary <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_csv')" id="df_csv_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">02</span> CSV Data Wrangling & Indexing <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_filter')" id="df_filter_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">03</span> Boolean Masking & Querying <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_groupby')" id="df_groupby_btn" class="lab-card-touch"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">04</span> GroupBy & Statistical Aggregation <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_lineplot')" id="df_lineplot_btn" class="lab-card-touch border-indigo-500/30 bg-indigo-950/20"><span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">05</span> DataFrame Line Plot (Time Series) <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_barchart')" id="df_barchart_btn" class="lab-card-touch border-purple-500/30 bg-purple-950/20"><span class="font-mono text-[9px] text-purple-400 bg-purple-500/20 px-1.5 py-0.5 rounded mr-2">06</span> Grouped & Stacked Bar Chart <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_scatter')" id="df_scatter_btn" class="lab-card-touch border-emerald-500/30 bg-emerald-950/20"><span class="font-mono text-[9px] text-emerald-400 bg-emerald-500/20 px-1.5 py-0.5 rounded mr-2">07</span> DataFrame Scatter & Fit Line <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                        <button onclick="loadSnippet('df_histogram')" id="df_histogram_btn" class="lab-card-touch border-rose-500/30 bg-rose-950/20"><span class="font-mono text-[9px] text-rose-400 bg-rose-500/20 px-1.5 py-0.5 rounded mr-2">08</span> Histogram & Subplot Analytics <i class="fa-solid fa-circle-check ml-auto hidden text-green-400"></i></button>
-                    </div>
-                </div>
-
-                <!-- Saved Scripts -->
-                <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
-                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Saved Scripts</span>
+                <!-- Saved User Scripts -->
+                <div class="glass-panel p-3 rounded-2xl border-white/5 space-y-2">
+                    <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-wider">Saved Scripts</span>
                     <div class="flex gap-1.5">
-                        <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-3 py-2 text-xs outline-none border border-white/10 text-gray-200" placeholder="my_code.py">
-                        <button onclick="saveFile()" class="bg-indigo-600 active:bg-indigo-500 px-3.5 py-2 rounded-xl text-xs font-bold text-white transition">Save</button>
+                        <input id="filename-input" class="flex-1 bg-black/40 rounded-xl px-3 py-1.5 text-xs outline-none border border-white/10 text-gray-200" placeholder="my_code.py">
+                        <button onclick="saveFile()" class="bg-indigo-600 active:bg-indigo-500 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white transition">Save</button>
                     </div>
                     <div id="file-list" class="space-y-1.5 pt-1"></div>
                 </div>
@@ -552,69 +832,66 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation Dock -->
-    <nav class="h-[4.5rem] pb-[var(--sab)] px-6 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10">
-        <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400" data-target="editor">
-            <i class="fa-solid fa-code text-lg"></i>
-            <span class="text-[9px] font-bold">Editor</span>
+    <nav class="h-[4.5rem] pb-[var(--sab)] px-3 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10">
+        <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400 transition" data-target="editor">
+            <i class="fa-solid fa-code text-base"></i>
+            <span class="text-[8.5px] font-bold">Editor</span>
         </button>
-        <button onclick="switchTab('terminal')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-target="terminal">
-            <i class="fa-solid fa-terminal text-lg"></i>
-            <span class="text-[9px] font-bold">Terminal</span>
+        <button onclick="switchTab('variables')" class="nav-btn flex flex-col items-center gap-1 text-slate-500 transition" data-target="variables">
+            <i class="fa-solid fa-cube text-base"></i>
+            <span class="text-[8.5px] font-bold">Variables</span>
         </button>
-        <button onclick="switchTab('plots')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-target="plots">
-            <i class="fa-solid fa-chart-pie text-lg"></i>
-            <span class="text-[9px] font-bold">Plots</span>
+        <button onclick="switchTab('terminal')" class="nav-btn flex flex-col items-center gap-1 text-slate-500 transition" data-target="terminal">
+            <i class="fa-solid fa-terminal text-base"></i>
+            <span class="text-[8.5px] font-bold">Console</span>
         </button>
-        <button onclick="switchTab('files')" class="nav-btn flex flex-col items-center gap-1 text-slate-500" data-target="files">
-            <i class="fa-solid fa-shapes text-lg"></i>
-            <span class="text-[9px] font-bold">Syllabus</span>
+        <button onclick="switchTab('plots')" class="nav-btn flex flex-col items-center gap-1 text-slate-500 transition" data-target="plots">
+            <i class="fa-solid fa-chart-pie text-base"></i>
+            <span class="text-[8.5px] font-bold">Plots</span>
+        </button>
+        <button onclick="switchTab('files')" class="nav-btn flex flex-col items-center gap-1 text-slate-500 transition" data-target="files">
+            <i class="fa-solid fa-shapes text-base"></i>
+            <span class="text-[8.5px] font-bold">Syllabus</span>
         </button>
     </nav>
 
     <script>
-        // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(() => {});
+                // Register inline offline cache fallback
+                const swCode = `
+                    const CACHE_NAME = 'omni-spyder-v4';
+                    self.addEventListener('install', (e) => self.skipWaiting());
+                    self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+                    self.addEventListener('fetch', (e) => {
+                        if (e.request.method !== 'GET') return;
+                        e.respondWith(
+                            caches.match(e.request).then((res) => res || fetch(e.request).then((netRes) => {
+                                if (netRes && netRes.status === 200) {
+                                    const copy = netRes.clone();
+                                    caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
+                                }
+                                return netRes;
+                            })).catch(() => caches.match(e.request))
+                        );
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
             });
         }
 
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const btn = document.getElementById('pwa-install-btn');
-            if (btn) {
-                btn.classList.remove('hidden');
-                btn.addEventListener('click', async () => {
-                    btn.classList.add('hidden');
-                    deferredPrompt.prompt();
-                    await deferredPrompt.userChoice;
-                    deferredPrompt = null;
-                });
-            }
-        });
-
-        // Omni-Studio standard clean start template with dynamic Date & Time
+        // Clean Spyder Template: NO pre-loaded code on start, only docstring with date & time
         function generateOmniTemplate() {
             const now = new Date();
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            
-            const dayName = days[now.getDay()];
-            const monthName = months[now.getMonth()];
-            const dateNum = now.getDate();
-            const year = now.getFullYear();
-            const timeStr = now.toTimeString().split(' ')[0];
-
-            const formattedDate = `${dayName} ${monthName} ${dateNum} ${timeStr} ${year}`;
+            const formattedDate = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${now.toTimeString().split(' ')[0]} ${now.getFullYear()}`;
 
             return `# -*- coding: utf-8 -*-
 """
-Omni-Studio Editor
+Omni-Studio Spyder Editor
 
-This is a temporary script file.
 Created on ${formattedDate}
 
 @author: OmniLab User
@@ -628,8 +905,58 @@ Created on ${formattedDate}
         let currentFontSize = 13.5;
         const completedLabs = new Set();
         let modalResolve = null;
+        let activeMarkers = [];
+        let lintDebounceTimer = null;
+        let userDefinedVariables = [];
 
-        // Custom Toast Notification
+        const SPYDER_SYMBOLS = {
+            np: [
+                'abs', 'all', 'any', 'arange', 'arccos', 'arcsin', 'arctan', 'argmax', 'argmin',
+                'array', 'ascontiguousarray', 'average', 'clip', 'concatenate', 'cos', 'cross',
+                'cumsum', 'diff', 'dot', 'dtype', 'empty', 'empty_like', 'exp', 'expand_dims',
+                'eye', 'fft', 'flatten', 'flip', 'float64', 'floor', 'frombuffer', 'fromfile',
+                'fromfunction', 'fromiter', 'full', 'full_like', 'gradient', 'histogram',
+                'hstack', 'identity', 'inf', 'inner', 'int32', 'int64', 'interp', 'isin',
+                'isnan', 'linspace', 'log', 'log10', 'log2', 'matmul', 'max', 'mean',
+                'median', 'meshgrid', 'min', 'nan', 'nanmean', 'nanmedian', 'nansum',
+                'ones', 'ones_like', 'outer', 'pi', 'poly1d', 'polyfit', 'prod', 'ptp',
+                'random', 'ravel', 'reshape', 'round', 'sin', 'sort', 'split',
+                'sqrt', 'squeeze', 'stack', 'std', 'sum', 'tan', 'tile', 'trace',
+                'transpose', 'trapz', 'unique', 'var', 'vstack', 'where', 'zeros', 'zeros_like'
+            ],
+            pd: [
+                'DataFrame', 'Series', 'concat', 'crosstab', 'cut', 'date_range', 'get_dummies',
+                'isna', 'isnull', 'merge', 'notna', 'notnull', 'pivot_table', 'qcut',
+                'read_csv', 'read_excel', 'read_json', 'read_table', 'to_datetime', 'to_numeric'
+            ],
+            plt: [
+                'annotate', 'axhline', 'axis', 'axvline', 'bar', 'barh', 'boxplot', 'cla', 'clf',
+                'close', 'colorbar', 'contour', 'figure', 'grid', 'hist', 'imshow', 'legend', 'pie',
+                'plot', 'savefig', 'scatter', 'show', 'step', 'subplot', 'subplots', 'text',
+                'tight_layout', 'title', 'xlabel', 'xlim', 'xticks', 'ylabel', 'ylim', 'yticks'
+            ],
+            df: [
+                'apply', 'assign', 'columns', 'copy', 'corr', 'count', 'describe', 'drop',
+                'drop_duplicates', 'dropna', 'dtypes', 'duplicated', 'fillna', 'groupby', 'head', 'hist',
+                'iloc', 'index', 'info', 'isin', 'loc', 'max', 'mean', 'median', 'merge',
+                'min', 'nunique', 'pivot', 'pivot_table', 'plot', 'rename', 'replace',
+                'reset_index', 'shape', 'sort_index', 'sort_values', 'std', 'sum', 'tail',
+                'to_csv', 'to_dict', 'to_numpy', 'values'
+            ],
+            builtins: [
+                'abs', 'all', 'any', 'bool', 'dict', 'dir', 'enumerate', 'filter',
+                'float', 'format', 'getattr', 'help', 'id', 'input', 'int', 'isinstance',
+                'len', 'list', 'map', 'max', 'min', 'next', 'open', 'print', 'range',
+                'round', 'set', 'sorted', 'str', 'sum', 'tuple', 'type', 'zip'
+            ],
+            keywords: [
+                'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del',
+                'elif', 'else', 'except', 'False', 'finally', 'for', 'from', 'global',
+                'if', 'import', 'in', 'is', 'lambda', 'None', 'not', 'or', 'pass',
+                'raise', 'return', 'True', 'try', 'while', 'with', 'yield'
+            ]
+        };
+
         function showToast(msg, isSuccess = true) {
             const toast = document.getElementById('toast-box');
             const toastMsg = document.getElementById('toast-message');
@@ -644,10 +971,9 @@ Created on ${formattedDate}
             setTimeout(() => {
                 toast.classList.remove('opacity-100', 'translate-y-0');
                 toast.classList.add('opacity-0', '-translate-y-4');
-            }, 2500);
+            }, 2200);
         }
 
-        // Custom Confirmation Dialog
         function showConfirm(title, message) {
             return new Promise((resolve) => {
                 const modal = document.getElementById('custom-confirm-modal');
@@ -692,6 +1018,7 @@ Created on ${formattedDate}
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
             lineNumbers: true, 
+            gutters: ["CodeMirror-linenumbers", "spyder-error-gutter"],
             indentUnit: 4, 
             tabSize: 4,
             autoCloseBrackets: true, 
@@ -703,8 +1030,33 @@ Created on ${formattedDate}
             autocapitalize: false,
             extraKeys: {
                 "Ctrl-Enter": () => runCode(),
-                "Cmd-Enter": () => runCode()
+                "Cmd-Enter": () => runCode(),
+                "F9": () => runSelectionOrLine(),
+                "Shift-Enter": () => runSelectionOrLine(),
+                "Ctrl-Space": (cm) => triggerSpyderHint(cm)
             }
+        });
+
+        editor.on("cursorActivity", function(cm) {
+            const cursor = cm.getCursor();
+            document.getElementById("cursor-pos-display").innerText = `Ln ${cursor.line + 1}, Col ${cursor.ch + 1}`;
+        });
+
+        // Trigger Autocompletion when typing characters or dot
+        editor.on("inputRead", function(cm, change) {
+            if (change.origin === "+input") {
+                const text = change.text[0];
+                if (/^[a-zA-Z_\.]$/.test(text)) {
+                    triggerSpyderHint(cm);
+                }
+            }
+        });
+
+        // Real-Time Linter triggers on every edit
+        editor.on("change", () => {
+            localStorage.setItem("omni_clean_v3_code", editor.getValue());
+            scheduleRealtimeLint();
+            scanUserVariables();
         });
 
         editor.on("keydown", function(cm, e) {
@@ -717,24 +1069,315 @@ Created on ${formattedDate}
             }
         });
 
+        // Initialize editor with Clean Template (No demo code inside)
         const STORAGE_KEY = "omni_clean_v3_code";
         const savedCode = localStorage.getItem(STORAGE_KEY);
-
         if (savedCode && savedCode.trim()) {
             editor.setValue(savedCode);
         } else {
             editor.setValue(generateOmniTemplate());
         }
 
-        editor.on("change", () => {
-            localStorage.setItem(STORAGE_KEY, editor.getValue());
-        });
-
         window.addEventListener('resize', () => {
             if (editor) editor.refresh();
         });
 
-        window.addEventListener('DOMContentLoaded', () => initPyodide());
+        window.addEventListener('DOMContentLoaded', () => {
+            initPyodide();
+            scanUserVariables();
+            scheduleRealtimeLint();
+        });
+
+        function triggerSpyderHint(cm) {
+            cm.showHint({
+                hint: spyderHintCompleter,
+                completeSingle: false,
+                alignWithWord: true,
+                closeOnUnfocus: true
+            });
+        }
+
+        function spyderHintCompleter(cm) {
+            const cur = cm.getCursor();
+            const token = cm.getTokenAt(cur);
+            const lineText = cm.getLine(cur.line);
+            const textBeforeCursor = lineText.slice(0, cur.ch);
+
+            let start = token.start;
+            let end = cur.ch;
+            let completions = [];
+
+            // Case 1: Member dot completions (np., pd., plt., df.)
+            const dotMatch = textBeforeCursor.match(/([a-zA-Z_]\w*)\.([a-zA-Z_0-9]*)$/);
+
+            if (dotMatch) {
+                const objectName = dotMatch[1];
+                const memberPrefix = dotMatch[2] || "";
+                start = cur.ch - memberPrefix.length;
+                end = cur.ch;
+
+                let symbolList = [];
+                let badgeType = 'fn';
+
+                if (objectName === 'np') symbolList = SPYDER_SYMBOLS.np;
+                else if (objectName === 'pd') symbolList = SPYDER_SYMBOLS.pd;
+                else if (objectName === 'plt') symbolList = SPYDER_SYMBOLS.plt;
+                else if (objectName === 'df') symbolList = SPYDER_SYMBOLS.df;
+                else {
+                    symbolList = [...SPYDER_SYMBOLS.df, ...SPYDER_SYMBOLS.np];
+                }
+
+                const filtered = symbolList.filter(item => item.toLowerCase().startsWith(memberPrefix.toLowerCase()));
+                completions = filtered.map(item => ({
+                    text: item,
+                    displayText: item,
+                    render: function(element, self, data) {
+                        element.innerHTML = `
+                            <span class="font-mono text-white">${data.displayText}</span>
+                            <span class="hint-badge ${badgeType}">${badgeType}</span>
+                        `;
+                    }
+                }));
+            } else {
+                // Case 2: Identifier completion (Variables, Keywords, Built-ins)
+                const wordMatch = textBeforeCursor.match(/([a-zA-Z_]\w*)$/);
+                const prefix = wordMatch ? wordMatch[1] : "";
+                if (!prefix && !cm.state.completionActive) return null;
+
+                start = cur.ch - prefix.length;
+                end = cur.ch;
+
+                const seen = new Set();
+                const matched = [];
+
+                // 1. User variables created in editor (Spyder Top Priority)
+                userDefinedVariables.forEach(v => {
+                    if (v.name.toLowerCase().startsWith(prefix.toLowerCase()) && !seen.has(v.name)) {
+                        seen.add(v.name);
+                        matched.push({
+                            text: v.name,
+                            displayText: v.name,
+                            render: (el, s, d) => {
+                                el.innerHTML = `
+                                    <span class="font-mono text-amber-300 font-semibold">${d.displayText}</span>
+                                    <span class="hint-badge var">var</span>
+                                `;
+                            }
+                        });
+                    }
+                });
+
+                // 2. Modules (np, pd, plt)
+                ['np', 'pd', 'plt'].forEach(mod => {
+                    if (mod.startsWith(prefix.toLowerCase()) && !seen.has(mod)) {
+                        seen.add(mod);
+                        matched.push({
+                            text: mod,
+                            displayText: mod,
+                            render: (el, s, d) => {
+                                el.innerHTML = `
+                                    <span class="font-mono text-purple-300 font-semibold">${d.displayText}</span>
+                                    <span class="hint-badge fn">mod</span>
+                                `;
+                            }
+                        });
+                    }
+                });
+
+                // 3. Built-in functions
+                SPYDER_SYMBOLS.builtins.forEach(fn => {
+                    if (fn.startsWith(prefix.toLowerCase()) && !seen.has(fn)) {
+                        seen.add(fn);
+                        matched.push({
+                            text: fn + "()",
+                            displayText: fn,
+                            render: (el, s, d) => {
+                                el.innerHTML = `
+                                    <span class="font-mono text-indigo-300">${d.displayText}</span>
+                                    <span class="hint-badge fn">fn</span>
+                                `;
+                            }
+                        });
+                    }
+                });
+
+                // 4. Python Keywords
+                SPYDER_SYMBOLS.keywords.forEach(kw => {
+                    if (kw.startsWith(prefix.toLowerCase()) && !seen.has(kw)) {
+                        seen.add(kw);
+                        matched.push({
+                            text: kw + " ",
+                            displayText: kw,
+                            render: (el, s, d) => {
+                                el.innerHTML = `
+                                    <span class="font-mono text-sky-300">${d.displayText}</span>
+                                    <span class="hint-badge kw">kw</span>
+                                `;
+                            }
+                        });
+                    }
+                });
+
+                completions = matched;
+            }
+
+            if (completions.length === 0) return null;
+
+            return {
+                list: completions,
+                from: CodeMirror.Pos(cur.line, start),
+                to: CodeMirror.Pos(cur.line, end)
+            };
+        }
+
+        function scanUserVariables() {
+            const code = editor.getValue();
+            const found = new Map();
+
+            // Match assignments: variable = ...
+            const assignRegex = /(?:^|\n)\s*([a-zA-Z_]\w*)\s*=(?!=)/g;
+            let match;
+            while ((match = assignRegex.exec(code)) !== null) {
+                const varName = match[1];
+                if (!['if', 'elif', 'while', 'for', 'return', 'import', 'from'].includes(varName)) {
+                    found.set(varName, { name: varName, type: 'variable', size: '-', value: 'Defined' });
+                }
+            }
+
+            userDefinedVariables = Array.from(found.values());
+        }
+
+        function scheduleRealtimeLint() {
+            if (lintDebounceTimer) clearTimeout(lintDebounceTimer);
+            lintDebounceTimer = setTimeout(runRealtimeLint, 250);
+        }
+
+        async function runRealtimeLint() {
+            const code = editor.getValue();
+            clearDiagnostics();
+
+            if (!code.trim()) {
+                updateDiagnosticsUI(true, "Clean");
+                return;
+            }
+
+            // 1. Python AST verification via WASM Kernel (100% accurate, no string-escape false positives)
+            if (pyodide) {
+                try {
+                    pyodide.globals.set("_code_to_lint", code);
+                    const resStr = pyodide.runPython(`_spyder_lint(_code_to_lint)`);
+                    const res = JSON.parse(resStr);
+                    if (!res.ok && res.line) {
+                        highlightErrorLine(res.line - 1, res.offset || 1, res.msg);
+                        updateDiagnosticsUI(false, `SyntaxError Ln ${res.line}: ${res.msg}`);
+                        return;
+                    } else {
+                        updateDiagnosticsUI(true, "Clean");
+                        return;
+                    }
+                } catch (e) {
+                    // Fallback to client-side scanner if kernel busy
+                }
+            }
+
+            // 2. High-speed client-side syntax scan (Missing colons, unclosed brackets)
+            const jsErr = scanClientErrors(code);
+            if (jsErr) {
+                highlightErrorLine(jsErr.line, jsErr.col, jsErr.msg);
+                updateDiagnosticsUI(false, `Line ${jsErr.line + 1}: ${jsErr.msg}`);
+            } else {
+                updateDiagnosticsUI(true, "Clean");
+            }
+        }
+
+        function scanClientErrors(code) {
+            const lines = code.split('\n');
+            const stack = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                // Check missing colon on control headers
+                const needsColon = /^(?:if|elif|else|for|while|def|class|try|except|finally|with)\b/g;
+                if (needsColon.test(trimmed) && !trimmed.endsWith(':') && !trimmed.endsWith('\\') && !trimmed.startsWith('#')) {
+                    return { line: i, col: line.length, msg: "Missing expected ':' colon" };
+                }
+
+                // Check unclosed brackets
+                for (let chIdx = 0; chIdx < line.length; chIdx++) {
+                    const ch = line[chIdx];
+                    if (ch === '#' && (chIdx === 0 || line[chIdx - 1] === ' ')) break;
+                    if (ch === '(' || ch === '[' || ch === '{') {
+                        stack.push({ char: ch, line: i, col: chIdx });
+                    } else if (ch === ')' || ch === ']' || ch === '}') {
+                        if (stack.length === 0) {
+                            return { line: i, col: chIdx, msg: `Unmatched closing '${ch}'` };
+                        }
+                        const last = stack.pop();
+                        const pairs = { '(': ')', '[': ']', '{': '}' };
+                        if (pairs[last.char] !== ch) {
+                            return { line: i, col: chIdx, msg: `Expected '${pairs[last.char]}' but found '${ch}'` };
+                        }
+                    }
+                }
+            }
+
+            if (stack.length > 0) {
+                const unclosed = stack[stack.length - 1];
+                return { line: unclosed.line, col: unclosed.col, msg: `Unclosed bracket '${unclosed.char}'` };
+            }
+
+            return null;
+        }
+
+        function highlightErrorLine(lineIndex, colIndex = 1, errorMsg = "Syntax Error") {
+            if (lineIndex < 0 || lineIndex >= editor.lineCount()) return;
+
+            editor.addLineClass(lineIndex, "background", "spyder-error-line");
+
+            const lineLength = editor.getLine(lineIndex).length;
+            const startCol = Math.max(0, colIndex - 2);
+            const endCol = Math.max(startCol + 1, lineLength);
+            
+            const marker = editor.markText(
+                { line: lineIndex, ch: startCol },
+                { line: lineIndex, ch: endCol },
+                { className: "spyder-error-wave", title: errorMsg }
+            );
+            activeMarkers.push(marker);
+
+            const gutterEl = document.createElement("div");
+            gutterEl.className = "spyder-gutter-marker";
+            gutterEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i>`;
+            gutterEl.title = `Line ${lineIndex + 1}: ${errorMsg}`;
+            gutterEl.onclick = () => showToast(`Ln ${lineIndex + 1}: ${errorMsg}`, false);
+            editor.setGutterMarker(lineIndex, "spyder-error-gutter", gutterEl);
+        }
+
+        function clearDiagnostics() {
+            activeMarkers.forEach(m => m.clear());
+            activeMarkers = [];
+            for (let i = 0; i < editor.lineCount(); i++) {
+                editor.removeLineClass(i, "background", "spyder-error-line");
+                editor.setGutterMarker(i, "spyder-error-gutter", null);
+            }
+        }
+
+        function updateDiagnosticsUI(isClean, msg) {
+            const statusEl = document.getElementById("linter-status-display");
+            if (isClean) {
+                statusEl.innerHTML = `
+                    <i class="fa-solid fa-check text-green-400 text-[9px]"></i>
+                    <span class="text-green-400">${msg}</span>
+                `;
+            } else {
+                statusEl.innerHTML = `
+                    <i class="fa-solid fa-triangle-exclamation text-rose-400 text-[9px]"></i>
+                    <span class="text-rose-400 truncate max-w-[220px]" title="${msg}">${msg}</span>
+                `;
+            }
+        }
 
         async function initPyodide() {
             const bootIcon = document.getElementById("boot-icon");
@@ -742,7 +1385,7 @@ Created on ${formattedDate}
             const bootStatus = document.getElementById("boot-status");
 
             try {
-                if (bootStatus) bootStatus.innerText = "Loading Pyodide Core...";
+                if (bootStatus) bootStatus.innerText = "Loading WASM...";
                 pyodide = await loadPyodide();
 
                 if (bootStatus) bootStatus.innerText = "Mounting Pandas, NumPy & Matplotlib...";
@@ -750,7 +1393,7 @@ Created on ${formattedDate}
                 micropip = pyodide.pyimport("micropip");
 
                 await pyodide.runPythonAsync(`
-import io, base64, sys, builtins
+import io, base64, sys, builtins, json, ast, inspect
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -794,26 +1437,127 @@ def custom_show(*args, **kwargs):
 
 plt.show = custom_show
 
-async def async_input(prompt_text=""):
-    val = await requestAsyncInput(str(prompt_text))
-    print(f"{prompt_text}{val}")
-    return val
+async def _omni_async_input(prompt_text=""):
+    prompt_str = str(prompt_text)
+    val = await requestAsyncInput(prompt_str)
+    sys.stdout.write(f"{prompt_str}{val}\\n")
+    sys.stdout.flush()
+    return str(val)
 
-builtins.input = async_input
+builtins.input = _omni_async_input
+
+class _OmniInputTransformer(ast.NodeTransformer):
+    def __init__(self):
+        self.in_sync_func = 0
+
+    def visit_FunctionDef(self, node):
+        self.in_sync_func += 1
+        self.generic_visit(node)
+        self.in_sync_func -= 1
+        return node
+
+    def visit_AsyncFunctionDef(self, node):
+        self.generic_visit(node)
+        return node
+
+    def visit_Call(self, node):
+        self.generic_visit(node)
+        if isinstance(node.func, ast.Name) and node.func.id == 'input' and self.in_sync_func == 0:
+            new_call = ast.Call(
+                func=ast.Name(id='_omni_async_input', ctx=ast.Load()),
+                args=node.args,
+                keywords=node.keywords
+            )
+            return ast.copy_location(ast.Await(value=new_call), node)
+        return node
+
+async def _omni_run_code(user_code):
+    tree = ast.parse(user_code)
+    transformer = _OmniInputTransformer()
+    new_tree = transformer.visit(tree)
+    ast.fix_missing_locations(new_tree)
+    flags = ast.PyCF_ALLOW_TOP_LEVEL_AWAIT
+    compiled = compile(new_tree, "<editor>", "exec", flags=flags)
+    res = eval(compiled, globals())
+    if inspect.iscoroutine(res):
+        await res
+
+def _spyder_lint(code_str):
+    try:
+        ast.parse(code_str)
+        return json.dumps({"ok": True})
+    except SyntaxError as e:
+        return json.dumps({
+            "ok": False,
+            "line": e.lineno or 1,
+            "offset": e.offset or 1,
+            "msg": str(e.msg)
+        })
+    except Exception:
+        return json.dumps({"ok": True})
+
+def _get_spyder_workspace():
+    ignore = {
+        '__name__', '__doc__', '__package__', '__loader__', '__spec__',
+        '__annotations__', '__builtins__', 'io', 'base64', 'sys', 'builtins',
+        'json', 'pd', 'np', 'matplotlib', 'plt', 'showPlotMobile', 'requestAsyncInput',
+        'custom_show', '_omni_async_input', 'sample_csv', 'f', '_get_spyder_workspace',
+        '_spyder_lint', '_omni_run_code', '_OmniInputTransformer', 'inspect', 'ast',
+        '_code_to_lint', '_user_code_exec', '_line_code_exec'
+    }
+    vars_list = []
+    g = globals()
+    for k, v in list(g.items()):
+        if k.startswith('_') or k in ignore:
+            continue
+        try:
+            t = type(v).__name__
+            val_prev = ""
+            size_prev = ""
+            
+            if t == 'DataFrame':
+                size_prev = f"({v.shape[0]}, {v.shape[1]})"
+                val_prev = f"DataFrame: {v.shape[0]} rows × {v.shape[1]} cols"
+            elif t == 'Series':
+                size_prev = f"({len(v)},)"
+                val_prev = f"Series ({v.dtype})"
+            elif t == 'ndarray':
+                size_prev = str(v.shape)
+                val_prev = f"ndarray {v.dtype}"
+            elif t in ('list', 'tuple', 'set'):
+                size_prev = f"{len(v)}"
+                val_prev = str(v)[:40]
+            elif t == 'dict':
+                size_prev = f"{len(v)}"
+                val_prev = str(v)[:40]
+            else:
+                size_prev = "1"
+                val_prev = str(v)[:40]
+                
+            vars_list.append({
+                "name": k,
+                "type": t,
+                "size": size_prev,
+                "value": val_prev
+            })
+        except Exception:
+            pass
+    return json.dumps(vars_list)
 `);
 
                 pyodide.setStdout({ batched: (msg) => log(msg) });
 
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]";
-                statusText.innerText = "Python Ready";
+                statusText.innerText = "Spyder Ready";
                 statusText.classList.replace("text-gray-400", "text-green-400");
                 runBtn.disabled = false;
 
                 refreshFileList();
                 loadProgress();
+                scheduleRealtimeLint();
 
                 if (bootIcon) bootIcon.className = "fa-solid fa-circle-check text-green-400 text-sm";
-                if (bootText) bootText.innerText = "Engine Ready";
+                if (bootText) bootText.innerText = "Spyder Ready";
                 if (bootStatus) bootStatus.innerText = "Launching Lab...";
 
                 setTimeout(dismissSplash, 250);
@@ -824,7 +1568,7 @@ builtins.input = async_input
                 statusText.innerText = "Offline Err";
                 if (bootIcon) bootIcon.className = "fa-solid fa-triangle-exclamation text-rose-500 text-sm";
                 if (bootText) bootText.innerText = "Boot Failed";
-                setTimeout(dismissSplash, 800);
+                setTimeout(dismissSplash, 700);
             }
         }
 
@@ -861,7 +1605,7 @@ builtins.input = async_input
             const target = document.getElementById('plot-target');
             target.innerHTML = `
                 <div class="omni-plot-card">
-                    <img src="data:image/png;base64,${base64Data}" alt="Omni Matplotlib Plot">
+                    <img src="data:image/png;base64,${base64Data}" alt="Matplotlib Plot">
                 </div>
             `;
             document.getElementById("btn-download-plot").classList.remove("hidden");
@@ -883,10 +1627,13 @@ builtins.input = async_input
             const start = performance.now();
 
             try {
-                await pyodide.runPythonAsync(code);
+                pyodide.globals.set("_user_code_exec", code);
+                await pyodide.runPythonAsync(`_omni_run_code(_user_code_exec)`);
                 const elapsed = ((performance.now() - start) / 1000).toFixed(2);
                 timerLabel.innerText = `${elapsed}s`;
                 checkLabCompletion(code);
+                refreshVariableExplorer();
+                scheduleRealtimeLint();
             } catch (err) {
                 handlePythonError(err);
                 timerLabel.innerText = "Err";
@@ -895,17 +1642,119 @@ builtins.input = async_input
             }
         }
 
+        // Spyder F9: Run Selection or Current Line
+        async function runSelectionOrLine() {
+            triggerHaptic();
+            if (!pyodide) {
+                showToast("Python Kernel not ready", false);
+                return;
+            }
+
+            let codeToRun = editor.getSelection();
+            if (!codeToRun || !codeToRun.trim()) {
+                const cursor = editor.getCursor();
+                codeToRun = editor.getLine(cursor.line);
+                // Advance cursor down like Spyder F9
+                if (cursor.line + 1 < editor.lineCount()) {
+                    editor.setCursor({ line: cursor.line + 1, ch: 0 });
+                }
+            }
+
+            if (!codeToRun.trim()) return;
+
+            log(`>>> ${codeToRun.trim()}`, "text-indigo-300 font-bold");
+            switchTab('terminal');
+
+            try {
+                pyodide.globals.set("_line_code_exec", codeToRun);
+                const res = await pyodide.runPythonAsync(`_omni_run_code(_line_code_exec)`);
+                if (res !== undefined && res !== null) {
+                    log(String(res), "text-emerald-300");
+                }
+                refreshVariableExplorer();
+                scheduleRealtimeLint();
+            } catch (err) {
+                handlePythonError(err);
+            }
+        }
+
         function handlePythonError(err) {
             const errStr = err.toString();
             let lineNum = "Unknown";
-            const lineMatch = errStr.match(/File "<exec>", line (\d+)/);
+            const lineMatch = errStr.match(/File "<(?:editor|exec)>", line (\d+)/);
             if (lineMatch) lineNum = lineMatch[1];
             
             const lines = errStr.split('\n').filter(l => l.trim().length > 0);
             let errMsg = lines[lines.length - 1].replace("PythonError: ", "").trim();
             
             const formattedError = `❌ Line ${lineNum} Error\n↳ ${errMsg}`;
-            log(formattedError, "text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl my-1.5 font-mono text-[11px] leading-relaxed");
+            log(formattedError, "text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl my-1 font-mono text-[10.5px] leading-relaxed");
+
+            if (lineNum !== "Unknown") {
+                const ln = parseInt(lineNum) - 1;
+                highlightErrorLine(ln, 1, errMsg);
+                updateDiagnosticsUI(false, `Line ${lineNum}: ${errMsg}`);
+            }
+        }
+
+        let currentLoadedVars = [];
+
+        async function refreshVariableExplorer() {
+            if (!pyodide) return;
+            try {
+                const jsonStr = await pyodide.runPythonAsync(`_get_spyder_workspace()`);
+                currentLoadedVars = JSON.parse(jsonStr);
+                
+                currentLoadedVars.forEach(v => {
+                    const idx = userDefinedVariables.findIndex(u => u.name === v.name);
+                    if (idx >= 0) userDefinedVariables[idx] = v;
+                    else userDefinedVariables.push(v);
+                });
+
+                renderVariablesTable(currentLoadedVars);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderVariablesTable(vars) {
+            const tbody = document.getElementById("variables-table-body");
+            const badge = document.getElementById("vars-count-badge");
+            badge.innerText = `${vars.length} vars`;
+
+            if (vars.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-500 text-[10px]">No active user variables in workspace.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = "";
+            vars.forEach(v => {
+                const tr = document.createElement("tr");
+                tr.className = "border-b border-white/5 hover:bg-white/[0.02] transition";
+
+                let typeColor = "text-indigo-400";
+                if (v.type === 'DataFrame' || v.type === 'Series') typeColor = "text-emerald-400";
+                else if (v.type === 'ndarray') typeColor = "text-purple-400";
+                else if (v.type === 'int' || v.type === 'float') typeColor = "text-amber-400";
+
+                tr.innerHTML = `
+                    <td class="p-2 font-bold text-white">${v.name}</td>
+                    <td class="p-2 ${typeColor} font-semibold">${v.type}</td>
+                    <td class="p-2 text-gray-400 text-[9.5px]">${v.size}</td>
+                    <td class="p-2 text-gray-300 truncate max-w-[130px]" title="${v.value}">${v.value}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterVariablesTable() {
+            const query = document.getElementById("var-search-input").value.toLowerCase();
+            const filtered = currentLoadedVars.filter(v => 
+                v.name.toLowerCase().includes(query) || 
+                v.type.toLowerCase().includes(query) || 
+                v.value.toLowerCase().includes(query)
+            );
+            renderVariablesTable(filtered);
         }
 
         function uploadToVirtualFS(event) {
@@ -918,7 +1767,7 @@ builtins.input = async_input
                 pyodide.FS.writeFile(file.name, data);
                 updateVirtualFSUI();
                 showToast(`Mounted '${file.name}' into virtual memory`);
-                log(`Mounted '${file.name}' into memory. Access with pd.read_csv('${file.name}')`, "text-indigo-400");
+                log(`Mounted '${file.name}'. Access via pd.read_csv('${file.name}')`, "text-indigo-400");
             };
             reader.readAsArrayBuffer(file);
         }
@@ -936,21 +1785,15 @@ builtins.input = async_input
             container.innerHTML = "";
             files.forEach(name => {
                 const div = document.createElement("div");
-                div.className = "flex items-center justify-between p-2 rounded-xl bg-white/5 text-[10.5px] font-mono text-gray-300 border border-white/5 hover:border-indigo-500/30 transition";
+                div.className = "flex items-center justify-between p-2 rounded-xl bg-white/5 text-[10px] font-mono text-gray-300 border border-white/5";
                 div.innerHTML = `
-                    <span class="truncate max-w-[130px] flex items-center cursor-pointer" onclick="insertCsvCode('${name}')" title="Insert pd.read_csv into code">
+                    <span class="truncate max-w-[140px] flex items-center cursor-pointer" onclick="insertCsvCode('${name}')">
                         <i class="fa-solid fa-file-csv mr-1.5 text-indigo-400"></i>${name}
                     </span>
-                    <div class="flex items-center gap-2 shrink-0">
-                        <button onclick="insertCsvCode('${name}')" title="Insert pd.read_csv code" class="px-1.5 py-0.5 rounded bg-indigo-600/20 text-indigo-300 text-[9px] font-sans font-semibold active:scale-95 transition">
-                            Use
-                        </button>
-                        <button onclick="editVirtualCsv('${name}')" title="Inspect/Edit" class="text-indigo-400 active:text-indigo-300 active:scale-95 transition px-1">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </button>
-                        <button onclick="downloadFromFS('${name}')" title="Download" class="text-emerald-400 active:text-emerald-300 active:scale-95 transition px-1">
-                            <i class="fa-solid fa-download"></i>
-                        </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="insertCsvCode('${name}')" title="Insert pd.read_csv" class="px-1.5 py-0.5 rounded bg-indigo-600/20 text-indigo-300 text-[8.5px] font-sans font-semibold">Use</button>
+                        <button onclick="editVirtualCsv('${name}')" class="text-indigo-400 text-xs px-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="downloadFromFS('${name}')" class="text-emerald-400 text-xs px-1"><i class="fa-solid fa-download"></i></button>
                     </div>`;
                 container.appendChild(div);
             });
@@ -961,7 +1804,7 @@ builtins.input = async_input
             const snippet = `\nimport pandas as pd\ndf = pd.read_csv('${filename}')\nprint(df.head())\n`;
             insertMobile(snippet);
             switchTab('editor');
-            showToast(`Inserted read_csv('${filename}') snippet!`);
+            showToast(`Inserted read_csv('${filename}')`);
         }
 
         let csvGridData = [
@@ -972,7 +1815,7 @@ builtins.input = async_input
         ];
         let isRawCsvMode = false;
 
-        function openCsvCreatorModal(targetFilename = "my_data.csv") {
+        function openCsvCreatorModal(targetFilename = "dataset.csv") {
             triggerHaptic();
             document.getElementById('csv-filename').value = targetFilename;
             isRawCsvMode = false;
@@ -999,7 +1842,7 @@ builtins.input = async_input
 
             csvGridData.forEach((row, rowIndex) => {
                 const tr = document.createElement('tr');
-                tr.className = rowIndex === 0 ? "bg-white/10 font-bold border-b border-white/15" : "border-b border-white/5 hover:bg-white/[0.02]";
+                tr.className = rowIndex === 0 ? "bg-white/10 font-bold border-b border-white/15" : "border-b border-white/5";
 
                 row.forEach((cellVal, colIndex) => {
                     const td = document.createElement(rowIndex === 0 ? 'th' : 'td');
@@ -1016,7 +1859,6 @@ builtins.input = async_input
                     tr.appendChild(td);
                 });
 
-                // Row action button (Delete row, if not header and more than 1 data row)
                 const actionTd = document.createElement('td');
                 actionTd.className = "w-6 p-1 text-center";
                 if (rowIndex > 0) {
@@ -1050,7 +1892,7 @@ builtins.input = async_input
                 csvGridData.splice(idx, 1);
                 renderCsvTableGrid();
             } else {
-                showToast("Need at least one data row", false);
+                showToast("Keep at least one data row", false);
             }
         }
 
@@ -1062,14 +1904,12 @@ builtins.input = async_input
             const toggleBtn = document.getElementById('csv-mode-toggle-btn');
 
             if (!isRawCsvMode) {
-                // Switch to Raw Mode
                 rawTextarea.value = csvGridData.map(r => r.join(',')).join('\n');
                 gridContainer.classList.add('hidden');
                 rawContainer.classList.remove('hidden');
                 toggleBtn.innerText = "Table View";
                 isRawCsvMode = true;
             } else {
-                // Parse Raw text back to grid
                 const lines = rawTextarea.value.trim().split('\n').filter(l => l.trim().length > 0);
                 if (lines.length > 0) {
                     csvGridData = lines.map(line => line.split(',').map(item => item.trim()));
@@ -1100,26 +1940,23 @@ builtins.input = async_input
                     ['Student', 'Physics', 'Chemistry', 'Maths'],
                     ['Aravind', '88', '82', '95'],
                     ['Navaneeth', '90', '85', '92'],
-                    ['Nandagopan', '84', '78', '89'],
-                    ['Aromal', '82', '88', '85']
+                    ['Nandagopan', '84', '78', '89']
                 ];
             } else if (preset === 'timeseries') {
-                document.getElementById('csv-filename').value = "sensor_stream.csv";
+                document.getElementById('csv-filename').value = "sensor.csv";
                 csvGridData = [
-                    ['Timestamp_s', 'Voltage_V', 'Current_mA'],
-                    ['0.0', '0.00', '0.0'],
-                    ['1.0', '1.80', '0.4'],
-                    ['2.0', '3.30', '0.8'],
-                    ['3.0', '4.50', '1.2'],
-                    ['4.0', '5.20', '1.5']
+                    ['Timestamp_s', 'Voltage_V'],
+                    ['0.0', '0.00'],
+                    ['1.0', '1.80'],
+                    ['2.0', '3.30'],
+                    ['3.0', '4.50']
                 ];
             } else if (preset === 'blank') {
-                document.getElementById('csv-filename').value = "new_data.csv";
+                document.getElementById('csv-filename').value = "dataset.csv";
                 csvGridData = [
-                    ['Col_1', 'Col_2', 'Col_3'],
-                    ['0', '0', '0'],
-                    ['0', '0', '0'],
-                    ['0', '0', '0']
+                    ['Col_1', 'Col_2'],
+                    ['0', '0'],
+                    ['0', '0']
                 ];
             }
 
@@ -1128,7 +1965,7 @@ builtins.input = async_input
             } else {
                 renderCsvTableGrid();
             }
-            showToast(`Loaded ${preset} dataset preset`);
+            showToast(`Loaded ${preset} preset`);
         }
 
         function saveCreatedCsv() {
@@ -1142,19 +1979,16 @@ builtins.input = async_input
             if (!filename) filename = "data.csv";
             if (!filename.endsWith('.csv') && !filename.endsWith('.txt')) filename += ".csv";
 
-            let finalCsvContent = "";
-            if (isRawCsvMode) {
-                finalCsvContent = document.getElementById('csv-raw-input').value.trim();
-            } else {
-                finalCsvContent = csvGridData.map(r => r.join(',')).join('\n');
-            }
+            let finalCsvContent = isRawCsvMode 
+                ? document.getElementById('csv-raw-input').value.trim() 
+                : csvGridData.map(r => r.join(',')).join('\n');
 
             try {
                 pyodide.FS.writeFile(filename, finalCsvContent);
                 updateVirtualFSUI();
                 closeCsvCreatorModal();
-                showToast(`Created & Mounted '${filename}'!`);
-                log(`✓ Created dataset '${filename}'. Use: pd.read_csv('${filename}')`, "text-indigo-400 font-mono text-[11px]");
+                showToast(`Created '${filename}'`);
+                log(`Created dataset '${filename}'. Use: pd.read_csv('${filename}')`, "text-indigo-400 font-mono text-[10.5px]");
             } catch (err) {
                 showToast("Save failed: " + err, false);
             }
@@ -1185,190 +2019,429 @@ builtins.input = async_input
                 a.download = filename;
                 a.click();
             } catch(e) {
-                showToast("Could not export file: " + e, false);
+                showToast("Could not export: " + e, false);
             }
         }
 
-        const snippets = {
-            df_create: `# 1. DataFrame Creation, Head & Summary Statistics
-import pandas as pd
+        const collegeExperiments = {
+            exp1: {
+                title: "1. Python code for arithmetic operations",
+                code: `# Program for arithmetic operations
+num1 = float(input("Enter the first number: "))
+num2 = float(input("Enter the second number: "))
 
-students_data = {
-    'Name': ['Aravind', 'Navaneeth', 'Nandagopan', 'Aromal', 'Sangi'],
-    'Physics': [92, 88, 85, 79, 94],
-    'Maths': [95, 90, 88, 84, 96],
-    'Attendance_%': [96.0, 91.5, 88.0, 85.0, 98.0]
-}
-df = pd.DataFrame(students_data)
+add = num1 + num2
+sub = num1 - num2
+mul = num1 * num2
+div = num1 / num2
 
-print("--- DataFrame Head ---")
-print(df)
+print("\\nAddition =", add)
+print("Subtraction =", sub)
+print("Multiplication =", mul)
+print("Division =", div)
+`,
+                expectedOutput: `Enter the first number: 25
+Enter the second number: 4
 
-print("\n--- Summary Statistics (describe) ---")
-print(df.describe())`,
+Addition = 29.0
+Subtraction = 21.0
+Multiplication = 100.0
+Division = 6.25`
+            },
 
-            df_csv: `# 2. Read CSV into DataFrame & Column Manipulation
-import pandas as pd
+            exp2: {
+                title: "2. Python code for sorting a list of numbers",
+                code: `# Program for sorting a list of numbers
+n = int(input("Enter the number of elements: "))
+numbers = []
 
-df = pd.read_csv('data.csv')
-df['Total'] = df['Physics'] + df['Chemistry'] + df['Maths']
-df['Average'] = (df['Total'] / 3).round(2)
+for i in range(n):
+    num = float(input(f"Enter element {i+1}: "))
+    numbers.append(num)
 
-print("--- Processed Student DataFrame ---")
-print(df[['Student', 'Physics', 'Total', 'Average']])`,
+print("\\nOriginal list:", numbers)
 
-            df_filter: `# 3. DataFrame Filtering & Slicing (Boolean Indexing)
-import pandas as pd
+# Sorting the list in ascending order
+numbers.sort()
+print("Sorted list in ascending order:", numbers)
+`,
+                expectedOutput: `Enter the number of elements: 5
+Enter element 1: 45
+Enter element 2: 12
+Enter element 3: 89
+Enter element 4: 2
+Enter element 5: 33
 
-df = pd.read_csv('data.csv')
-high_achievers = df[(df['Physics'] >= 85) & (df['Maths'] >= 90)]
+Original list: [45.0, 12.0, 89.0, 2.0, 33.0]
+Sorted list in ascending order: [2.0, 12.0, 33.0, 45.0, 89.0]`
+            },
 
-print("--- High Achievers (Physics >= 85 & Maths >= 90) ---")
-print(high_achievers[['Student', 'Physics', 'Maths']])`,
+            exp3: {
+                title: "3. Program to check whether a given number is even or odd",
+                code: `# Program to check whether a given number is even or odd
+number = int(input("Enter an integer: "))
 
-            df_groupby: `# 4. GroupBy Operations & Category Aggregation
+if number % 2 == 0:
+    print(f"\\n{number} is an Even number.")
+else:
+    print(f"\\n{number} is an Odd number.")
+`,
+                expectedOutput: `Enter an integer: 18
+
+18 is an Even number.`
+            },
+
+            exp4: {
+                title: "4. Program to calculate the factorial of a given number",
+                code: `# Program to calculate the factorial of a given number
+number = int(input("Enter a positive integer: "))
+factorial = 1
+
+if number < 0:
+    print("\\nFactorial does not exist for negative numbers.")
+elif number == 0:
+    print("\\nThe factorial of 0 is 1.")
+else:
+    for i in range(1, number + 1):
+        factorial *= i
+    print(f"\\nThe factorial of {number} is {factorial}.")
+`,
+                expectedOutput: `Enter a positive integer: 6
+
+The factorial of 6 is 720.`
+            },
+
+            exp5: {
+                title: "5. Program to check if a given number is a prime number",
+                code: `# Program to check if a given number is a prime number
+number = int(input("Enter a number: "))
+is_prime = True
+
+if number <= 1:
+    is_prime = False
+else:
+    # Optimized: checking factors up to the square root of the number
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            is_prime = False
+            break
+
+if is_prime:
+    print(f"\\n{number} is a prime number!")
+else:
+    print(f"\\n{number} is NOT a prime number!")
+`,
+                expectedOutput: `Enter a number: 29
+
+29 is a prime number!`
+            },
+
+            exp6: {
+                title: "6. Pandas program to detect duplicates using duplicated() method",
+                code: `# Program to detect duplicates using duplicated() method
 import pandas as pd
 
 data = {
-    'Department': ['Physics', 'Physics', 'Chemistry', 'Chemistry', 'Maths', 'Maths'],
-    'Semester': ['S1', 'S2', 'S1', 'S2', 'S1', 'S2'],
-    'Score': [85, 90, 78, 82, 92, 95]
+    "student_id": [101, 102, 103, 101, 104, 102],
+    "name": ["John", "Emma", "Alex", "John", "Sophia", "Emma"],
+    "department": ["Physics", "Math", "Physics", "Physics", "Chemistry", "Math"],
+    "score": [85, 92, 78, 85, 95, 92]
 }
+
 df = pd.DataFrame(data)
-grouped = df.groupby('Department')['Score'].agg(['mean', 'max', 'count'])
+x = df.duplicated()
 
-print("--- Department-wise Score Analytics ---")
-print(grouped)`,
+print("Original DataFrame:")
+print(df)
+print("\\nDuplicate Detection (Boolean Series):")
+print(x)
+`,
+                expectedOutput: `Original DataFrame:
+   student_id    name department  score
+0         101    John    Physics     85
+1         102    Emma       Math     92
+2         103    Alex    Physics     78
+3         101    John    Physics     85
+4         104  Sophia  Chemistry     95
+5         102    Emma       Math     92
 
-            df_lineplot: `# 5. DataFrame Line Plot: Experimental Voltage Discharge
+Duplicate Detection (Boolean Series):
+0    False
+1    False
+2    False
+3     True
+4    False
+5     True
+dtype: bool`
+            },
+
+            exp7: {
+                title: "7. Pandas program to create a Pivot table and find region wise total sale",
+                code: `# Program to create a Pivot table and find the region wise total sale
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
-time = np.linspace(0, 10, 50)
-v1 = 5.0 * np.exp(-0.2 * time)
-v2 = 5.0 * np.exp(-0.5 * time)
+data = {
+    'Region': ['East', 'West', 'East', 'South', 'West', 'North', 'East', 'South'],
+    'Item': ['Apple', 'Banana', 'Orange', 'Apple', 'Banana', 'Apple', 'Orange', 'Banana'],
+    'Sale': [100, 200, 150, 250, 300, 150, 200, 100]
+}
 
-df = pd.DataFrame({'Time': time, 'Resistor_10k': v1, 'Resistor_22k': v2})
+df = pd.DataFrame(data)
+print("Original DataFrame:")
+print(df)
 
-plt.figure(figsize=(6, 3.8))
-plt.plot(df['Time'], df['Resistor_10k'], label='R = 10 kΩ', color='#4f46e5', lw=2)
-plt.plot(df['Time'], df['Resistor_22k'], label='R = 22 kΩ', color='#e11d48', lw=2, linestyle='--')
+pivot_df = pd.pivot_table(df, values='Sale', index='Region', aggfunc='sum')
+print("\\nRegion wise total sale:")
+print(pivot_df)
+`,
+                expectedOutput: `Original DataFrame:
+  Region    Item  Sale
+0   East   Apple   100
+1   West  Banana   200
+2   East  Orange   150
+3  South   Apple   250
+4   West  Banana   300
+5  North   Apple   150
+6   East  Orange   200
+7  South  Banana   100
 
-plt.title('RC Circuit Discharge Characteristics', fontsize=12, pad=10)
-plt.xlabel('Time (seconds)', labelpad=6)
-plt.ylabel('Capacitor Voltage (V)', labelpad=6)
-plt.grid(True, linestyle='--', alpha=0.6)
-plt.legend()
-plt.tight_layout()
-plt.show()`,
+Region wise total sale:
+        Sale
+Region      
+East     450
+North    150
+South    350
+West     500`
+            },
 
-            df_barchart: `# 6. Grouped Bar Chart from DataFrame
+            exp8: {
+                title: "8. Pandas program to split dataframe into groups based on school code",
+                code: `# Program to split dataframe into groups based on school code
 import pandas as pd
+
+# Prevent pandas from wrapping columns on small terminal widths
+pd.set_option('display.expand_frame_repr', False)
+
+student_data = pd.DataFrame({
+    'school': ['s001', 's002', 's003', 's001', 's002', 's004'],
+    'class': ['V', 'V', 'VI', 'VI', 'V', 'VI'],
+    'name': ['Alberto Franco', 'Gino Mcneill', 'Ryan Parkes', 'Eesha Hinton', 'Gino Mcneill', 'David Parkes'],
+    'date_Of_Birth': ['15/05/2002', '17/05/2002', '16/02/1999', '25/09/1998', '11/05/2002', '15/09/1997'],
+    'age': [12, 12, 13, 13, 14, 12],
+    'height': [173, 192, 186, 167, 151, 159],
+    'weight': [35, 32, 33, 30, 31, 32],
+    'address': ['street1', 'street2', 'street3', 'street1', 'street2', 'street4']
+}, index=['S1', 'S2', 'S3', 'S4', 'S5', 'S6'])
+
+print("Original DataFrame:")
+print(student_data)
+
+print('\\nSplit the data based on school code:')
+grouped = student_data.groupby('school')
+
+for name, group in grouped:
+    print(f"\\nGroup: {name}")
+    print(group)
+
+print("\\nType of GroupBy object:")
+print(type(grouped))
+`,
+                expectedOutput: `Original DataFrame:
+   school class            name date_Of_Birth  age  height  weight  address
+S1   s001     V  Alberto Franco    15/05/2002   12     173      35  street1
+S2   s002     V    Gino Mcneill    17/05/2002   12     192      32  street2
+S3   s003    VI     Ryan Parkes    16/02/1999   13     186      33  street3
+S4   s001    VI    Eesha Hinton    25/09/1998   13     167      30  street1
+S5   s002     V    Gino Mcneill    11/05/2002   14     151      31  street2
+S6   s004    VI    David Parkes    15/09/1997   12     159      32  street4
+
+Split the data based on school code:
+
+Group: s001
+   school class            name date_Of_Birth  age  height  weight  address
+S1   s001     V  Alberto Franco    15/05/2002   12     173      35  street1
+S4   s001    VI    Eesha Hinton    25/09/1998   13     167      30  street1
+
+Group: s002
+   school class          name date_Of_Birth  age  height  weight  address
+S2   s002     V  Gino Mcneill    17/05/2002   12     192      32  street2
+S5   s002     V  Gino Mcneill    11/05/2002   14     151      31  street2
+
+Group: s003
+   school class         name date_Of_Birth  age  height  weight  address
+S3   s003    VI  Ryan Parkes    16/02/1999   13     186      33  street3
+
+Group: s004
+   school class          name date_Of_Birth  age  height  weight  address
+S6   s004    VI  David Parkes    15/09/1997   12     159      32  street4
+
+Type of GroupBy object:
+<class 'pandas.core.groupby.generic.DataFrameGroupBy'>`
+            },
+
+            exp9: {
+                title: "9. Matplotlib program to create a Bar Chart",
+                code: `# Program to create a Bar Chart using Matplotlib
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('data.csv')
-ax = df.plot(x='Student', y=['Physics', 'Chemistry', 'Maths'], kind='bar', figsize=(6, 3.8), colormap='viridis', width=0.7)
+# Data for the bar chart
+subjects = ['Python', 'Data Science', 'Physics', 'Maths', 'Web Dev']
+marks = [85, 90, 78, 92, 88]
+colors = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899']
 
-plt.title('Comparative Subject Performance', fontsize=12, pad=10)
-plt.xlabel('Student Name', labelpad=6)
-plt.ylabel('Marks Obtained', labelpad=6)
+# Creating figure and plotting bar chart
+plt.figure(figsize=(6, 4))
+plt.bar(subjects, marks, color=colors, width=0.55, edgecolor='black')
+
+# Adding essential labels, title and grid
+plt.title('Subject Marks Analysis', fontsize=12, fontweight='bold', pad=12)
+plt.xlabel('Subjects', fontsize=10, labelpad=8)
+plt.ylabel('Marks Obtained', fontsize=10, labelpad=8)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.xticks(rotation=15)
-plt.tight_layout()
-plt.show()`,
 
-            df_scatter: `# 7. DataFrame Scatter Plot & Linear Regression Fit
-import pandas as pd
-import numpy as np
+# Display plot in Plots Tab
+plt.tight_layout()
+plt.show()
+`,
+                expectedOutput: `📊 Graph Output (Rendered in Plots Tab):
+• Chart Type: Bar Chart (plt.bar)
+• Categories (X-Axis): ['Python', 'Data Science', 'Physics', 'Maths', 'Web Dev']
+• Values (Y-Axis): [85, 90, 78, 92, 88]
+• Essential Functions Used:
+  - plt.figure(figsize=...)
+  - plt.bar(..., color=..., width=..., edgecolor=...)
+  - plt.title(..., fontsize=...)
+  - plt.xlabel(...) & plt.ylabel(...)
+  - plt.grid(axis='y')
+  - plt.tight_layout() & plt.show()`
+            },
+
+            exp10: {
+                title: "10. Matplotlib program to create a Pie Chart",
+                code: `# Program to create a Pie Chart using Matplotlib
 import matplotlib.pyplot as plt
 
-df = pd.DataFrame({
-    'Mass_kg': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7],
-    'Extension_cm': [1.9, 4.1, 6.2, 7.9, 10.1, 12.0, 14.2]
-})
+# Data for the pie chart
+activities = ['Study', 'Lab Work', 'Sports', 'Sleep', 'Entertainment']
+hours = [6, 4, 2, 8, 4]
+colors = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#f43f5e']
 
-m, c = np.polyfit(df['Mass_kg'], df['Extension_cm'], 1)
-df['Fit_Line'] = m * df['Mass_kg'] + c
+# Explode the 1st slice (Study) to highlight it
+explode = [0.08, 0, 0, 0, 0]
 
-plt.figure(figsize=(6, 3.8))
-plt.scatter(df['Mass_kg'], df['Extension_cm'], color='#0284c7', s=45, label='Measured Extension', zorder=5)
-plt.plot(df['Mass_kg'], df['Fit_Line'], color='#4f46e5', lw=2, label=f'Fit: y = {m:.2f}x + {c:.2f}')
+# Creating figure and plotting pie chart
+plt.figure(figsize=(5.5, 4.5))
+plt.pie(hours, 
+        labels=activities, 
+        autopct='%1.1f%%', 
+        startangle=140, 
+        explode=explode, 
+        colors=colors, 
+        shadow=True)
 
-plt.title('Hooke\\'s Law Verification', fontsize=12, pad=10)
-plt.xlabel('Mass (kg)', labelpad=6)
-plt.ylabel('Extension (cm)', labelpad=6)
-plt.grid(True, linestyle='--', alpha=0.6)
-plt.legend()
+# Adding chart title, legend and aspect ratio
+plt.title('Daily Time Allocation (24 Hours)', fontsize=12, fontweight='bold', pad=14)
+plt.legend(activities, title="Activities", loc="upper right", bbox_to_anchor=(1.25, 1))
+plt.axis('equal')
+
+# Display plot in Plots Tab
 plt.tight_layout()
-plt.show()`,
-
-            df_histogram: `# 8. DataFrame Distribution Histogram & Subplots
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-np.random.seed(42)
-df = pd.DataFrame({
-    'Lab_Batch_A': np.random.normal(75, 8, 100),
-    'Lab_Batch_B': np.random.normal(82, 6, 100)
-})
-
-fig, axes = plt.subplots(1, 2, figsize=(6.5, 3.4), sharey=True)
-
-df['Lab_Batch_A'].plot.hist(ax=axes[0], bins=8, color='#4f46e5', alpha=0.7, edgecolor='black')
-axes[0].set_title('Batch A Distribution', fontsize=10)
-axes[0].set_xlabel('Score')
-axes[0].grid(True, alpha=0.4)
-
-df['Lab_Batch_B'].plot.hist(ax=axes[1], bins=8, color='#0284c7', alpha=0.7, edgecolor='black')
-axes[1].set_title('Batch B Distribution', fontsize=10)
-axes[1].set_xlabel('Score')
-axes[1].grid(True, alpha=0.4)
-
-plt.tight_layout()
-plt.show()`
+plt.show()
+`,
+                expectedOutput: `🥧 Graph Output (Rendered in Plots Tab):
+• Chart Type: Pie Chart (plt.pie)
+• Slices: ['Study', 'Lab Work', 'Sports', 'Sleep', 'Entertainment']
+• Hours Distribution: [6, 4, 2, 8, 4] (Total = 24 hrs)
+• Percentage Split: 25.0%, 16.7%, 8.3%, 33.3%, 16.7%
+• Essential Functions Used:
+  - plt.figure(figsize=...)
+  - plt.pie(..., labels=..., autopct='%1.1f%%', explode=..., shadow=True)
+  - plt.title(..., fontsize=...)
+  - plt.legend(title="...", bbox_to_anchor=...)
+  - plt.axis('equal')
+  - plt.tight_layout() & plt.show()`
+            }
         };
 
         async function loadSnippet(k) {
             triggerHaptic();
-            const confirmed = await showConfirm("Load Experiment", "Load this experiment script into the editor? Any unsaved changes in the editor will be replaced.");
+            const exp = collegeExperiments[k];
+            if (!exp) return;
+
+            const confirmed = await showConfirm("Load Experiment", `Load "${exp.title}" into the Spyder editor? Current editor content will be replaced.`);
             if (confirmed) {
-                editor.setValue(snippets[k]);
+                editor.setValue(exp.code);
+                document.getElementById('active-filename').innerText = `${k}.py`;
                 switchTab('editor');
-                showToast("Experiment loaded into editor");
+                showToast(`Loaded Experiment ${k.replace('exp', '')}`);
             }
         }
 
+        function viewExpectedOutput(k) {
+            triggerHaptic();
+            const exp = collegeExperiments[k];
+            if (!exp) return;
+
+            document.getElementById('preview-modal-title').innerText = exp.title;
+            document.getElementById('preview-modal-output').innerText = exp.expectedOutput;
+            
+            const loadBtn = document.getElementById('preview-modal-load-btn');
+            loadBtn.onclick = () => {
+                closeSyllabusPreview();
+                editor.setValue(exp.code);
+                document.getElementById('active-filename').innerText = `${k}.py`;
+                switchTab('editor');
+                showToast(`Loaded ${exp.title}`);
+            };
+
+            const modal = document.getElementById('syllabus-preview-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeSyllabusPreview() {
+            triggerHaptic();
+            const modal = document.getElementById('syllabus-preview-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
         function checkLabCompletion(code) {
-            for (let k in snippets) {
-                if (code.trim() === snippets[k].trim()) markLabDone(k);
+            for (let k in collegeExperiments) {
+                if (code.trim() === collegeExperiments[k].code.trim()) {
+                    markLabDone(k);
+                }
             }
         }
 
         function markLabDone(k) {
             completedLabs.add(k);
-            const btn = document.getElementById(`${k}_btn`);
-            if (btn) btn.classList.add("completed-lab");
+            const card = document.getElementById(`${k}_card`);
+            const doneIcon = document.getElementById(`${k}_done`);
+            if (card) card.classList.add("completed-lab");
+            if (doneIcon) doneIcon.classList.remove("hidden");
             saveProgress();
             updateProgressUI();
         }
 
         function updateProgressUI() {
             const count = Array.from(completedLabs).length;
-            const percent = Math.min(100, Math.round((count / 8) * 100));
+            const percent = Math.min(100, Math.round((count / 10) * 100));
             document.getElementById("progress-percent").innerText = `${percent}%`;
             document.getElementById("progress-bar").style.width = `${percent}%`;
         }
 
-        function saveProgress() { localStorage.setItem("omni_progress_clean_v2", JSON.stringify([...completedLabs])); }
+        function saveProgress() { localStorage.setItem("omni_college_progress_v4", JSON.stringify([...completedLabs])); }
         function loadProgress() {
-            const data = localStorage.getItem("omni_progress_clean_v2");
+            const data = localStorage.getItem("omni_college_progress_v4");
             if (data) {
                 JSON.parse(data).forEach(k => {
                     completedLabs.add(k);
-                    const btn = document.getElementById(`${k}_btn`);
-                    if (btn) btn.classList.add("completed-lab");
+                    const card = document.getElementById(`${k}_card`);
+                    const doneIcon = document.getElementById(`${k}_done`);
+                    if (card) card.classList.add("completed-lab");
+                    if (doneIcon) doneIcon.classList.remove("hidden");
                 });
                 updateProgressUI();
             }
@@ -1386,7 +2459,7 @@ plt.show()`
             localStorage.setItem("omni_files_clean_v2", JSON.stringify(s));
             document.getElementById("filename-input").value = "";
             refreshFileList();
-            showToast(`Saved '${n}' successfully`);
+            showToast(`Saved '${n}'`);
         }
 
         function refreshFileList() {
@@ -1395,14 +2468,14 @@ plt.show()`
             const s = JSON.parse(localStorage.getItem("omni_files_clean_v2") || "{}");
             const keys = Object.keys(s);
             if (keys.length === 0) {
-                l.innerHTML = `<div class="text-[10px] text-gray-500 font-mono py-1">No custom files saved yet.</div>`;
+                l.innerHTML = `<div class="text-[9.5px] text-gray-500 font-mono py-1">No custom files saved.</div>`;
                 return;
             }
             keys.forEach(k => {
                 const d = document.createElement("div");
-                d.className = "flex justify-between items-center p-2.5 rounded-xl bg-white/5 border border-white/5";
-                d.innerHTML = `<span class="text-[11px] text-white font-mono">${k}</span>
-                    <div class="flex gap-3">
+                d.className = "flex justify-between items-center p-2 rounded-xl bg-white/5 border border-white/5";
+                d.innerHTML = `<span class="text-[10.5px] text-white font-mono">${k}</span>
+                    <div class="flex gap-2.5">
                         <button onclick="loadFile('${k}')" class="text-indigo-400 active:scale-95"><i class="fa-solid fa-folder-open"></i></button>
                         <button onclick="deleteFile('${k}')" class="text-rose-400/70 active:scale-95"><i class="fa-solid fa-trash"></i></button>
                     </div>`;
@@ -1423,7 +2496,7 @@ plt.show()`
 
         async function deleteFile(k) {
             triggerHaptic();
-            const confirmed = await showConfirm("Delete File", `Are you sure you want to delete "${k}"?`);
+            const confirmed = await showConfirm("Delete File", `Delete "${k}"?`);
             if (confirmed) {
                 const x = JSON.parse(localStorage.getItem('omni_files_clean_v2') || "{}");
                 delete x[k];
@@ -1434,12 +2507,12 @@ plt.show()`
         }
 
         function triggerHaptic() {
-            if (navigator.vibrate) navigator.vibrate(12);
+            if (navigator.vibrate) navigator.vibrate(10);
         }
 
         function changeFontSize(delta) {
             triggerHaptic();
-            currentFontSize = Math.max(10, Math.min(22, currentFontSize + delta));
+            currentFontSize = Math.max(10, Math.min(20, currentFontSize + delta));
             editor.getWrapperElement().style.fontSize = currentFontSize + 'px';
             editor.refresh();
         }
@@ -1452,6 +2525,9 @@ plt.show()`
                 d.setCursor({ line: c.line, ch: c.ch + 1 });
             }
             editor.focus();
+            if (t.endsWith('.')) {
+                setTimeout(() => triggerSpyderHint(editor), 40);
+            }
         }
 
         function backspaceCode() {
@@ -1462,11 +2538,11 @@ plt.show()`
 
         async function clearEditor() {
             triggerHaptic();
-            const confirmed = await showConfirm("Reset Editor", "Clear current code and reset to a clean Omni-Studio script?");
+            const confirmed = await showConfirm("Reset Editor", "Clear editor and reset to clean Spyder header?");
             if (confirmed) {
                 editor.setValue(generateOmniTemplate());
                 document.getElementById('active-filename').innerText = 'temp.py';
-                showToast("Editor reset to clean Omni-Studio file");
+                showToast("Editor reset to clean template");
             }
         }
 
@@ -1484,6 +2560,7 @@ plt.show()`
 
             if (id === 'editor') setTimeout(() => editor.refresh(), 30);
             if (id === 'files') updateVirtualFSUI();
+            if (id === 'variables') refreshVariableExplorer();
         }
 
         function log(msg, cls="text-emerald-400") {
@@ -1504,33 +2581,21 @@ plt.show()`
             triggerHaptic();
             const text = outputElement.innerText;
             if (!text.trim()) {
-                showToast("Terminal is empty", false);
+                showToast("Console is empty", false);
                 return;
             }
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast("Output copied to clipboard!");
-                }).catch(() => {
-                    fallbackCopy(text);
-                });
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
             const dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
             dummy.value = text;
+            document.body.appendChild(dummy);
             dummy.select();
-            document.execCommand("copy");
+            document.execCommand('copy');
             document.body.removeChild(dummy);
-            showToast("Output copied to clipboard!");
+            showToast("Copied to clipboard!");
         }
 
         function clearPlots() {
             triggerHaptic();
-            document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-30"><i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300"></i><p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p></div>`;
+            document.getElementById("plot-target").innerHTML = `<div id="plot-placeholder" class="text-center opacity-30"><i class="fa-solid fa-chart-pie text-4xl mb-2 text-indigo-300"></i><p class="text-[9.5px] font-mono uppercase tracking-wider">No Graph Generated</p></div>`;
             document.getElementById("btn-download-plot").classList.add("hidden");
             showToast("Plot area cleared");
         }
@@ -1540,10 +2605,10 @@ plt.show()`
             const img = document.querySelector("#plot-target img");
             if (img) {
                 const a = document.createElement('a');
-                a.download = `OmniPlot_${Date.now()}.png`;
+                a.download = `Plot_${Date.now()}.png`;
                 a.href = img.src;
                 a.click();
-                showToast("Plot downloaded!");
+                showToast("Plot saved!");
             }
         }
 
@@ -1553,7 +2618,7 @@ plt.show()`
             setTimeout(() => { 
                 s.style.display = 'none'; 
                 editor.refresh(); 
-            }, 300);
+            }, 250);
         }
     </script>
 </body>
