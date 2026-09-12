@@ -1,65 +1,49 @@
-<div align="center">
+# ⚡ Omni-Studio Pro
 
-  # ⚡ Omni-Studio Pro
-  ### Offline Computational Physics & Data Science Web Lab
+> **Mobile-First Client-Side Python & Computational Lab with Spyder IDE Ergonomics**
 
-  [![PWA Ready](https://img.shields.io/badge/PWA-Installable-6366f1?style=for-the-badge&logo=pwa&logoColor=white)](https://shadow-wave.github.io/Omni-pro/)
-  [![WebAssembly](https://img.shields.io/badge/Engine-Pyodide_WASM-3b82f6?style=for-the-badge&logo=webassembly&logoColor=white)](https://pyodide.org/)
-  [![Pandas & NumPy](https://img.shields.io/badge/Stack-Pandas_%7C_NumPy_%7C_Matplotlib-10b981?style=for-the-badge&logo=python&logoColor=white)](https://pandas.pydata.org/)
-  [![Live Demo](https://img.shields.io/badge/Demo-Live_GitHub_Pages-a855f7?style=for-the-badge&logo=github&logoColor=white)](https://shadow-wave.github.io/Omni-pro/)
+[![PWA Ready](https://img.shields.io/badge/PWA-Installable-blue.svg)](https://shadow-wave.github.io/Omni-pro/)
+[![Engine](https://img.shields.io/badge/Engine-Pyodide%20WASM-indigo.svg)](https://pyodide.org/)
+[![Stack](https://img.shields.io/badge/Stack-Pandas%20%7C%20NumPy%20%7C%20Matplotlib-emerald.svg)](https://shadow-wave.github.io/Omni-pro/)
+[![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 
-  <p align="center">
-    <b>A mobile-first, standalone browser IDE running real Python entirely on the client side via WebAssembly.</b>
-    <br />
-    <i>Zero Server Dependency • Single-Download Offline Caching • Spyder-Style White Plot Engine</i>
-  </p>
+A standalone, browser-based Python computational environment running real Python entirely on the client side via WebAssembly (Pyodide). Engineered with the look, feel, and ergonomics of **Spyder IDE** used in university physics & computational laboratories.
 
-  <a href="https://shadow-wave.github.io/Omni-pro/">
-    <img src="https://img.shields.io/badge/🚀_LAUNCH_OMNI--STUDIO-4f46e5?style=for-the-badge&labelColor=030305" height="42"/>
-  </a>
-
-</div>
+🚀 **Live Deployment:** [https://shadow-wave.github.io/Omni-pro/](https://shadow-wave.github.io/Omni-pro/)
 
 ---
 
-## 🌟 Key Features
+## ✨ Key Spyder Features
 
-* **⚡ Pure Client-Side Execution:** Powered by Pyodide (v0.23.4) WebAssembly kernel. Compiles and executes Python code directly in the browser with near-native speed.
-* **📦 Complete Offline PWA:** Implements a Service Worker cache-first layer (`sw.js`) that downloads WASM binaries and packages once. Works seamlessly without an active internet connection.
-* **📊 Spyder IDE High-Contrast Visualizer:** Renders crisp, publication-grade Matplotlib & Pandas figures on a dedicated high-DPI pure white background canvas card.
-* **📱 Mobile-First Ergonomics:** Built with fixed viewport height (`100dvh`), iOS/Android safe-area notch compensation, and an interactive virtual touch accessory bar for rapid Python syntax entry.
-* **💾 Virtual File System (Emscripten FS):** Mount, read, and process real `.csv`, `.txt`, and data files locally directly via `pandas.read_csv()`.
-* **⌨️ Non-Blocking Stream Input:** Replaces intrusive browser dialogs with an async glassmorphism input modal directly tied into the Python event loop.
-
----
-
-## 🔬 Physics & Data Science Syllabus Modules
-
-Omni-Studio comes pre-loaded with curated computational physics experiments and Pandas data wrangling presets:
-
-| No. | Module Title | Description / Technique |
-| :---: | :--- | :--- |
-| **01** | **DataFrame Creation & Summary** | Pandas dictionary ingestion, indexing, and `.describe()` statistical profiling |
-| **02** | **CSV Data Wrangling** | Virtual memory CSV extraction and calculated feature derivation |
-| **03** | **Boolean Querying & Masking** | Multi-condition conditional filtering and matrix slicing |
-| **04** | **GroupBy & Statistical Aggregation** | Categorical splitting and multi-parameter group evaluations |
-| **05** | **RC Circuit Voltage Discharge** | Time-series exponential decay curve modeling (`df.plot()`) |
-| **06** | **Comparative Bar Charts** | Grouped and stacked multi-column comparative analytics |
-| **07** | **Hooke's Law Verification** | Scatter distribution mapping with NumPy least-squares regression line fit |
-| **08** | **Batch Distribution Histograms** | Multi-subplot comparative frequency distribution analysis |
-| **PHY** | **Damped Harmonic Oscillator** | Analytical modeling of underdamped oscillations ($y = e^{-\gamma t}\sin(\omega t)$) |
-| **PHY** | **Projectile Motion ODE** | Numerical trajectory integration incorporating quadratic air drag (Euler method) |
+- 🔍 **Real-Time Error Highlighting**: Dynamic AST syntax validation checks code as you type, rendering red wavy underlines and gutter warnings for missing colons, unbalanced brackets, or indentation errors.
+- 💡 **Intelligent Autocomplete (IntelliSense)**:
+  - Immediate dropdown suggestions for `np.` (NumPy), `pd.` (Pandas), `plt.` (Matplotlib), and `df.` (DataFrames).
+  - Automatically indexes user-defined variables and functions for instant autocompletion.
+- 📊 **Interactive Variable Explorer**: Inspect all active in-memory variables, data types, shapes, and values in a dedicated panel. Includes an interactive Data Viewer for Pandas DataFrames.
+- ⚡ **F9 Line Execution**: Run single selected lines or cursor statements directly without executing the whole script.
+- 📈 **High-DPI White Plot Engine**: Publication-grade Matplotlib plots rendered onto an isolated high-contrast canvas with one-tap PNG export.
+- 💾 **Virtual CSV & Datasets Manager**: Built-in visual grid editor and file uploader to create, edit, mount, and export `.csv` datasets to the virtual memory filesystem (`pd.read_csv`).
+- 📴 **100% Offline PWA**: Built with Service Worker cache-first architecture. Once loaded, it functions completely offline without an active internet connection.
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 📚 University Lab Syllabus Experiments
 
-```mermaid
-graph TD
-    A[Browser / Mobile PWA] --> B[Service Worker Cache - sw.js]
-    B --> C[Pyodide WebAssembly Kernel]
-    C --> D[NumPy / Pandas Engine]
-    C --> E[Matplotlib Agg Backend]
-    C --> F[Emscripten Virtual FS]
-    E --> G[High-DPI Base64 Image Stream]
-    G --> H[Spyder White Canvas Viewport]
+Pre-loaded with official Python & Data Science curriculum experiments, complete with verified record outputs:
+
+| No. | Experiment Title | Core Concept / Method | Output Type |
+|:---:|:---|:---|:---:|
+| **01** | Arithmetic Operations | Floats, `input()`, Basic Operators (`+`, `-`, `*`, `/`) | Console Output |
+| **02** | Sorting List of Numbers | Dynamic Input, `list.append()`, `numbers.sort()` | Console Output |
+| **03** | Even or Odd Checker | Modulo Arithmetic (`% 2 == 0`), Conditional Branching | Console Output |
+| **04** | Factorial Calculation | Iterative Loop Logic, Product Accumulation | Console Output |
+| **05** | Prime Number Verification | Square Root Optimization (`int(n**0.5) + 1`), Break Logic | Console Output |
+| **06** | Pandas Duplicate Detection | `df.duplicated()` Boolean Series Extraction | DataFrame Console |
+| **07** | Pandas Regional Pivot Table | `pd.pivot_table(df, values='Sale', index='Region', aggfunc='sum')` | Aggregated Pivot |
+| **08** | GroupBy School Categorization | `df.groupby('school')`, Multi-attribute splitting | Grouped Subsets |
+| **09** | Comparative Bar Chart | `plt.bar()`, Axis Labels, `plt.grid(axis='y')` | Matplotlib Plot |
+| **10** | Activity Distribution Pie Chart | `plt.pie(autopct='%1.1f%%', explode=..., shadow=True)`, Legend | Matplotlib Plot |
+
+---
+
+## 🛠️ Architecture
