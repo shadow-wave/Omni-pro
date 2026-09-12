@@ -1,49 +1,63 @@
+<div align="center">
+
 # ⚡ Omni-Studio Pro
+### Offline Computational Physics & Data Science Web Lab
 
-> **Mobile-First Client-Side Python & Computational Lab with Spyder IDE Ergonomics**
+[![PWA Ready](https://img.shields.io/badge/PWA-Installable-3b82f6?style=for-the-badge&logo=pwa&logoColor=white)](https://shadow-wave.github.io/Omni-pro/)
+[![Engine](https://img.shields.io/badge/Engine-Pyodide_WASM-6366f1?style=for-the-badge&logo=webassembly&logoColor=white)](https://pyodide.org/)
+[![Stack](https://img.shields.io/badge/Stack-Pandas_•_NumPy_•_Matplotlib-10b981?style=for-the-badge&logo=python&logoColor=white)](https://shadow-wave.github.io/Omni-pro/)
 
-[![PWA Ready](https://img.shields.io/badge/PWA-Installable-blue.svg)](https://shadow-wave.github.io/Omni-pro/)
-[![Engine](https://img.shields.io/badge/Engine-Pyodide%20WASM-indigo.svg)](https://pyodide.org/)
-[![Stack](https://img.shields.io/badge/Stack-Pandas%20%7C%20NumPy%20%7C%20Matplotlib-emerald.svg)](https://shadow-wave.github.io/Omni-pro/)
-[![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+<p align="center">
+  A mobile-first, standalone browser IDE running real Python entirely on the client side via WebAssembly.<br>
+  <b>Zero Server Dependency • Single-Download Offline Caching • Spyder IDE Ergonomics</b>
+</p>
 
-A standalone, browser-based Python computational environment running real Python entirely on the client side via WebAssembly (Pyodide). Engineered with the look, feel, and ergonomics of **Spyder IDE** used in university physics & computational laboratories.
-
-🚀 **Live Deployment:** [https://shadow-wave.github.io/Omni-pro/](https://shadow-wave.github.io/Omni-pro/)
-
----
-
-## ✨ Key Spyder Features
-
-- 🔍 **Real-Time Error Highlighting**: Dynamic AST syntax validation checks code as you type, rendering red wavy underlines and gutter warnings for missing colons, unbalanced brackets, or indentation errors.
-- 💡 **Intelligent Autocomplete (IntelliSense)**:
-  - Immediate dropdown suggestions for `np.` (NumPy), `pd.` (Pandas), `plt.` (Matplotlib), and `df.` (DataFrames).
-  - Automatically indexes user-defined variables and functions for instant autocompletion.
-- 📊 **Interactive Variable Explorer**: Inspect all active in-memory variables, data types, shapes, and values in a dedicated panel. Includes an interactive Data Viewer for Pandas DataFrames.
-- ⚡ **F9 Line Execution**: Run single selected lines or cursor statements directly without executing the whole script.
-- 📈 **High-DPI White Plot Engine**: Publication-grade Matplotlib plots rendered onto an isolated high-contrast canvas with one-tap PNG export.
-- 💾 **Virtual CSV & Datasets Manager**: Built-in visual grid editor and file uploader to create, edit, mount, and export `.csv` datasets to the virtual memory filesystem (`pd.read_csv`).
-- 📴 **100% Offline PWA**: Built with Service Worker cache-first architecture. Once loaded, it functions completely offline without an active internet connection.
+[🚀 **Launch Omni-Studio Pro**](https://shadow-wave.github.io/Omni-pro/)
 
 ---
 
-## 📚 University Lab Syllabus Experiments
+</div>
 
-Pre-loaded with official Python & Data Science curriculum experiments, complete with verified record outputs:
+## 🌟 Key Features
 
-| No. | Experiment Title | Core Concept / Method | Output Type |
+* ⚡ **Pure Client-Side Execution**: Powered by Pyodide (v0.23.4) WebAssembly kernel. Compiles and executes Python, NumPy, and Pandas code directly in the browser at near-native speed.
+* 📦 **Complete Offline PWA**: Cache-first Service Worker (`sw.js`) stores the IDE shell, Pyodide core, and Python scientific packages locally after first launch.
+* 🔍 **Real-Time Error Highlighting**: Live AST parsing detects syntax mistakes (unmatched brackets, missing colons) on keystroke and underlines them with Spyder-style wavy red indicators.
+* 💡 **Intelligent Autocomplete (IntelliSense)**: Instant method popups for `np.`, `pd.`, `plt.`, and `df.` alongside automatic user-defined variable indexing.
+* 📊 **Interactive Variable Explorer**: Inspect workspace variables, data types, dimensions, and values in real time with a dedicated Pandas DataFrame table viewer.
+* ⚡ **Spyder F9 Line Execution**: Execute individual selected lines or single statement blocks without running the entire script.
+* 📈 **Spyder-Style Plot Studio**: High-contrast rendering for Matplotlib figures with interactive viewports and one-tap PNG exports.
+* 🗂️ **Virtual CSV Datasets Manager**: In-memory filesystem editor to create, edit, mount, and inspect `.csv` data directly through `pd.read_csv()`.
+
+---
+
+## 📚 University Lab Syllabus Modules
+
+Omni-Studio comes pre-loaded with curated computational physics, general programming, and data science experiments complete with verified outputs:
+
+| No. | Module Title | Technique / Core Method | Output Type |
 |:---:|:---|:---|:---:|
-| **01** | Arithmetic Operations | Floats, `input()`, Basic Operators (`+`, `-`, `*`, `/`) | Console Output |
-| **02** | Sorting List of Numbers | Dynamic Input, `list.append()`, `numbers.sort()` | Console Output |
-| **03** | Even or Odd Checker | Modulo Arithmetic (`% 2 == 0`), Conditional Branching | Console Output |
-| **04** | Factorial Calculation | Iterative Loop Logic, Product Accumulation | Console Output |
-| **05** | Prime Number Verification | Square Root Optimization (`int(n**0.5) + 1`), Break Logic | Console Output |
-| **06** | Pandas Duplicate Detection | `df.duplicated()` Boolean Series Extraction | DataFrame Console |
-| **07** | Pandas Regional Pivot Table | `pd.pivot_table(df, values='Sale', index='Region', aggfunc='sum')` | Aggregated Pivot |
-| **08** | GroupBy School Categorization | `df.groupby('school')`, Multi-attribute splitting | Grouped Subsets |
-| **09** | Comparative Bar Chart | `plt.bar()`, Axis Labels, `plt.grid(axis='y')` | Matplotlib Plot |
-| **10** | Activity Distribution Pie Chart | `plt.pie(autopct='%1.1f%%', explode=..., shadow=True)`, Legend | Matplotlib Plot |
+| **01** | Arithmetic Operations | Float parsing, terminal input, fundamental math operators | Console Output |
+| **02** | Sorting List of Numbers | Dynamic list generation, `list.append()`, `numbers.sort()` | Console Output |
+| **03** | Even or Odd Checker | Modulo condition (`% 2 == 0`), branching control flow | Console Output |
+| **04** | Factorial Calculation | Iterative product loop, boundary condition checking | Console Output |
+| **05** | Prime Number Verification | Factor check with square-root optimization (`int(n**0.5) + 1`) | Console Output |
+| **06** | Pandas Duplicate Detection | `df.duplicated()` boolean indexing and filtering | Console Output |
+| **07** | Pandas Pivot Table | Multi-attribute aggregation with `pd.pivot_table()` | Console Output |
+| **08** | DataFrame GroupBy Splitting | Categorical splitting using `student_data.groupby('school')` | Console Output |
+| **09** | Comparative Bar Chart | Categorical visualization via `plt.bar()`, axis styling | Matplotlib Plot |
+| **10** | Time Allocation Pie Chart | Proportional analysis via `plt.pie()`, explode, shadows | Matplotlib Plot |
 
 ---
 
-## 🛠️ Architecture
+## 🛠️ Architecture & Tech Stack
+
+```mermaid
+graph TD
+    A[Browser / Mobile PWA] --> B[Service Worker Cache - sw.js]
+    B --> C[Pyodide WebAssembly Kernel]
+    C --> D[NumPy / Pandas Engine]
+    C --> E[Matplotlib Agg Backend]
+    C --> F[Emscripten Virtual FS]
+    E --> G[High-DPI Base64 Image Stream]
+    G --> H[Spyder White Canvas Viewport]
