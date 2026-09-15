@@ -353,10 +353,11 @@
             </div>
             <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Loading WebAssembly runtime...</div>
         </div>
-        
-        <!-- Interactive Author Link -->
-        <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="absolute bottom-6 flex items-center gap-1.5 text-[10px] text-gray-500 hover:text-indigo-400 active:text-indigo-300 font-bold uppercase tracking-widest transition">
-            <i class="fa-brands fa-github text-xs"></i> Aravind O K
+
+        <!-- Developer Credit on Splash Screen linking to GitHub -->
+        <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="absolute bottom-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] text-gray-400 hover:text-indigo-300 hover:border-indigo-500/40 active:scale-95 transition">
+            <i class="fa-brands fa-github text-xs"></i>
+            <span>Developed by <strong class="text-white font-semibold">Aravind O K</strong></span>
         </a>
     </div>
 
@@ -677,19 +678,22 @@
         <!-- Tab 5: College Lab Syllabus & Datasets -->
         <div id="tab-files" class="tab-content">
             <div class="flex-1 overflow-y-auto space-y-3 pr-0.5 no-scrollbar pb-6">
-                <!-- Academic Module Header with Clickable Developer GitHub Link -->
-                <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="glass-panel p-3 rounded-2xl flex items-center gap-3 border-indigo-500/20 hover:border-indigo-500/40 active:scale-[0.99] transition block">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-xs shadow-md">
-                        A
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-white font-bold text-xs leading-tight">Aravind O K</h3>
-                            <i class="fa-brands fa-github text-xs text-gray-400"></i>
+                <!-- Academic Module Header with Developer Name and Link to GitHub -->
+                <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="glass-panel p-3 rounded-2xl flex items-center justify-between border-indigo-500/20 hover:border-indigo-500/40 active:scale-[0.99] transition cursor-pointer group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">
+                            A
                         </div>
-                        <p class="text-indigo-400 text-[8px] font-bold uppercase tracking-widest">Lead Developer • Omni-Studio</p>
-                        <span class="text-[9px] text-gray-400">Computational Physics & Python Lab</span>
+                        <div>
+                            <h3 class="text-white font-bold text-xs leading-tight flex items-center gap-1.5">
+                                Aravind O K 
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-indigo-400 opacity-0 group-hover:opacity-100 transition"></i>
+                            </h3>
+                            <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">Lead Developer • Omni-Studio</p>
+                            <span class="text-[9px] text-gray-400">Department of Physics • Kannur University</span>
+                        </div>
                     </div>
+                    <i class="fa-brands fa-github text-gray-400 group-hover:text-white text-lg transition mr-1"></i>
                 </a>
 
                 <!-- Progress Bar -->
@@ -930,7 +934,7 @@
             });
         }
 
-        // Clean Omni-Studio Template (Clean docstring with Date & Time, NO Author Tag)
+        // Clean Omni-Studio Template (Strictly Date & Time, NO Author Tag in python docstring)
         function generateOmniTemplate() {
             const now = new Date();
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -1148,7 +1152,7 @@ Created on ${formattedDate}
             });
         }
 
-        // Improved Context-Sensitive Autocomplete with Functions & Classes
+        // Improved Context-Sensitive Autocomplete with Functions, Classes, and Variables
         function omniHintCompleter(cm) {
             const cur = cm.getCursor();
             const token = cm.getTokenAt(cur);
@@ -1326,14 +1330,14 @@ Created on ${formattedDate}
             };
         }
 
-        // Advanced AST/Regex Symbol Scanner for Functions, Classes, and Variables
+        // Symbol Scanner for Functions, Classes, and Variables
         function scanUserSymbols() {
             const code = editor.getValue();
             const funcs = [];
             const classes = [];
             const vars = new Map();
 
-            // 1. Detect Functions: def func_name(args):
+            // Detect Functions: def func_name(args):
             const funcRegex = /(?:^|\n)[ \t]*def\s+([a-zA-Z_]\w*)\s*\((.*?)\)\s*:/g;
             let fMatch;
             while ((fMatch = funcRegex.exec(code)) !== null) {
@@ -1342,14 +1346,14 @@ Created on ${formattedDate}
                 funcs.push({ name: fName, params: fParams, type: 'function' });
             }
 
-            // 2. Detect Classes: class ClassName:
+            // Detect Classes: class ClassName:
             const classRegex = /(?:^|\n)[ \t]*class\s+([a-zA-Z_]\w*)\s*(?:\((.*?)\))?\s*:/g;
             let cMatch;
             while ((cMatch = classRegex.exec(code)) !== null) {
                 classes.push({ name: cMatch[1], type: 'class' });
             }
 
-            // 3. Detect Variables: var_name = ...
+            // Detect Variables: var_name = ...
             const assignRegex = /(?:^|\n)[ \t]*([a-zA-Z_]\w*)\s*=(?!=)/g;
             let vMatch;
             const reserved = new Set(['if', 'elif', 'else', 'for', 'while', 'return', 'import', 'from', 'def', 'class', 'try', 'except', 'with']);
@@ -1395,7 +1399,7 @@ Created on ${formattedDate}
                         return;
                     }
                 } catch (e) {
-                    // Kernel busy
+                    // Kernel busy, fallback to client scan
                 }
             }
 
@@ -1572,7 +1576,7 @@ plt.rcParams['figure.autolayout'] = True
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial']
 
 sample_csv = """Student,Physics,Chemistry,Maths,Lab_Score
-Aravind,88,82,95,98
+Adarsh,88,82,95,98
 Navaneeth,90,85,92,94
 Nandagopan,84,78,89,90
 Aromal,82,88,85,92
@@ -2068,7 +2072,7 @@ globals()['${varName}'].to_html(classes="min-w-full text-left border-collapse te
 
         let csvGridData = [
             ['Student', 'Physics', 'Maths'],
-            ['Aravind', '92', '95'],
+            ['Student_1', '92', '95'],
             ['Navaneeth', '88', '90'],
             ['Nandagopan', '85', '88']
         ];
@@ -2197,7 +2201,7 @@ globals()['${varName}'].to_html(classes="min-w-full text-left border-collapse te
                 document.getElementById('csv-filename').value = "students.csv";
                 csvGridData = [
                     ['Student', 'Physics', 'Chemistry', 'Maths'],
-                    ['Aravind', '88', '82', '95'],
+                    ['Student_1', '88', '82', '95'],
                     ['Navaneeth', '90', '85', '92'],
                     ['Nandagopan', '84', '78', '89']
                 ];
