@@ -13,12 +13,12 @@
     <!-- Vector Brand Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
 
-    <!-- Fonts -->
+    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS Engine -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,6 +36,8 @@
             }
         }
     </script>
+    
+    <!-- CodeMirror 5 Suite & Pyodide Core -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
@@ -77,7 +79,7 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* Tab Transitions */
+        /* View Transition Animation */
         .tab-content { 
             display: none !important; 
             height: 100%; 
@@ -88,7 +90,7 @@
         
         .tab-content.active { 
             display: flex !important; 
-            animation: fluidTabIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            animation: fluidTabIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
 
         @keyframes fluidTabIn {
@@ -97,7 +99,7 @@
         }
 
         .modal-enter {
-            animation: modalSpring 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: modalSpring 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes modalSpring {
@@ -106,7 +108,7 @@
         }
 
         #workspace-wrapper {
-            transition: padding 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: padding 0.32s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #split-left-pane {
@@ -121,7 +123,7 @@
             transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Draggable Window Divider Bar */
+        /* Resizable Dual-Pane Divider */
         .split-resizer {
             width: 8px;
             cursor: col-resize;
@@ -155,15 +157,10 @@
             box-shadow: 0 0 10px #6366f1;
         }
 
-        /* Split Mode Active Styles */
-        .split-active #split-divider {
-            display: flex !important;
-        }
+        .split-active #split-divider { display: flex !important; }
+        .split-active #split-right-pane { display: flex !important; }
 
-        .split-active #split-right-pane {
-            display: flex !important;
-        }
-
+        /* CodeMirror Theme Customizations */
         .CodeMirror {
             background: transparent !important;
             font-size: 13.5px;
@@ -184,6 +181,7 @@
             font-size: 11px;
         }
 
+        /* Real-Time Syntax Error Indicators */
         .syntax-error-wavy {
             text-decoration: underline wavy #f43f5e 2px;
             text-underline-offset: 3px;
@@ -199,7 +197,7 @@
             line-height: 18px;
         }
 
-        /* Interactive Spotlight Onboarding Beacon & Cutout */
+        /* Interactive Feature Walkthrough Spotlight Elements */
         #spotlight-cutout {
             position: fixed;
             pointer-events: none;
@@ -219,7 +217,7 @@
             pointer-events: auto;
         }
 
-        /* Plot Studio Cards & Viewports */
+        /* High-DPI Plot Studio Card */
         .plot-viewport-canvas {
             touch-action: none;
             cursor: grab;
@@ -229,9 +227,7 @@
             max-height: 100%;
         }
 
-        .plot-viewport-canvas:active {
-            cursor: grabbing;
-        }
+        .plot-viewport-canvas:active { cursor: grabbing; }
 
         .omni-plot-card {
             background: #ffffff;
@@ -257,7 +253,7 @@
             border-radius: 10px;
         }
 
-        /* Key Buttons & Touch targets */
+        /* Key Buttons & Touch Targets */
         .key-btn {
             height: 38px;
             min-width: 36px;
@@ -303,39 +299,42 @@
             transform: scale(0.985);
         }
 
+        /* Spyder-Grade IntelliSense Overlay - True Viewport Fixed Positioning */
         .autocomplete-dropdown {
-            position: fixed;
-            z-index: 1000;
-            background: #080a10;
-            border: 1px solid rgba(99, 102, 241, 0.45);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.92), 0 0 15px rgba(99, 102, 241, 0.2);
+            position: fixed !important;
+            z-index: 9999;
+            background: rgba(10, 12, 20, 0.98);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             max-height: 220px;
-            width: 290px;
+            width: 310px;
             overflow-y: auto;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 11.5px;
             padding: 4px;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+            transition: opacity 0.08s ease-out;
+            pointer-events: auto;
         }
 
         .autocomplete-item {
-            padding: 7px 10px;
+            padding: 6px 9px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
             color: #cbd5e1;
             border-radius: 8px;
-            margin-bottom: 2px;
-            transition: all 0.12s ease;
+            margin-bottom: 1.5px;
+            transition: all 0.1s ease;
         }
 
         .autocomplete-item.selected, .autocomplete-item:hover {
-            background: linear-gradient(90deg, rgba(99, 102, 241, 0.35) 0%, rgba(168, 85, 247, 0.25) 100%);
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.45) 0%, rgba(168, 85, 247, 0.3) 100%);
             color: #ffffff;
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
         }
 
         .progress-shimmer {
@@ -360,6 +359,8 @@
     </style>
 </head>
 <body class="flex flex-col select-none">
+
+    <!-- Splash Boot Loader -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-400">
         <div class="relative flex items-center justify-center">
             <div class="absolute w-28 h-28 rounded-full bg-indigo-500/20 blur-2xl animate-pulse"></div>
@@ -390,16 +391,14 @@
         </a>
     </div>
 
+    <!-- Interactive Spotlight Walkthrough Layer -->
     <div id="spotlight-tour-layer" class="fixed inset-0 z-[200] hidden">
         <div id="spotlight-cutout"></div>
-
         <div id="spotlight-popover" class="glass-panel p-4 rounded-2xl border border-indigo-500/40 shadow-2xl space-y-2.5">
             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5">
-                    <span id="tour-step-badge" class="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9px] font-mono font-bold uppercase tracking-wider">
-                        Feature 1/6
-                    </span>
-                </div>
+                <span id="tour-step-badge" class="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9px] font-mono font-bold uppercase tracking-wider">
+                    Feature 1/8
+                </span>
                 <button onclick="skipInteractiveTour()" class="text-[11px] text-gray-400 hover:text-white flex items-center gap-1 transition px-1.5 py-0.5 rounded hover:bg-white/10">
                     <span>Skip</span> <i class="fa-solid fa-xmark text-[9px]"></i>
                 </button>
@@ -410,12 +409,12 @@
                     Feature Title
                 </h4>
                 <p id="tour-step-desc" class="text-[11px] text-gray-300 mt-1 leading-relaxed">
-                    Explanation of what this button does.
+                    Description of button capability.
                 </p>
             </div>
 
             <div class="flex items-center justify-between pt-1 border-t border-white/10">
-                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 7</span>
+                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 8</span>
                 <div class="flex items-center gap-1.5">
                     <button id="tour-prev-btn" onclick="prevTourStep()" class="px-2.5 py-1 rounded-lg bg-white/5 active:bg-white/10 text-[10.5px] font-semibold text-gray-300 transition hidden">
                         Back
@@ -428,6 +427,7 @@
         </div>
     </div>
 
+    <!-- Find & Replace Floating Panel -->
     <div id="find-replace-modal" class="fixed top-14 left-1/2 -translate-x-1/2 z-[90] w-full max-w-sm px-3 hidden">
         <div class="glass-panel p-3 rounded-2xl border-indigo-500/30 shadow-2xl space-y-2 modal-enter">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
@@ -466,7 +466,7 @@
         </div>
     </div>
 
-    <!-- Custom Confirmation Modal -->
+    <!-- Confirmation Modal -->
     <div id="custom-confirm-modal" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md hidden items-center justify-center p-5">
         <div class="glass-panel w-full max-w-xs p-5 rounded-2xl border-white/10 shadow-2xl space-y-4 modal-enter">
             <div class="flex items-center gap-2.5 text-indigo-400 font-bold text-xs uppercase tracking-wider">
@@ -481,7 +481,7 @@
         </div>
     </div>
 
-    <!-- Custom Toast Message -->
+    <!-- Toast Notification Box -->
     <div id="toast-box" class="fixed top-4 left-1/2 -translate-x-1/2 z-[130] pointer-events-none transition-all duration-300 opacity-0 -translate-y-4">
         <div class="px-4 py-2.5 rounded-xl glass-panel border-indigo-500/40 text-xs font-medium text-white shadow-2xl flex items-center gap-2">
             <i id="toast-icon" class="fa-solid fa-circle-check text-green-400"></i>
@@ -489,6 +489,7 @@
         </div>
     </div>
 
+    <!-- Shortcuts & Tour Guide Modal -->
     <div id="shortcuts-modal" class="fixed inset-0 z-[124] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md rounded-2xl border-white/10 shadow-2xl flex flex-col modal-enter overflow-hidden">
             <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
@@ -526,8 +527,12 @@
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Enter / Tab</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
-                        <span class="text-gray-300">Toggle Split View</span>
+                        <span class="text-gray-300">Toggle Dual-Pane Mode</span>
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Alt + S</kbd>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+                        <span class="text-gray-300">Save Python Script (.py)</span>
+                        <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Ctrl + S</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
                         <span class="text-gray-300">Find & Replace</span>
@@ -620,6 +625,7 @@
         </div>
     </div>
 
+    <!-- Workstation Top Header -->
     <header class="h-[3.75rem] pt-[var(--sat)] px-3 sm:px-4 flex items-center justify-between shrink-0 z-40 bg-[#040508]/95 border-b border-white/5 transition-colors">
         <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs shadow-md border border-white/10">
@@ -661,27 +667,48 @@
         </div>
     </header>
 
+    <!-- Main Dynamic Workspace -->
     <main id="workspace-wrapper" class="flex-1 overflow-hidden p-2 pb-0 flex relative">
         
-        <!-- Left Pane: Hosts all views in Single Mode, or Editor-only in Split Mode -->
+        <!-- Left Pane: Hosts all views in Single Mode, or Editor-only in Dual-Pane Mode -->
         <div id="split-left-pane" class="w-full h-full flex flex-col overflow-hidden">
             
             <!-- Tab 1: Editor Panel -->
             <div id="tab-editor" class="tab-content active">
                 <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 flex flex-col shadow-lg relative">
-                    <!-- Editor Header -->
-                    <div id="editor-header-bar" class="h-8 px-3 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
-                        <span class="flex items-center gap-1.5 text-gray-300">
+                    
+                    <!-- Comprehensive Editor Header with Save, Open, Rename, Search & Format -->
+                    <div id="editor-header-bar" class="h-8 px-2.5 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
+                        <div class="flex items-center gap-1.5 text-gray-300 truncate">
                             <i class="fa-brands fa-python text-indigo-400"></i>
-                            <span id="active-filename">script.py</span>
-                        </span>
-                        <div class="flex items-center gap-2">
+                            <span id="active-filename" onclick="renameActiveFile()" title="Click to rename script" class="cursor-pointer hover:text-indigo-300 underline decoration-dotted underline-offset-2 truncate max-w-[130px] sm:max-w-[200px]">script.py</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-1 sm:gap-1.5">
+                            <!-- Open Local Python File (.py) -->
+                            <label id="btn-open-file" title="Open .py Script from device" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white text-gray-400 transition cursor-pointer">
+                                <i class="fa-solid fa-folder-open text-[10.5px] text-amber-400"></i>
+                                <input type="file" id="py-file-uploader" accept=".py,.txt" class="hidden" onchange="openPythonScript(event)">
+                            </label>
+
+                            <!-- Save / Download Python Script (.py) -->
+                            <button id="btn-save-file" onclick="downloadPythonScript()" title="Save Script to Device (Ctrl+S)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white text-gray-400 transition">
+                                <i class="fa-solid fa-floppy-disk text-[10.5px] text-emerald-400"></i>
+                            </button>
+
+                            <div class="w-[1px] h-3.5 bg-white/10 mx-0.5"></div>
+
+                            <!-- Find & Replace -->
                             <button id="btn-find-replace" onclick="openFindReplaceModal()" title="Find & Replace (Ctrl+F)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white text-gray-400 transition">
                                 <i class="fa-solid fa-magnifying-glass text-[10px]"></i>
                             </button>
+
+                            <!-- Auto-Format Code -->
                             <button id="btn-format-code" onclick="formatPythonCode()" title="Auto Format Code (Shift+Alt+F)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white text-gray-400 transition">
                                 <i class="fa-solid fa-wand-magic-sparkles text-[10px] text-indigo-400"></i>
                             </button>
+
+                            <!-- Zoom In / Out -->
                             <button onclick="changeFontSize(-1)" title="Zoom Out" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white"><i class="fa-solid fa-minus text-[9px]"></i></button>
                             <button onclick="changeFontSize(1)" title="Zoom In" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white"><i class="fa-solid fa-plus text-[9px]"></i></button>
                         </div>
@@ -690,8 +717,6 @@
                     <!-- CodeMirror Workspace -->
                     <div class="flex-1 relative overflow-hidden" id="editor-host-container">
                         <textarea id="code-editor"></textarea>
-                        <!-- Floating Spyder IntelliSense Dropdown -->
-                        <div id="autocomplete-box" class="autocomplete-dropdown hidden"></div>
                     </div>
 
                     <!-- Diagnostics Footer Bar -->
@@ -727,7 +752,7 @@
                 </div>
             </div>
 
-            <!-- View: Variables -->
+            <!-- View: Variables Explorer -->
             <div id="tab-variables" class="tab-content h-full">
                 <div class="flex-1 glass-panel rounded-2xl p-3.5 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
                     <div class="flex justify-between items-center mb-2.5 border-b border-white/5 pb-2">
@@ -759,7 +784,7 @@
                 </div>
             </div>
 
-            <!-- View: Terminal Console -->
+            <!-- View: Terminal Console with Interactive REPL -->
             <div id="tab-terminal" class="tab-content h-full">
                 <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
                     <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
@@ -780,7 +805,7 @@
                     <!-- Interactive >>> REPL Input Line -->
                     <div class="mt-2 pt-2 border-t border-white/10 flex items-center gap-2 bg-black/30 rounded-xl px-2.5 py-1.5">
                         <span class="text-indigo-400 font-mono font-bold text-xs select-none">&gt;&gt;&gt;</span>
-                        <input id="repl-input" type="text" placeholder="Evaluate Python expression (e.g. 25 * 4, df.head())..." class="flex-1 bg-transparent text-xs font-mono text-white outline-none placeholder:text-gray-600">
+                        <input id="repl-input" type="text" placeholder="Evaluate Python expression (e.g. np.sin(np.pi/2), df.head())..." class="flex-1 bg-transparent text-xs font-mono text-white outline-none placeholder:text-gray-600">
                         <button onclick="executeReplCommand()" title="Execute command" class="px-2.5 py-1 rounded-lg bg-indigo-600 active:bg-indigo-500 text-white text-[10px] font-bold transition">
                             <i class="fa-solid fa-arrow-turn-down"></i>
                         </button>
@@ -788,7 +813,7 @@
                 </div>
             </div>
 
-            <!-- View: Responsive Plot Studio -->
+            <!-- View: High-DPI Plot Studio -->
             <div id="tab-plots" class="tab-content h-full">
                 <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg relative">
                     <!-- Plot Header -->
@@ -814,9 +839,8 @@
                         </div>
                     </div>
 
-                    <!-- Plot Viewport with Floating Zoom Controls -->
+                    <!-- Plot Viewport with Floating Zoom HUD -->
                     <div id="plot-container-viewport" class="flex-1 p-2 flex items-center justify-center overflow-hidden bg-[#090b12] relative select-none">
-                        <!-- Zoom Floating HUD -->
                         <div id="plot-hud-controls" class="absolute top-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-lg hidden">
                             <button onclick="adjustPlotZoom(0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></button>
                             <button onclick="adjustPlotZoom(-0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-minus"></i></button>
@@ -877,7 +901,7 @@
                         </div>
                     </div>
 
-                    <!-- 10 Prescribed Lab Syllabus Experiments -->
+                    <!-- 10 Prescribed University Lab Experiments -->
                     <div class="space-y-1.5">
                         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Official University Lab Experiments</span>
                         <div class="grid grid-cols-1 gap-1.5" id="syllabus-grid"></div>
@@ -891,7 +915,7 @@
             <div class="split-resizer-handle"></div>
         </div>
 
-        <!-- Right Pane: Secondary Workspaces in Split Mode -->
+        <!-- Right Pane: Secondary Workspaces in Dual-Pane Mode -->
         <div id="split-right-pane" class="hidden h-full flex-col overflow-hidden flex-shrink-0">
             <!-- Right Pane Pill Bar -->
             <div class="h-8 px-2 bg-white/5 border border-white/5 rounded-xl mb-1.5 flex items-center justify-between shrink-0">
@@ -917,7 +941,7 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation Dock -->
+    <!-- Bottom Navigation Dock (Auto-hidden in Dual-Pane Mode) -->
     <nav id="bottom-nav-dock" class="h-[4.5rem] pb-[var(--sab)] px-3 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10 transition-all duration-300">
         <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400" data-target="editor">
             <i class="fa-solid fa-code text-lg"></i>
@@ -941,6 +965,9 @@
         </button>
     </nav>
 
+    <!-- Floating Spyder-Grade IntelliSense Overlay (Root Body Mount to avoid overflow clipping) -->
+    <div id="autocomplete-box" class="autocomplete-dropdown hidden"></div>
+
     <script>
         function generateOmniTemplate() {
             const now = new Date();
@@ -962,7 +989,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
 `;
         }
 
-        // Global State Variables
+        // Global State
         let pyodide = null;
         let micropip = null;
         let currentFontSize = 13.5;
@@ -978,18 +1005,19 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         let dragStartX = 0;
         let dragStartY = 0;
 
-        // Split Mode & Dynamic Pane Resizer State
+        // Dual-Pane State
         let isSplitMode = false;
         let splitLeftRatio = 50;
         let activeSingleTab = 'editor';
         let activeSplitRightTab = 'terminal';
         let isResizingSplit = false;
 
-        // Spyder IntelliSense State
+        // IntelliSense State
         let autocompleteItems = [];
         let selectedAutocompleteIdx = 0;
         let isAutocompleteOpen = false;
 
+        // Interactive Tour Step Configurations
         let currentTourStep = 0;
         const SPOTLIGHT_TOUR_STEPS = [
             {
@@ -1011,6 +1039,18 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 desc: "Executes your entire Python program client-side in WebAssembly with auto-installation of PyPI packages."
             },
             {
+                targetSelector: "#btn-save-file",
+                title: "Save Python Script",
+                badge: "File Management",
+                desc: "Download your current code as a standard .py file to your device at any time. Shortcut: Ctrl+S."
+            },
+            {
+                targetSelector: "#btn-open-file",
+                title: "Open Local File",
+                badge: "File Management",
+                desc: "Open and edit existing Python scripts (.py) directly from your smartphone, tablet, or PC storage."
+            },
+            {
                 targetSelector: "#btn-find-replace",
                 title: "Find & Replace",
                 badge: "Editor Tools",
@@ -1027,21 +1067,12 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 title: "Live AST Linter",
                 badge: "Real-Time Feedback",
                 desc: "Catches syntax bugs, unclosed brackets, and missing colons in real time with red wavy underlines."
-            },
-            {
-                targetSelector: "#btn-help-guide",
-                title: "Help & Shortcuts Guide",
-                badge: "Reference",
-                desc: "Tap here or press F1 anytime to review keyboard shortcuts or restart this feature tour."
             }
         ];
 
         function checkFirstTimeTour() {
-            // Guard: Never launch tour while splash screen is still visible
             const splash = document.getElementById("splash-screen");
-            if (splash && splash.style.display !== "none") {
-                return;
-            }
+            if (splash && splash.style.display !== "none") return;
             const hasSeen = localStorage.getItem("omni_spotlight_tour_v3");
             if (!hasSeen) {
                 setTimeout(startSpotlightTour, 300);
@@ -1049,11 +1080,8 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         }
 
         function startSpotlightTour() {
-            // Prevent tour if splash is still active
             const splash = document.getElementById("splash-screen");
-            if (splash && splash.style.display !== "none") {
-                return;
-            }
+            if (splash && splash.style.display !== "none") return;
             triggerHaptic();
             currentTourStep = 0;
             const layer = document.getElementById("spotlight-tour-layer");
@@ -1145,6 +1173,541 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             modal.classList.remove("flex");
         }
 
+        // Dedicated Python File Actions: Save, Open, Rename
+        function downloadPythonScript() {
+            triggerHaptic();
+            const code = editor.getValue();
+            let filename = document.getElementById('active-filename').innerText.trim() || 'script.py';
+            if (!filename.endsWith('.py')) filename += '.py';
+
+            const blob = new Blob([code], { type: 'text/x-python;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+            showToast(`Saved '${filename}' to device!`);
+        }
+
+        function openPythonScript(event) {
+            triggerHaptic();
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                editor.setValue(e.target.result);
+                document.getElementById('active-filename').innerText = file.name;
+                showToast(`Opened '${file.name}'`);
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function renameActiveFile() {
+            triggerHaptic();
+            const current = document.getElementById('active-filename').innerText.trim();
+            const newName = prompt("Enter script filename:", current);
+            if (newName && newName.trim()) {
+                let cleanName = newName.trim();
+                if (!cleanName.endsWith('.py')) cleanName += '.py';
+                document.getElementById('active-filename').innerText = cleanName;
+                showToast(`Renamed to ${cleanName}`);
+            }
+        }
+
+        const SCIENTIFIC_PACKAGES = [
+            { label: "numpy as np", display: "import numpy as np", insert: "numpy as np", type: "mod", desc: "Numerical arrays & math" },
+            { label: "pandas as pd", display: "import pandas as pd", insert: "pandas as pd", type: "mod", desc: "DataFrames & analysis" },
+            { label: "matplotlib.pyplot as plt", display: "import matplotlib.pyplot as plt", insert: "matplotlib.pyplot as plt", type: "mod", desc: "Data visualization" },
+            { label: "math", display: "import math", insert: "math", type: "mod", desc: "Standard math functions" },
+            { label: "scipy", display: "import scipy", insert: "scipy", type: "mod", desc: "Scientific computing" },
+            { label: "sympy", display: "import sympy", insert: "sympy", type: "mod", desc: "Symbolic mathematics" },
+            { label: "random", display: "import random", insert: "random", type: "mod", desc: "Random number generation" },
+            { label: "pypdf", display: "import pypdf", insert: "pypdf", type: "mod", desc: "PDF document parsing" },
+            { label: "sys", display: "import sys", insert: "sys", type: "mod", desc: "System parameters" },
+            { label: "os", display: "import os", insert: "os", type: "mod", desc: "OS interface" },
+            { label: "json", display: "import json", insert: "json", type: "mod", desc: "JSON encoder/decoder" },
+            { label: "datetime", display: "import datetime", insert: "datetime", type: "mod", desc: "Date and time tools" },
+            { label: "itertools", display: "import itertools", insert: "itertools", type: "mod", desc: "Iterator functions" }
+        ];
+
+        const PYTHON_KEYWORDS = [
+            "import", "from", "def", "class", "return", "if", "elif", "else", 
+            "for", "while", "try", "except", "finally", "with", "as", "in", 
+            "is", "not", "and", "or", "lambda", "yield", "global", "nonlocal", 
+            "pass", "break", "continue", "raise", "assert", "True", "False", "None"
+        ];
+
+        const PYTHON_BUILTINS = [
+            { name: "print", desc: "value, ..., sep=' ', end='\\n'", type: "fn" },
+            { name: "len", desc: "s -> int", type: "fn" },
+            { name: "range", desc: "start, stop[, step]", type: "fn" },
+            { name: "input", desc: "prompt -> str", type: "fn" },
+            { name: "int", desc: "x=0 -> int", type: "fn" },
+            { name: "float", desc: "x=0.0 -> float", type: "fn" },
+            { name: "str", desc: "object='' -> str", type: "fn" },
+            { name: "list", desc: "iterable -> new list", type: "fn" },
+            { name: "dict", desc: "mapping or iterable", type: "fn" },
+            { name: "set", desc: "iterable -> new set", type: "fn" },
+            { name: "tuple", desc: "iterable -> tuple", type: "fn" },
+            { name: "type", desc: "object -> type of object", type: "fn" },
+            { name: "sum", desc: "iterable, /, start=0", type: "fn" },
+            { name: "min", desc: "arg1, arg2, *args", type: "fn" },
+            { name: "max", desc: "arg1, arg2, *args", type: "fn" },
+            { name: "abs", desc: "x -> absolute value", type: "fn" },
+            { name: "round", desc: "number, ndigits=None", type: "fn" },
+            { name: "open", desc: "file, mode='r', encoding=None", type: "fn" },
+            { name: "enumerate", desc: "iterable, start=0", type: "fn" },
+            { name: "zip", desc: "*iterables -> iterator", type: "fn" },
+            { name: "sorted", desc: "iterable, /, *, key=None, reverse=False", type: "fn" }
+        ];
+
+        const LIB_AUTOCOMPLETE = {
+            "plt": [
+                { name: "plot", desc: "x, y, format, **kwargs", type: "fn" },
+                { name: "scatter", desc: "x, y, s=None, c=None", type: "fn" },
+                { name: "bar", desc: "x, height, width=0.8", type: "fn" },
+                { name: "barh", desc: "y, width, height=0.8", type: "fn" },
+                { name: "pie", desc: "x, explode, labels, autopct", type: "fn" },
+                { name: "hist", desc: "x, bins=None, range=None", type: "fn" },
+                { name: "title", desc: "label, fontsize, pad", type: "fn" },
+                { name: "xlabel", desc: "xlabel, fontsize, labelpad", type: "fn" },
+                { name: "ylabel", desc: "ylabel, fontsize, labelpad", type: "fn" },
+                { name: "grid", desc: "visible=True, linestyle='--'", type: "fn" },
+                { name: "legend", desc: "*args, loc='best'", type: "fn" },
+                { name: "show", desc: "Display rendered canvas", type: "fn" },
+                { name: "figure", desc: "figsize=(width, height)", type: "fn" },
+                { name: "subplot", desc: "nrows, ncols, index", type: "fn" },
+                { name: "subplots", desc: "nrows=1, ncols=1", type: "fn" },
+                { name: "xlim", desc: "left, right", type: "fn" },
+                { name: "ylim", desc: "bottom, top", type: "fn" },
+                { name: "xticks", desc: "ticks, labels=None", type: "fn" },
+                { name: "yticks", desc: "ticks, labels=None", type: "fn" },
+                { name: "tight_layout", desc: "pad=1.08", type: "fn" },
+                { name: "clf", desc: "Clear current figure", type: "fn" },
+                { name: "close", desc: "fig='all'", type: "fn" }
+            ],
+            "np": [
+                { name: "linspace", desc: "start, stop, num=50", type: "fn" },
+                { name: "arange", desc: "start, stop, step", type: "fn" },
+                { name: "array", desc: "object, dtype=None", type: "fn" },
+                { name: "zeros", desc: "shape, dtype=float", type: "fn" },
+                { name: "ones", desc: "shape, dtype=float", type: "fn" },
+                { name: "eye", desc: "N, M=None, k=0", type: "fn" },
+                { name: "sin", desc: "x, /, out=None", type: "fn" },
+                { name: "cos", desc: "x, /, out=None", type: "fn" },
+                { name: "tan", desc: "x, /, out=None", type: "fn" },
+                { name: "exp", desc: "x, /, out=None", type: "fn" },
+                { name: "log", desc: "x, /, out=None", type: "fn" },
+                { name: "log10", desc: "x, /, out=None", type: "fn" },
+                { name: "sqrt", desc: "x, /, out=None", type: "fn" },
+                { name: "pi", desc: "3.141592653589793", type: "const" },
+                { name: "e", desc: "2.718281828459045", type: "const" },
+                { name: "polyfit", desc: "x, y, deg", type: "fn" },
+                { name: "mean", desc: "a, axis=None", type: "fn" },
+                { name: "std", desc: "a, axis=None", type: "fn" },
+                { name: "sum", desc: "a, axis=None", type: "fn" },
+                { name: "max", desc: "a, axis=None", type: "fn" },
+                { name: "min", desc: "a, axis=None", type: "fn" },
+                { name: "reshape", desc: "a, newshape", type: "fn" }
+            ],
+            "pd": [
+                { name: "DataFrame", desc: "data=None, index, columns", type: "cls" },
+                { name: "Series", desc: "data=None, index, dtype", type: "cls" },
+                { name: "read_csv", desc: "filepath_or_buffer, sep=','", type: "fn" },
+                { name: "read_excel", desc: "io, sheet_name=0", type: "fn" },
+                { name: "pivot_table", desc: "data, values, index, aggfunc", type: "fn" },
+                { name: "concat", desc: "objs, axis=0", type: "fn" },
+                { name: "merge", desc: "left, right, how='inner'", type: "fn" },
+                { name: "isna", desc: "obj", type: "fn" }
+            ],
+            "df": [
+                { name: "head", desc: "n=5", type: "fn" },
+                { name: "tail", desc: "n=5", type: "fn" },
+                { name: "describe", desc: "percentiles=None", type: "fn" },
+                { name: "info", desc: "verbose=None", type: "fn" },
+                { name: "shape", desc: "(rows, columns)", type: "prop" },
+                { name: "columns", desc: "Index of column names", type: "prop" },
+                { name: "duplicated", desc: "subset=None, keep='first'", type: "fn" },
+                { name: "groupby", desc: "by=None, axis=0", type: "fn" },
+                { name: "sort_values", desc: "by, ascending=True", type: "fn" },
+                { name: "drop", desc: "labels=None, axis=0", type: "fn" },
+                { name: "dropna", desc: "axis=0, how='any'", type: "fn" },
+                { name: "fillna", desc: "value=None", type: "fn" },
+                { name: "to_csv", desc: "path_or_buf, index=True", type: "fn" }
+            ],
+            "math": [
+                { name: "sqrt", desc: "x -> square root of x", type: "fn" },
+                { name: "sin", desc: "x (in radians)", type: "fn" },
+                { name: "cos", desc: "x (in radians)", type: "fn" },
+                { name: "tan", desc: "x (in radians)", type: "fn" },
+                { name: "pi", desc: "3.141592653589793", type: "const" },
+                { name: "e", desc: "2.718281828459045", type: "const" },
+                { name: "factorial", desc: "n -> int", type: "fn" },
+                { name: "pow", desc: "x, y -> x**y", type: "fn" },
+                { name: "log", desc: "x[, base] -> log", type: "fn" },
+                { name: "log10", desc: "x -> base 10 log", type: "fn" },
+                { name: "radians", desc: "deg -> rad", type: "fn" },
+                { name: "degrees", desc: "rad -> deg", type: "fn" }
+            ]
+        };
+
+        function triggerSpyderIntelliSense() {
+            if (!editor) return;
+            const cursor = editor.getCursor();
+            const line = editor.getLine(cursor.line);
+            const prefix = line.slice(0, cursor.ch);
+
+            const importMatch = prefix.match(/(?:^|\n)\s*(import|from)\s+([a-zA-Z0-9_\.]*)$/);
+            const dotMatch = prefix.match(/([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]*)$/);
+            const wordMatch = prefix.match(/([a-zA-Z0-9_]{2,})$/);
+
+            let candidates = [];
+
+            if (importMatch) {
+                const keyword = importMatch[1];
+                const query = importMatch[2].toLowerCase();
+
+                candidates = SCIENTIFIC_PACKAGES
+                    .filter(pkg => pkg.label.toLowerCase().includes(query) || pkg.insert.toLowerCase().includes(query))
+                    .map(pkg => ({
+                        label: pkg.label,
+                        display: keyword === 'from' ? pkg.insert.split(' ')[0] : pkg.label,
+                        type: "mod",
+                        desc: pkg.desc,
+                        insert: keyword === 'from' ? pkg.insert.split(' ')[0] : pkg.insert,
+                        isImport: true,
+                        importKeyword: keyword
+                    }));
+            } else if (dotMatch) {
+                const targetObj = dotMatch[1];
+                const query = dotMatch[2].toLowerCase();
+                const methods = LIB_AUTOCOMPLETE[targetObj] || [];
+                
+                candidates = methods
+                    .filter(m => m.name.toLowerCase().startsWith(query))
+                    .map(m => ({
+                        label: m.name,
+                        display: `${targetObj}.${m.name}`,
+                        type: m.type,
+                        desc: m.desc,
+                        insert: m.name,
+                        isDot: true,
+                        dotPrefix: targetObj + "."
+                    }));
+            } else if (wordMatch) {
+                const query = wordMatch[1].toLowerCase();
+
+                PYTHON_BUILTINS.forEach(b => {
+                    if (b.name.toLowerCase().startsWith(query)) {
+                        candidates.push({
+                            label: b.name,
+                            display: b.name + "()",
+                            type: b.type,
+                            desc: b.desc,
+                            insert: b.name + "()"
+                        });
+                    }
+                });
+
+                PYTHON_KEYWORDS.forEach(kw => {
+                    if (kw.toLowerCase().startsWith(query)) {
+                        candidates.push({
+                            label: kw,
+                            display: kw,
+                            type: "kw",
+                            desc: "Python Keyword",
+                            insert: kw + (["import", "from", "def", "class", "return", "if", "elif", "while", "for", "with", "as"].includes(kw) ? " " : "")
+                        });
+                    }
+                });
+
+                const userSymbols = extractCodeSymbols();
+                userSymbols.forEach(sym => {
+                    if (sym.label.toLowerCase().startsWith(query) && !candidates.some(c => c.label === sym.label)) {
+                        candidates.push({
+                            label: sym.label,
+                            display: sym.label,
+                            type: sym.type,
+                            desc: sym.desc,
+                            insert: sym.label + (sym.type === 'fn' ? "()" : "")
+                        });
+                    }
+                });
+
+                SCIENTIFIC_PACKAGES.forEach(pkg => {
+                    if (pkg.insert.toLowerCase().startsWith(query)) {
+                        candidates.push({
+                            label: pkg.insert,
+                            display: "import " + pkg.insert,
+                            type: "mod",
+                            desc: pkg.desc,
+                            insert: "import " + pkg.insert
+                        });
+                    }
+                });
+            }
+
+            if (candidates.length > 0) {
+                renderAutocompleteDropdown(candidates.slice(0, 14));
+            } else {
+                closeAutocomplete();
+            }
+        }
+
+        function extractCodeSymbols() {
+            const code = editor.getValue();
+            const results = [];
+            const varRegex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g;
+            const fnRegex = /def\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+            const clsRegex = /class\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+            let m;
+            while ((m = varRegex.exec(code)) !== null) results.push({ label: m[1], type: "var", desc: "Local Variable" });
+            while ((m = fnRegex.exec(code)) !== null) results.push({ label: m[1], type: "fn", desc: "User Function" });
+            while ((m = clsRegex.exec(code)) !== null) results.push({ label: m[1], type: "cls", desc: "User Class" });
+            return results;
+        }
+
+        function renderAutocompleteDropdown(items) {
+            autocompleteItems = items;
+            selectedAutocompleteIdx = 0;
+            isAutocompleteOpen = true;
+
+            const box = document.getElementById("autocomplete-box");
+            box.innerHTML = "";
+
+            items.forEach((item, index) => {
+                const row = document.createElement("div");
+                row.className = `autocomplete-item ${index === 0 ? 'selected' : ''}`;
+                row.dataset.index = index;
+
+                let badgeColor = "bg-indigo-500/20 text-indigo-300 border-indigo-500/30";
+                let iconClass = "fa-solid fa-cube";
+
+                if (item.type === 'kw') { badgeColor = "bg-amber-500/20 text-amber-300 border-amber-500/30"; iconClass = "fa-solid fa-code"; }
+                if (item.type === 'fn') { badgeColor = "bg-purple-500/20 text-purple-300 border-purple-500/30"; iconClass = "fa-solid fa-cube"; }
+                if (item.type === 'cls') { badgeColor = "bg-sky-500/20 text-sky-300 border-sky-500/30"; iconClass = "fa-solid fa-layer-group"; }
+                if (item.type === 'prop') { badgeColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"; iconClass = "fa-solid fa-sliders"; }
+                if (item.type === 'mod') { badgeColor = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"; iconClass = "fa-solid fa-box-archive"; }
+                if (item.type === 'var') { badgeColor = "bg-pink-500/20 text-pink-300 border-pink-500/30"; iconClass = "fa-solid fa-tag"; }
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 truncate">
+                        <span class="text-[8px] px-1.5 py-0.5 rounded border ${badgeColor} font-mono font-bold uppercase flex items-center gap-1">
+                            <i class="${iconClass} text-[7px]"></i> ${item.type}
+                        </span>
+                        <span class="font-bold text-white tracking-wide truncate">${item.display || item.label}</span>
+                    </div>
+                    <span class="text-[9.5px] text-gray-400 font-mono truncate max-w-[120px] text-right ml-2">${item.desc || ''}</span>
+                `;
+
+                row.onmousedown = (e) => {
+                    e.preventDefault();
+                    selectAutocompleteItem(index);
+                };
+
+                box.appendChild(row);
+            });
+
+            box.classList.remove("hidden");
+            positionAutocompleteDropdown();
+        }
+
+        function positionAutocompleteDropdown() {
+            if (!isAutocompleteOpen || !editor) return;
+            const box = document.getElementById("autocomplete-box");
+            if (!box || box.classList.contains("hidden")) return;
+
+            const cursorCoords = editor.cursorCoords(true, "window");
+            const dropdownWidth = Math.min(310, window.innerWidth - 20);
+            const dropdownHeight = box.offsetHeight || Math.min(220, autocompleteItems.length * 32 + 8);
+
+            let left = cursorCoords.left;
+            if (left + dropdownWidth > window.innerWidth - 10) {
+                left = window.innerWidth - dropdownWidth - 10;
+            }
+            if (left < 10) left = 10;
+
+            const spaceBelow = window.innerHeight - cursorCoords.bottom;
+            const spaceAbove = cursorCoords.top;
+            let top = cursorCoords.bottom + 2;
+
+            if (spaceBelow < dropdownHeight + 12 && spaceAbove > dropdownHeight + 12) {
+                top = cursorCoords.top - dropdownHeight - 3;
+            }
+
+            box.style.left = `${Math.round(left)}px`;
+            box.style.top = `${Math.round(top)}px`;
+            box.style.width = `${dropdownWidth}px`;
+        }
+
+        function moveAutocompleteSelection(delta) {
+            if (!isAutocompleteOpen || autocompleteItems.length === 0) return;
+            selectedAutocompleteIdx = (selectedAutocompleteIdx + delta + autocompleteItems.length) % autocompleteItems.length;
+
+            const box = document.getElementById("autocomplete-box");
+            const items = box.querySelectorAll(".autocomplete-item");
+            items.forEach((it, idx) => {
+                const isSel = idx === selectedAutocompleteIdx;
+                it.classList.toggle("selected", isSel);
+                if (isSel) {
+                    it.scrollIntoView({ block: "nearest" });
+                }
+            });
+        }
+
+        function selectAutocompleteItem(index) {
+            triggerHaptic();
+            const item = autocompleteItems[index];
+            if (!item) return;
+
+            const cursor = editor.getCursor();
+            const line = editor.getLine(cursor.line);
+            const prefix = line.slice(0, cursor.ch);
+
+            let replaceStartCh = cursor.ch;
+
+            if (item.isImport) {
+                const match = prefix.match(/(?:^|\n)\s*(?:import|from)\s+([a-zA-Z0-9_\.]*)$/);
+                if (match) {
+                    replaceStartCh = cursor.ch - match[1].length;
+                }
+            } else if (item.isDot) {
+                const dotIdx = prefix.lastIndexOf('.');
+                replaceStartCh = dotIdx + 1;
+            } else {
+                const match = prefix.match(/([a-zA-Z0-9_]+)$/);
+                if (match) {
+                    replaceStartCh = cursor.ch - match[1].length;
+                }
+            }
+
+            editor.replaceRange(item.insert, { line: cursor.line, ch: replaceStartCh }, { line: cursor.line, ch: cursor.ch });
+
+            if (item.insert.endsWith("()")) {
+                editor.setCursor({ line: cursor.line, ch: replaceStartCh + item.insert.length - 1 });
+            }
+
+            closeAutocomplete();
+            editor.focus();
+        }
+
+        function closeAutocomplete() {
+            const box = document.getElementById("autocomplete-box");
+            if (box) box.classList.add("hidden");
+            isAutocompleteOpen = false;
+            autocompleteItems = [];
+            selectedAutocompleteIdx = 0;
+        }
+
+        const outputElement = document.getElementById("output");
+        const statusText = document.getElementById("status-text");
+        const statusInd = document.getElementById("status-indicator");
+        const runBtn = document.getElementById("run-btn");
+        const runLineBtn = document.getElementById("run-line-btn");
+        const timerLabel = document.getElementById("exec-timer");
+
+        const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
+            mode: { name: "python", version: 3 }, 
+            theme: "nord", 
+            lineNumbers: true, 
+            gutters: ["CodeMirror-linenumbers", "error-gutter"],
+            indentUnit: 4, 
+            tabSize: 4,
+            autoCloseBrackets: true, 
+            styleActiveLine: true, 
+            lineWrapping: true,
+            inputStyle: "contenteditable",
+            spellcheck: false,
+            autocorrect: false,
+            autocapitalize: false,
+            extraKeys: {
+                "Ctrl-Enter": () => runCode(),
+                "Cmd-Enter": () => runCode(),
+                "Shift-Enter": () => runSelectedOrCurrentLine(),
+                "F9": () => runSelectedOrCurrentLine(),
+                "Alt-S": () => toggleSplitViewMode(),
+                "Ctrl-S": () => downloadPythonScript(),
+                "Cmd-S": () => downloadPythonScript(),
+                "Ctrl-F": () => openFindReplaceModal(false),
+                "Cmd-F": () => openFindReplaceModal(false),
+                "Ctrl-H": () => openFindReplaceModal(true),
+                "Cmd-H": () => openFindReplaceModal(true),
+                "Shift-Alt-F": () => formatPythonCode(),
+                "F1": () => openShortcutsModal()
+            }
+        });
+
+        editor.on("keydown", (cm, e) => {
+            if (isAutocompleteOpen && autocompleteItems.length > 0) {
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    moveAutocompleteSelection(1);
+                    return;
+                }
+                if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    moveAutocompleteSelection(-1);
+                    return;
+                }
+                if (e.key === "Enter" || e.key === "Tab") {
+                    e.preventDefault();
+                    selectAutocompleteItem(selectedAutocompleteIdx);
+                    return;
+                }
+                if (e.key === "Escape") {
+                    e.preventDefault();
+                    closeAutocomplete();
+                    return;
+                }
+            }
+        });
+
+        const STORAGE_KEY = "omni_studio_clean_v5";
+        const savedCode = localStorage.getItem(STORAGE_KEY);
+        if (savedCode && savedCode.trim()) {
+            editor.setValue(savedCode);
+        } else {
+            editor.setValue(generateOmniTemplate());
+        }
+
+        editor.on("change", (cm, changeObj) => {
+            localStorage.setItem(STORAGE_KEY, editor.getValue());
+            scheduleRealtimeLinter();
+
+            if (changeObj.origin === "+input" || changeObj.origin === "paste" || changeObj.origin === "+delete") {
+                triggerSpyderIntelliSense();
+            }
+        });
+
+        editor.on("cursorActivity", () => {
+            updateCursorPosition();
+            if (isAutocompleteOpen) {
+                positionAutocompleteDropdown();
+            }
+        });
+
+        editor.on("scroll", () => {
+            if (isAutocompleteOpen) {
+                positionAutocompleteDropdown();
+            }
+        });
+
+        document.addEventListener("pointerdown", (e) => {
+            if (isAutocompleteOpen && !e.target.closest("#autocomplete-box") && !e.target.closest(".CodeMirror")) {
+                closeAutocomplete();
+            }
+        });
+
+        function updateCursorPosition() {
+            const cursor = editor.getCursor();
+            document.getElementById("cursor-position").innerText = `Ln ${cursor.line + 1}, Col ${cursor.ch + 1}`;
+        }
+
+        // Dual-Pane Resizer & Split-View Controller
         function toggleSplitViewMode() {
             triggerHaptic();
             setSplitMode(!isSplitMode);
@@ -1163,18 +1726,14 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 splitBtn.classList.add('bg-indigo-600', 'text-white');
                 splitBtn.classList.remove('bg-white/5', 'text-gray-300');
 
-                // Auto-hide bottom dock in Split Mode
                 bottomDock.style.display = 'none';
-
                 mountSplitRightViews();
                 
                 leftPane.style.width = `${splitLeftRatio}%`;
                 rightPane.style.width = `calc(${100 - splitLeftRatio}% - 8px)`;
 
                 const editorTab = document.getElementById('tab-editor');
-                if (editorTab) {
-                    editorTab.classList.add('active');
-                }
+                if (editorTab) editorTab.classList.add('active');
 
                 showToast("Dual-Pane Mode Active");
             } else {
@@ -1194,7 +1753,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             }
 
             setTimeout(() => { if (editor) editor.refresh(); }, 50);
-            setTimeout(() => { if (editor) editor.refresh(); }, 350);
+            setTimeout(() => { if (editor) editor.refresh(); }, 320);
         }
 
         function mountSplitRightViews() {
@@ -1319,376 +1878,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             });
         }
 
-        const PYTHON_KEYWORDS = [
-            "import", "from", "def", "class", "return", "if", "elif", "else", 
-            "for", "while", "try", "except", "finally", "with", "as", "in", 
-            "is", "not", "and", "or", "lambda", "yield", "global", "nonlocal", 
-            "pass", "break", "continue", "raise", "assert", "True", "False", "None"
-        ];
-
-        const PYTHON_BUILTINS = [
-            "print", "len", "range", "int", "float", "str", "list", "dict", 
-            "set", "tuple", "open", "type", "sum", "min", "max", "enumerate", 
-            "zip", "map", "filter", "sorted", "reversed", "abs", "round", "input"
-        ];
-
-        const LIB_AUTOCOMPLETE = {
-            "plt": [
-                { name: "plot", desc: "x, y, format, **kwargs", type: "fn" },
-                { name: "scatter", desc: "x, y, s=None, c=None", type: "fn" },
-                { name: "bar", desc: "x, height, width=0.8", type: "fn" },
-                { name: "barh", desc: "y, width, height=0.8", type: "fn" },
-                { name: "pie", desc: "x, explode, labels, autopct", type: "fn" },
-                { name: "hist", desc: "x, bins=None, range=None", type: "fn" },
-                { name: "title", desc: "label, fontsize, pad", type: "fn" },
-                { name: "xlabel", desc: "xlabel, fontsize, labelpad", type: "fn" },
-                { name: "ylabel", desc: "ylabel, fontsize, labelpad", type: "fn" },
-                { name: "grid", desc: "visible=True, linestyle='--'", type: "fn" },
-                { name: "legend", desc: "*args, loc='best'", type: "fn" },
-                { name: "show", desc: "Display rendered canvas", type: "fn" },
-                { name: "figure", desc: "figsize=(width, height)", type: "fn" },
-                { name: "subplot", desc: "nrows, ncols, index", type: "fn" },
-                { name: "subplots", desc: "nrows=1, ncols=1", type: "fn" },
-                { name: "xlim", desc: "left, right", type: "fn" },
-                { name: "ylim", desc: "bottom, top", type: "fn" },
-                { name: "xticks", desc: "ticks, labels=None", type: "fn" },
-                { name: "yticks", desc: "ticks, labels=None", type: "fn" },
-                { name: "tight_layout", desc: "pad=1.08", type: "fn" },
-                { name: "clf", desc: "Clear current figure", type: "fn" },
-                { name: "close", desc: "fig='all'", type: "fn" }
-            ],
-            "np": [
-                { name: "linspace", desc: "start, stop, num=50", type: "fn" },
-                { name: "arange", desc: "start, stop, step", type: "fn" },
-                { name: "array", desc: "object, dtype=None", type: "fn" },
-                { name: "zeros", desc: "shape, dtype=float", type: "fn" },
-                { name: "ones", desc: "shape, dtype=float", type: "fn" },
-                { name: "eye", desc: "N, M=None, k=0", type: "fn" },
-                { name: "sin", desc: "x, /, out=None", type: "fn" },
-                { name: "cos", desc: "x, /, out=None", type: "fn" },
-                { name: "tan", desc: "x, /, out=None", type: "fn" },
-                { name: "exp", desc: "x, /, out=None", type: "fn" },
-                { name: "log", desc: "x, /, out=None", type: "fn" },
-                { name: "log10", desc: "x, /, out=None", type: "fn" },
-                { name: "sqrt", desc: "x, /, out=None", type: "fn" },
-                { name: "pi", desc: "3.141592653589793", type: "const" },
-                { name: "e", desc: "2.718281828459045", type: "const" },
-                { name: "polyfit", desc: "x, y, deg", type: "fn" },
-                { name: "mean", desc: "a, axis=None", type: "fn" },
-                { name: "std", desc: "a, axis=None", type: "fn" },
-                { name: "sum", desc: "a, axis=None", type: "fn" },
-                { name: "max", desc: "a, axis=None", type: "fn" },
-                { name: "min", desc: "a, axis=None", type: "fn" },
-                { name: "reshape", desc: "a, newshape", type: "fn" }
-            ],
-            "pd": [
-                { name: "DataFrame", desc: "data=None, index, columns", type: "cls" },
-                { name: "Series", desc: "data=None, index, dtype", type: "cls" },
-                { name: "read_csv", desc: "filepath_or_buffer, sep=','", type: "fn" },
-                { name: "read_excel", desc: "io, sheet_name=0", type: "fn" },
-                { name: "pivot_table", desc: "data, values, index, aggfunc", type: "fn" },
-                { name: "concat", desc: "objs, axis=0", type: "fn" },
-                { name: "merge", desc: "left, right, how='inner'", type: "fn" },
-                { name: "isna", desc: "obj", type: "fn" }
-            ],
-            "df": [
-                { name: "head", desc: "n=5", type: "fn" },
-                { name: "tail", desc: "n=5", type: "fn" },
-                { name: "describe", desc: "percentiles=None", type: "fn" },
-                { name: "info", desc: "verbose=None", type: "fn" },
-                { name: "shape", desc: "(rows, columns)", type: "prop" },
-                { name: "columns", desc: "Index of column names", type: "prop" },
-                { name: "duplicated", desc: "subset=None, keep='first'", type: "fn" },
-                { name: "groupby", desc: "by=None, axis=0", type: "fn" },
-                { name: "sort_values", desc: "by, ascending=True", type: "fn" },
-                { name: "drop", desc: "labels=None, axis=0", type: "fn" },
-                { name: "dropna", desc: "axis=0, how='any'", type: "fn" },
-                { name: "fillna", desc: "value=None", type: "fn" },
-                { name: "to_csv", desc: "path_or_buf, index=True", type: "fn" }
-            ]
-        };
-
-        function triggerSpyderIntelliSense() {
-            if (!editor) return;
-            const cursor = editor.getCursor();
-            const line = editor.getLine(cursor.line);
-            const prefix = line.slice(0, cursor.ch);
-
-            // Pattern 1: Dot access (e.g. plt., np., pd., df.)
-            const dotMatch = prefix.match(/([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]*)$/);
-            // Pattern 2: Word typing (e.g. imp, def, ran, pr)
-            const wordMatch = prefix.match(/([a-zA-Z0-9_]{2,})$/);
-
-            let candidates = [];
-
-            if (dotMatch) {
-                const targetObj = dotMatch[1];
-                const query = dotMatch[2].toLowerCase();
-                const methods = LIB_AUTOCOMPLETE[targetObj] || [];
-                
-                candidates = methods
-                    .filter(m => m.name.toLowerCase().startsWith(query))
-                    .map(m => ({
-                        label: m.name,
-                        display: `${targetObj}.${m.name}`,
-                        type: m.type,
-                        desc: m.desc,
-                        insert: m.name,
-                        isDot: true,
-                        dotPrefix: targetObj + "."
-                    }));
-            } else if (wordMatch) {
-                const query = wordMatch[1].toLowerCase();
-
-                // 1. Python Keywords (import, def, class, etc.)
-                PYTHON_KEYWORDS.forEach(kw => {
-                    if (kw.toLowerCase().startsWith(query)) {
-                        candidates.push({
-                            label: kw,
-                            display: kw,
-                            type: "kw",
-                            desc: "Python Keyword",
-                            insert: kw + (["import", "from", "def", "class", "return", "if", "elif", "while", "for", "with", "as"].includes(kw) ? " " : "")
-                        });
-                    }
-                });
-
-                // 2. Python Built-ins (print, range, len, etc.)
-                PYTHON_BUILTINS.forEach(fn => {
-                    if (fn.toLowerCase().startsWith(query)) {
-                        candidates.push({
-                            label: fn,
-                            display: fn + "()",
-                            type: "fn",
-                            desc: "Built-in Function",
-                            insert: fn + "()"
-                        });
-                    }
-                });
-
-                // 3. User-defined code symbols (variables, defs, classes)
-                const userSymbols = extractCodeSymbols();
-                userSymbols.forEach(sym => {
-                    if (sym.label.toLowerCase().startsWith(query) && !candidates.some(c => c.label === sym.label)) {
-                        candidates.push({
-                            label: sym.label,
-                            display: sym.label,
-                            type: sym.type,
-                            desc: sym.desc,
-                            insert: sym.label + (sym.type === 'fn' ? "()" : "")
-                        });
-                    }
-                });
-            }
-
-            if (candidates.length > 0) {
-                renderAutocompleteDropdown(candidates.slice(0, 12));
-            } else {
-                closeAutocomplete();
-            }
-        }
-
-        function extractCodeSymbols() {
-            const code = editor.getValue();
-            const results = [];
-            const varRegex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g;
-            const fnRegex = /def\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
-            const clsRegex = /class\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
-            let m;
-            while ((m = varRegex.exec(code)) !== null) results.push({ label: m[1], type: "var", desc: "Local Variable" });
-            while ((m = fnRegex.exec(code)) !== null) results.push({ label: m[1], type: "fn", desc: "User Function" });
-            while ((m = clsRegex.exec(code)) !== null) results.push({ label: m[1], type: "cls", desc: "User Class" });
-            return results;
-        }
-
-        function renderAutocompleteDropdown(items) {
-            autocompleteItems = items;
-            selectedAutocompleteIdx = 0;
-            isAutocompleteOpen = true;
-
-            const box = document.getElementById("autocomplete-box");
-            const cursorCoords = editor.cursorCoords(true);
-
-            box.style.left = `${Math.min(window.innerWidth - 300, Math.max(12, cursorCoords.left))}px`;
-            box.style.top = `${cursorCoords.bottom + 4}px`;
-            box.innerHTML = "";
-
-            items.forEach((item, index) => {
-                const row = document.createElement("div");
-                row.className = `autocomplete-item ${index === 0 ? 'selected' : ''}`;
-                row.dataset.index = index;
-
-                let badgeColor = "bg-indigo-500/20 text-indigo-300 border-indigo-500/30";
-                if (item.type === 'kw') badgeColor = "bg-amber-500/20 text-amber-300 border-amber-500/30";
-                if (item.type === 'fn') badgeColor = "bg-purple-500/20 text-purple-300 border-purple-500/30";
-                if (item.type === 'cls') badgeColor = "bg-sky-500/20 text-sky-300 border-sky-500/30";
-                if (item.type === 'prop') badgeColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
-
-                row.innerHTML = `
-                    <div class="flex items-center gap-2 truncate">
-                        <span class="text-[8px] px-1.5 py-0.5 rounded border ${badgeColor} font-mono font-bold uppercase">${item.type}</span>
-                        <span class="font-bold text-white tracking-wide">${item.label}</span>
-                    </div>
-                    <span class="text-[9.5px] text-gray-400 font-mono truncate max-w-[110px]">${item.desc || ''}</span>
-                `;
-
-                row.onmousedown = (e) => {
-                    e.preventDefault();
-                    selectAutocompleteItem(index);
-                };
-
-                box.appendChild(row);
-            });
-
-            box.classList.remove("hidden");
-        }
-
-        function moveAutocompleteSelection(delta) {
-            if (!isAutocompleteOpen || autocompleteItems.length === 0) return;
-            selectedAutocompleteIdx = (selectedAutocompleteIdx + delta + autocompleteItems.length) % autocompleteItems.length;
-
-            const box = document.getElementById("autocomplete-box");
-            const items = box.querySelectorAll(".autocomplete-item");
-            items.forEach((it, idx) => {
-                const isSel = idx === selectedAutocompleteIdx;
-                it.classList.toggle("selected", isSel);
-                if (isSel) {
-                    it.scrollIntoView({ block: "nearest" });
-                }
-            });
-        }
-
-        function selectAutocompleteItem(index) {
-            triggerHaptic();
-            const item = autocompleteItems[index];
-            if (!item) return;
-
-            const cursor = editor.getCursor();
-            const line = editor.getLine(cursor.line);
-            const prefix = line.slice(0, cursor.ch);
-
-            let replaceStartCh = cursor.ch;
-
-            if (item.isDot) {
-                const dotIdx = prefix.lastIndexOf('.');
-                replaceStartCh = dotIdx + 1;
-            } else {
-                const match = prefix.match(/([a-zA-Z0-9_]+)$/);
-                if (match) {
-                    replaceStartCh = cursor.ch - match[1].length;
-                }
-            }
-
-            editor.replaceRange(item.insert, { line: cursor.line, ch: replaceStartCh }, { line: cursor.line, ch: cursor.ch });
-
-            // Place cursor inside parentheses for functions: ( | )
-            if (item.insert.endsWith("()")) {
-                editor.setCursor({ line: cursor.line, ch: replaceStartCh + item.insert.length - 1 });
-            }
-
-            closeAutocomplete();
-            editor.focus();
-        }
-
-        function closeAutocomplete() {
-            const box = document.getElementById("autocomplete-box");
-            if (box) box.classList.add("hidden");
-            isAutocompleteOpen = false;
-            autocompleteItems = [];
-            selectedAutocompleteIdx = 0;
-        }
-
-        const outputElement = document.getElementById("output");
-        const statusText = document.getElementById("status-text");
-        const statusInd = document.getElementById("status-indicator");
-        const runBtn = document.getElementById("run-btn");
-        const runLineBtn = document.getElementById("run-line-btn");
-        const timerLabel = document.getElementById("exec-timer");
-
-        const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
-            mode: { name: "python", version: 3 }, 
-            theme: "nord", 
-            lineNumbers: true, 
-            gutters: ["CodeMirror-linenumbers", "error-gutter"],
-            indentUnit: 4, 
-            tabSize: 4,
-            autoCloseBrackets: true, 
-            styleActiveLine: true, 
-            lineWrapping: true,
-            inputStyle: "contenteditable",
-            spellcheck: false,
-            autocorrect: false,
-            autocapitalize: false,
-            extraKeys: {
-                "Ctrl-Enter": () => runCode(),
-                "Cmd-Enter": () => runCode(),
-                "Shift-Enter": () => runSelectedOrCurrentLine(),
-                "F9": () => runSelectedOrCurrentLine(),
-                "Alt-S": () => toggleSplitViewMode(),
-                "Ctrl-F": () => openFindReplaceModal(false),
-                "Cmd-F": () => openFindReplaceModal(false),
-                "Ctrl-H": () => openFindReplaceModal(true),
-                "Cmd-H": () => openFindReplaceModal(true),
-                "Shift-Alt-F": () => formatPythonCode(),
-                "F1": () => openShortcutsModal()
-            }
-        });
-
-        // Key interception for Spyder Autocomplete navigation (ArrowUp, ArrowDown, Enter, Tab, Esc)
-        editor.on("keydown", (cm, e) => {
-            if (isAutocompleteOpen && autocompleteItems.length > 0) {
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    moveAutocompleteSelection(1);
-                    return;
-                }
-                if (e.key === "ArrowUp") {
-                    e.preventDefault();
-                    moveAutocompleteSelection(-1);
-                    return;
-                }
-                if (e.key === "Enter" || e.key === "Tab") {
-                    e.preventDefault();
-                    selectAutocompleteItem(selectedAutocompleteIdx);
-                    return;
-                }
-                if (e.key === "Escape") {
-                    e.preventDefault();
-                    closeAutocomplete();
-                    return;
-                }
-            }
-        });
-
-        const STORAGE_KEY = "omni_studio_clean_v5";
-        const savedCode = localStorage.getItem(STORAGE_KEY);
-        if (savedCode && savedCode.trim()) {
-            editor.setValue(savedCode);
-        } else {
-            editor.setValue(generateOmniTemplate());
-        }
-
-        editor.on("change", (cm, changeObj) => {
-            localStorage.setItem(STORAGE_KEY, editor.getValue());
-            scheduleRealtimeLinter();
-
-            // Auto-trigger IntelliSense on typing or dot input
-            if (changeObj.origin === "+input" || changeObj.origin === "paste") {
-                triggerSpyderIntelliSense();
-            } else if (changeObj.origin === "+delete") {
-                triggerSpyderIntelliSense();
-            }
-        });
-
-        editor.on("cursorActivity", () => {
-            updateCursorPosition();
-        });
-
-        function updateCursorPosition() {
-            const cursor = editor.getCursor();
-            document.getElementById("cursor-position").innerText = `Ln ${cursor.line + 1}, Col ${cursor.ch + 1}`;
-        }
-
+        // Smooth Boot Animation Lifecycle
         let currentBootPercent = 0;
         let targetBootPercent = 0;
 
@@ -1722,17 +1912,15 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             initPyodide();
             renderSyllabusList();
 
-            // Auto-detect wide screens for Split View
             if (window.innerWidth >= 1024) {
                 setSplitMode(true);
             }
 
-            // Register PWA Service Worker for complete offline reliability
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./sw.js').then((reg) => {
                     console.log("[Omni-Studio] Service Worker Registered:", reg.scope);
                 }).catch((err) => {
-                    console.warn("[Omni-Studio] Offline SW notice:", err);
+                    console.warn("[Omni-Studio] Service Worker notice:", err);
                 });
             }
         });
@@ -1868,6 +2056,7 @@ def _omni_transform_code(code_str):
             }
         }
 
+        // Terminal Prompt Async Bridge
         window.requestAsyncInput = function(promptText) {
             triggerHaptic();
             return new Promise((resolve) => {
@@ -2066,6 +2255,7 @@ def _omni_transform_code(code_str):
             showToast("Plots cleared");
         }
 
+        // Real-Time AST Keystroke Linter
         function scheduleRealtimeLinter() {
             if (linterDebounceTimer) clearTimeout(linterDebounceTimer);
             linterDebounceTimer = setTimeout(runASTLinter, 260);
@@ -2712,7 +2902,6 @@ _inspect_var('${varName}')
             }
             insertMobile(snippet);
             if (isSplitMode) {
-                // Focus editor
                 editor.focus();
             } else {
                 switchTab('editor');
@@ -2880,6 +3069,7 @@ _inspect_var('${varName}')
             }
         }
 
+        // 10 Official Prescribed University Experiments
         const syllabusCatalog = [
             {
                 id: "exp1",
@@ -3141,7 +3331,6 @@ plt.show()`
             triggerHaptic();
             activeSingleTab = id;
 
-            // In Single Mode, all views are in split-left-pane
             const leftPane = document.getElementById('split-left-pane');
             const views = leftPane.querySelectorAll('.tab-content');
             views.forEach(el => el.classList.remove('active'));
@@ -3281,7 +3470,6 @@ plt.show()`
             setTimeout(() => { 
                 s.style.display = 'none'; 
                 if (editor) editor.refresh(); 
-                // Launch first-time tour only after splash screen is completely removed from view
                 checkFirstTimeTour();
             }, 350);
         }
