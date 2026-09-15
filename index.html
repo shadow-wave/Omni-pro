@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Omni-Studio | Spyder Lab Edition</title>
+    <title>Omni-Studio</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#030305">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="OmniLab">
-    
+    <meta name="apple-mobile-web-app-title" content="Omni-Studio">
+
     <!-- Vector Favicon & Apple Touch Icon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='%2306070c'/%3E%3Cpath d='M256 96c-53 0-96 24-96 64v32h96v32H160c-40 0-64 24-64 64s24 64 64 64h32v-48c0-26.5 21.5-48 48-48h64c26.5 0 48-21.5 48-48v-64c0-40-43-64-96-64zm-32 36a16 16 0 1 1 0 32 16 16 0 0 1 0-32zm32 284c53 0 96-24 96-64v-32h-96v-32h96c40 0 64-24 64-64s-24-64-64-64h-32v48c0 26.5-21.5 48-48 48h-64c-26.5 0-48 21.5-48 48v64c0 40 43 64 96 64zm32-36a16 16 0 1 1 0-32 16 16 0 0 1 0 32z' fill='url(%23g)'/%3E%3C/svg%3E">
 
-    <!-- Web Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS Framework CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -38,16 +38,16 @@
                     },
                     keyframes: {
                         pulseGlow: {
-                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-                            '50%': { opacity: '0.9', transform: 'scale(1.08)' },
+                            '0%, 100%': { opacity: '0.35', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.08)' },
                         }
                     }
                 }
             }
         }
     </script>
-    
-    <!-- CodeMirror 5 Core & AutoComplete Extensions -->
+
+    <!-- CodeMirror Core, Nord Theme & Hints -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
@@ -58,13 +58,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
 
-    <!-- Pyodide Python WASM Engine & Font Awesome -->
+    <!-- Pyodide Python WASM Engine & Icons -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --glass: rgba(13, 16, 26, 0.94);
+            --glass: rgba(11, 14, 23, 0.94);
             --glass-border: rgba(255, 255, 255, 0.07);
             --sat: env(safe-area-inset-top);
             --sab: env(safe-area-inset-bottom);
@@ -121,6 +121,20 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* Ultra-Smooth Animated Shimmer for Progress Bar */
+        @keyframes shimmerGlow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .progress-shimmer {
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 35%, #34d399 70%, #6366f1 100%);
+            background-size: 200% 100%;
+            animation: shimmerGlow 2s infinite linear;
+            box-shadow: 0 0 14px rgba(99, 102, 241, 0.45);
+        }
+
+        /* CodeMirror Custom Overrides */
         .CodeMirror {
             background: transparent !important;
             font-size: 13.5px;
@@ -132,7 +146,7 @@
         .CodeMirror-gutters {
             background: rgba(0, 0, 0, 0.25) !important;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
-            width: 42px;
+            width: 40px;
         }
 
         .CodeMirror-linenumber {
@@ -141,19 +155,19 @@
             font-size: 11px;
         }
 
-        /* Spyder Real-Time Error Underline & Highlights */
-        .spyder-error-line {
+        /* Real-Time Syntax Error Underline & Highlights */
+        .omni-error-line {
             background: rgba(239, 68, 68, 0.08) !important;
         }
 
-        .spyder-error-wave {
+        .omni-error-wave {
             text-decoration: underline wavy #f43f5e 2px !important;
             text-underline-offset: 3.5px;
             background: rgba(244, 63, 94, 0.12) !important;
             border-radius: 2px;
         }
 
-        .spyder-gutter-marker {
+        .omni-gutter-marker {
             width: 12px;
             text-align: center;
             font-size: 10px;
@@ -162,7 +176,7 @@
             filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.7));
         }
 
-        /* Spyder Clean Autocompletion Popup */
+        /* Autocompletion Popup Dropdown */
         .CodeMirror-hints {
             background: rgba(12, 15, 24, 0.98) !important;
             backdrop-filter: blur(20px);
@@ -206,25 +220,32 @@
         .hint-badge.var { background: rgba(245, 158, 11, 0.25); color: #fcd34d; }
         .hint-badge.kw { background: rgba(56, 189, 248, 0.25); color: #7dd3fc; }
 
+        /* Multi-Device Responsive Plot Canvas (Prevents Laptop & iPad Oversized Cutoff) */
         .omni-plot-card {
             background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+            border-radius: 14px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            padding: 6px;
+            max-width: 100%;
+            max-height: 100%;
+            padding: 12px;
+            margin: auto;
+            box-sizing: border-box;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .omni-plot-card img {
-            width: 100%;
+            max-width: 100%;
+            max-height: calc(100dvh - 10rem - var(--sat) - var(--sab));
+            width: auto;
             height: auto;
-            max-height: 100%;
             object-fit: contain;
             display: block;
-            border-radius: 10px;
+            border-radius: 6px;
+            margin: auto;
         }
 
         .csv-table input {
@@ -300,30 +321,39 @@
 </head>
 <body class="flex flex-col select-none">
 
-    <!-- Clean Splash Screen -->
-    <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-300">
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-400">
         <div class="relative flex items-center justify-center">
             <div class="absolute w-24 h-24 rounded-full bg-indigo-500/20 blur-xl animate-pulse-glow"></div>
-            <div class="w-16 h-16 rounded-[20px] bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl shadow-2xl border border-white/20 relative z-10">
-                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C8.5 2 6 4 6 6.5V8.5H12V10.5H5C3 10.5 2 12 2 14.5S3 18.5 5 18.5H7V16C7 14.3431 8.34315 13 10 13H14C15.6569 13 17 11.6569 17 10V6.5C17 4 14.5 2 12 2ZM10.5 4.5C11.0523 4.5 11.5 4.94772 11.5 5.5C11.5 6.05228 11.0523 6.5 10.5 6.5C9.94772 6.5 9.5 6.05228 9.5 5.5C9.5 4.94772 9.94772 4.5 10.5 4.5Z" fill="white"/>
-                    <path d="M12 22C15.5 22 18 20 18 17.5V15.5H12V13.5H19C21 13.5 22 12 22 9.5S21 5.5 19 5.5H17V8C17 9.65685 15.6569 11 14 11H10C8.34315 11 7 12.3431 7 14V17.5C7 20 9.5 22 12 22ZM13.5 19.5C12.9477 19.5 12.5 19.0523 12.5 18.5C12.5 17.9477 12.9477 17.5 13.5 17.5C14.0523 17.5 14.5 17.9477 14.5 18.5C14.5 19.0523 14.0523 19.5 13.5 19.5Z" fill="white" fill-opacity="0.8"/>
-                </svg>
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-2xl shadow-2xl border border-white/20 relative z-10">
+                <i class="fa-brands fa-python"></i>
             </div>
         </div>
-        <h1 class="mt-5 text-xl font-bold text-white tracking-tight">Omni-Studio<span class="text-indigo-400 font-mono text-sm ml-1.5 px-1.5 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20">Spyder</span></h1>
+        <h1 class="mt-5 text-xl font-bold text-white tracking-tight">
+            Omni-Studio
+        </h1>
+        <p class="mt-0.5 text-indigo-300/60 text-[9px] font-bold tracking-[0.2em] uppercase">Computational Python & Data Science Lab</p>
         
         <div class="mt-6 w-full max-w-xs space-y-2.5">
-            <div id="boot-box" class="py-3 px-4 glass-panel rounded-xl flex items-center justify-center gap-2.5 border-indigo-500/20">
-                <i id="boot-icon" class="fa-solid fa-circle-notch fa-spin text-indigo-400 text-xs"></i>
-                <span id="boot-text" class="text-xs font-semibold text-gray-300">Waking WASM Kernel...</span>
+            <div id="boot-box" class="py-3 px-4 glass-panel rounded-xl flex flex-col gap-2 border-indigo-500/20 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i id="boot-icon" class="fa-solid fa-circle-notch fa-spin text-indigo-400 text-xs"></i>
+                        <span id="boot-text" class="text-xs font-semibold text-gray-300">Initializing Kernel...</span>
+                    </div>
+                    <span id="boot-percent" class="text-xs font-mono font-bold text-indigo-400">0%</span>
+                </div>
+                <!-- Smooth Fluid Animated Progress Bar -->
+                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden p-0.5">
+                    <div id="splash-progress-fill" class="h-full rounded-full w-[0%] progress-shimmer transition-all duration-300 ease-out"></div>
+                </div>
             </div>
-            <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Mounting Pandas, NumPy & Matplotlib...</div>
+            <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Loading WebAssembly runtime...</div>
         </div>
         <div class="absolute bottom-6 text-[10px] text-gray-600 font-bold uppercase tracking-widest">Aravind O K</div>
     </div>
 
-    <!-- Python Input Modal (Handles input() in experiments) -->
+    <!-- Python Input Modal -->
     <div id="input-modal" class="fixed inset-0 z-[110] bg-black/80 backdrop-blur-md hidden items-start justify-center p-4 pt-16">
         <div class="glass-panel w-full max-w-xs p-4 rounded-2xl border-indigo-500/30 shadow-2xl space-y-3">
             <div class="flex items-center gap-2 text-indigo-400 text-[11px] font-bold uppercase tracking-wider">
@@ -346,6 +376,28 @@
             <div class="flex gap-2 pt-1">
                 <button id="confirm-modal-cancel" class="flex-1 py-2 rounded-xl bg-white/10 active:bg-white/15 text-xs font-semibold text-gray-300 transition">Cancel</button>
                 <button id="confirm-modal-ok" class="flex-1 py-2 rounded-xl bg-indigo-600 active:bg-indigo-500 text-xs font-bold text-white shadow-lg transition">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive DataFrame Viewer Modal -->
+    <div id="df-viewer-modal" class="fixed inset-0 z-[124] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
+        <div class="glass-panel w-full max-w-2xl max-h-[85vh] rounded-2xl border-white/10 shadow-2xl flex flex-col modal-sheet-enter overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-table-cells text-indigo-400 text-sm"></i>
+                    <h2 id="df-viewer-title" class="text-xs font-bold text-white tracking-wide font-mono">DataFrame Inspector</h2>
+                </div>
+                <button onclick="closeDfViewer()" class="w-6 h-6 rounded-lg bg-white/5 active:bg-white/15 text-gray-400 text-xs flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-3 flex-1 overflow-auto no-scrollbar">
+                <div id="df-viewer-table-container" class="border border-white/10 rounded-xl overflow-x-auto"></div>
+            </div>
+            <div class="px-4 py-2.5 bg-white/5 border-t border-white/10 flex items-center justify-between text-[10px] text-gray-400">
+                <span id="df-viewer-dimensions">Rows: 0 | Cols: 0</span>
+                <button onclick="closeDfViewer()" class="px-3 py-1 bg-white/10 active:bg-white/20 rounded-lg text-white font-semibold">Close</button>
             </div>
         </div>
     </div>
@@ -383,7 +435,7 @@
         </div>
     </div>
 
-    <!-- Virtual CSV Creator Modal -->
+    <!-- Virtual CSV & File Creator Modal -->
     <div id="csv-creator-modal" class="fixed inset-0 z-[125] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md max-h-[86vh] rounded-2xl border-white/10 shadow-2xl flex flex-col modal-sheet-enter overflow-hidden">
             <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
@@ -445,15 +497,15 @@
         </div>
     </div>
 
+    <!-- Top Header -->
     <header class="h-[3.75rem] pt-[var(--sat)] px-4 flex items-center justify-between shrink-0 z-40 bg-[#040508]/95 border-b border-white/5">
         <div class="flex items-center gap-2.5">
             <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs shadow-md">
                 <i class="fa-brands fa-python"></i>
             </div>
             <div>
-                <h1 class="font-bold text-xs text-white leading-tight flex items-center gap-1.5">
-                    Omni-Studio 
-                    <span class="text-[8.5px] font-mono bg-indigo-500/15 text-indigo-300 px-1 py-0.2 rounded border border-indigo-500/20">Spyder</span>
+                <h1 class="font-bold text-xs text-white leading-tight">
+                    Omni-Studio
                 </h1>
                 <div class="flex items-center gap-1.5">
                     <div id="status-indicator" class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
@@ -463,13 +515,13 @@
             </div>
         </div>
         
-        <!-- Clean Spyder Action Buttons -->
+        <!-- Action Buttons -->
         <div class="flex items-center gap-1.5">
-            <button id="run-selection-btn" onclick="runSelectionOrLine()" title="Spyder F9: Run Selection / Current Line" class="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/5 hover:bg-white/10 active:bg-indigo-600/30 text-indigo-300 font-bold text-xs border border-white/10 transition">
+            <button id="run-selection-btn" onclick="runSelectionOrLine()" title="Run Selection / Current Line" class="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/5 hover:bg-white/10 active:bg-indigo-600/30 text-indigo-300 font-bold text-xs border border-white/10 transition">
                 <i class="fa-solid fa-play text-[8px] text-indigo-400"></i>
                 <span class="text-[10px]">Line</span>
             </button>
-            <button id="run-btn" onclick="runCode()" disabled title="Run Entire Script (Ctrl+Enter)" class="h-8 px-3.5 rounded-lg flex items-center gap-1.5 bg-indigo-600 active:bg-indigo-500 text-white font-bold text-xs disabled:opacity-30 transition shadow-md shadow-indigo-600/20">
+            <button id="run-btn" onclick="runCode()" disabled title="Run Script" class="h-8 px-3.5 rounded-lg flex items-center gap-1.5 bg-indigo-600 active:bg-indigo-500 text-white font-bold text-xs disabled:opacity-30 transition shadow-md shadow-indigo-600/20">
                 <i class="fa-solid fa-play text-[9px]"></i>
                 <span>Run</span>
             </button>
@@ -488,7 +540,7 @@
                         <span id="active-filename">temp.py</span>
                     </span>
                     <div class="flex items-center gap-2">
-                        <button onclick="triggerSpyderHint(editor)" title="Autocomplete (Ctrl+Space)" class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono hover:bg-indigo-500/30">
+                        <button onclick="triggerOmniHint(editor)" title="Autocomplete (Ctrl+Space)" class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono hover:bg-indigo-500/30">
                             Auto <i class="fa-solid fa-bolt text-[7px]"></i>
                         </button>
                         <button onclick="changeFontSize(-1)" title="Zoom Out" class="w-5 h-5 flex items-center justify-center active:text-white"><i class="fa-solid fa-minus text-[8px]"></i></button>
@@ -501,8 +553,8 @@
                     <textarea id="code-editor"></textarea>
                 </div>
 
-                <!-- Minimalist Spyder Real-Time Diagnostics Footer -->
-                <div id="spyder-diagnostics-bar" class="h-5 px-3 bg-black/50 border-t border-white/5 flex items-center justify-between text-[9.5px] font-mono text-gray-400 shrink-0">
+                <!-- Diagnostics Footer -->
+                <div id="omni-diagnostics-bar" class="h-5 px-3 bg-black/50 border-t border-white/5 flex items-center justify-between text-[9.5px] font-mono text-gray-400 shrink-0">
                     <div id="linter-status-display" class="flex items-center gap-1.5 truncate">
                         <i class="fa-solid fa-check text-green-400 text-[9px]"></i>
                         <span class="text-green-400">Clean</span>
@@ -530,7 +582,7 @@
             </div>
         </div>
 
-        <!-- Tab 2: Spyder Variable Explorer -->
+        <!-- Tab 2: Variable Explorer -->
         <div id="tab-variables" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
                 <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
@@ -558,11 +610,12 @@
                                 <th class="p-2">Type</th>
                                 <th class="p-2">Size</th>
                                 <th class="p-2">Value</th>
+                                <th class="p-2 text-right">Inspect</th>
                             </tr>
                         </thead>
                         <tbody id="variables-table-body">
                             <tr>
-                                <td colspan="4" class="p-4 text-center text-gray-500 text-[10px]">
+                                <td colspan="5" class="p-4 text-center text-gray-500 text-[10px]">
                                     Run code to inspect variables in memory.
                                 </td>
                             </tr>
@@ -588,22 +641,22 @@
             </div>
         </div>
 
-        <!-- Tab 4: Plots -->
+        <!-- Tab 4: Plots (Responsive for Mobile, iPad & Laptop) -->
         <div id="tab-plots" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg">
-                <div class="h-9 flex justify-between items-center px-3 bg-white/5 border-b border-white/5">
+                <div class="h-9 flex justify-between items-center px-3 bg-white/5 border-b border-white/5 shrink-0">
                     <span class="text-[9px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-line text-indigo-400"></i> Plot Studio
                     </span>
                     <div class="flex gap-1.5">
-                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9px] font-bold bg-indigo-600 active:bg-indigo-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1">
+                        <button onclick="downloadPlot()" id="btn-download-plot" class="hidden text-[9px] font-bold bg-indigo-600 active:bg-indigo-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1 transition">
                             <i class="fa-solid fa-download"></i> Save PNG
                         </button>
-                        <button onclick="clearPlots()" class="text-[9px] font-bold bg-white/10 active:bg-white/20 px-2 py-1 rounded-lg text-gray-300">Clear</button>
+                        <button onclick="clearPlots()" class="text-[9px] font-bold bg-white/10 active:bg-white/20 px-2 py-1 rounded-lg text-gray-300 transition">Clear</button>
                     </div>
                 </div>
-                <div class="flex-1 p-3 flex items-center justify-center overflow-auto bg-[#0a0c14]">
-                    <div id="plot-target" class="w-full flex items-center justify-center">
+                <div class="flex-1 p-2 sm:p-4 flex items-center justify-center overflow-hidden bg-[#0a0c14] relative">
+                    <div id="plot-target" class="w-full h-full flex items-center justify-center overflow-hidden">
                         <div id="plot-placeholder" class="text-center opacity-30">
                             <i class="fa-solid fa-chart-pie text-4xl mb-2 text-indigo-300"></i>
                             <p class="text-[9.5px] font-mono uppercase tracking-wider">No Graph Generated</p>
@@ -616,12 +669,12 @@
         <!-- Tab 5: College Lab Syllabus & Datasets -->
         <div id="tab-files" class="tab-content">
             <div class="flex-1 overflow-y-auto space-y-3 pr-0.5 no-scrollbar pb-6">
-                <!-- Lead Developer Badge -->
+                <!-- Developer Badge -->
                 <div class="glass-panel p-3 rounded-2xl flex items-center gap-3 border-indigo-500/20">
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-xs shadow-md">A</div>
                     <div>
                         <h3 class="text-white font-bold text-xs leading-tight">Aravind O K</h3>
-                        <p class="text-indigo-400 text-[8px] font-bold uppercase tracking-widest">Omni-Studio Spyder Edition</p>
+                        <p class="text-indigo-400 text-[8px] font-bold uppercase tracking-widest">Omni-Studio</p>
                         <span class="text-[9px] text-gray-400">Python Lab Record & Computational Suite</span>
                     </div>
                 </div>
@@ -798,19 +851,19 @@
                     </div>
                 </div>
 
-                <!-- Virtual Datasets -->
+                <!-- Virtual Datasets & Files Manager -->
                 <div class="glass-panel p-3 rounded-2xl border-white/5 space-y-2">
                     <div class="flex items-center justify-between">
                         <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-file-csv text-indigo-400"></i> Virtual CSV Datasets
+                            <i class="fa-solid fa-folder-open text-indigo-400"></i> Virtual Memory Files (CSV, PDF, TXT)
                         </span>
                         <div class="flex items-center gap-1.5">
                             <button onclick="openCsvCreatorModal()" class="px-2 py-0.8 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-[9px] font-bold text-indigo-200 rounded active:scale-95 transition flex items-center gap-1">
                                 <i class="fa-solid fa-plus text-[8px]"></i> New CSV
                             </button>
                             <label class="px-2 py-0.8 bg-white/10 active:bg-white/20 text-[9px] font-bold text-white rounded cursor-pointer transition">
-                                <i class="fa-solid fa-upload mr-0.5"></i> Mount
-                                <input type="file" id="fs-file-uploader" class="hidden" accept=".csv,.txt,.dat" onchange="uploadToVirtualFS(event)">
+                                <i class="fa-solid fa-upload mr-0.5"></i> Mount File
+                                <input type="file" id="fs-file-uploader" class="hidden" accept=".csv,.txt,.dat,.pdf" onchange="uploadToVirtualFS(event)">
                             </label>
                         </div>
                     </div>
@@ -832,6 +885,7 @@
         </div>
     </main>
 
+    <!-- Bottom Navigation Dock -->
     <nav class="h-[4.5rem] pb-[var(--sab)] px-3 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10">
         <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400 transition" data-target="editor">
             <i class="fa-solid fa-code text-base"></i>
@@ -856,11 +910,11 @@
     </nav>
 
     <script>
+        // Offline Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Register inline offline cache fallback
                 const swCode = `
-                    const CACHE_NAME = 'omni-spyder-v4';
+                    const CACHE_NAME = 'omni-studio-final-v1';
                     self.addEventListener('install', (e) => self.skipWaiting());
                     self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
                     self.addEventListener('fetch', (e) => {
@@ -881,7 +935,7 @@
             });
         }
 
-        // Clean Spyder Template: NO pre-loaded code on start, only docstring with date & time
+        // Clean Omni-Studio Template (Starts clean with dynamic timestamp)
         function generateOmniTemplate() {
             const now = new Date();
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -890,11 +944,11 @@
 
             return `# -*- coding: utf-8 -*-
 """
-Omni-Studio Spyder Editor
+Omni-Studio Editor
 
 Created on ${formattedDate}
 
-@author: OmniLab User
+@author: Aravind O K
 """
 
 `;
@@ -909,7 +963,8 @@ Created on ${formattedDate}
         let lintDebounceTimer = null;
         let userDefinedVariables = [];
 
-        const SPYDER_SYMBOLS = {
+        // IntelliSense Symbol Definitions
+        const OMNI_SYMBOLS = {
             np: [
                 'abs', 'all', 'any', 'arange', 'arccos', 'arcsin', 'arctan', 'argmax', 'argmin',
                 'array', 'ascontiguousarray', 'average', 'clip', 'concatenate', 'cos', 'cross',
@@ -971,7 +1026,7 @@ Created on ${formattedDate}
             setTimeout(() => {
                 toast.classList.remove('opacity-100', 'translate-y-0');
                 toast.classList.add('opacity-0', '-translate-y-4');
-            }, 2200);
+            }, 2600);
         }
 
         function showConfirm(title, message) {
@@ -1018,7 +1073,7 @@ Created on ${formattedDate}
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
             lineNumbers: true, 
-            gutters: ["CodeMirror-linenumbers", "spyder-error-gutter"],
+            gutters: ["CodeMirror-linenumbers", "omni-error-gutter"],
             indentUnit: 4, 
             tabSize: 4,
             autoCloseBrackets: true, 
@@ -1033,7 +1088,7 @@ Created on ${formattedDate}
                 "Cmd-Enter": () => runCode(),
                 "F9": () => runSelectionOrLine(),
                 "Shift-Enter": () => runSelectionOrLine(),
-                "Ctrl-Space": (cm) => triggerSpyderHint(cm)
+                "Ctrl-Space": (cm) => triggerOmniHint(cm)
             }
         });
 
@@ -1042,17 +1097,15 @@ Created on ${formattedDate}
             document.getElementById("cursor-pos-display").innerText = `Ln ${cursor.line + 1}, Col ${cursor.ch + 1}`;
         });
 
-        // Trigger Autocompletion when typing characters or dot
         editor.on("inputRead", function(cm, change) {
             if (change.origin === "+input") {
                 const text = change.text[0];
                 if (/^[a-zA-Z_\.]$/.test(text)) {
-                    triggerSpyderHint(cm);
+                    triggerOmniHint(cm);
                 }
             }
         });
 
-        // Real-Time Linter triggers on every edit
         editor.on("change", () => {
             localStorage.setItem("omni_clean_v3_code", editor.getValue());
             scheduleRealtimeLint();
@@ -1069,7 +1122,6 @@ Created on ${formattedDate}
             }
         });
 
-        // Initialize editor with Clean Template (No demo code inside)
         const STORAGE_KEY = "omni_clean_v3_code";
         const savedCode = localStorage.getItem(STORAGE_KEY);
         if (savedCode && savedCode.trim()) {
@@ -1088,16 +1140,16 @@ Created on ${formattedDate}
             scheduleRealtimeLint();
         });
 
-        function triggerSpyderHint(cm) {
+        function triggerOmniHint(cm) {
             cm.showHint({
-                hint: spyderHintCompleter,
+                hint: omniHintCompleter,
                 completeSingle: false,
                 alignWithWord: true,
                 closeOnUnfocus: true
             });
         }
 
-        function spyderHintCompleter(cm) {
+        function omniHintCompleter(cm) {
             const cur = cm.getCursor();
             const token = cm.getTokenAt(cur);
             const lineText = cm.getLine(cur.line);
@@ -1107,7 +1159,6 @@ Created on ${formattedDate}
             let end = cur.ch;
             let completions = [];
 
-            // Case 1: Member dot completions (np., pd., plt., df.)
             const dotMatch = textBeforeCursor.match(/([a-zA-Z_]\w*)\.([a-zA-Z_0-9]*)$/);
 
             if (dotMatch) {
@@ -1119,12 +1170,12 @@ Created on ${formattedDate}
                 let symbolList = [];
                 let badgeType = 'fn';
 
-                if (objectName === 'np') symbolList = SPYDER_SYMBOLS.np;
-                else if (objectName === 'pd') symbolList = SPYDER_SYMBOLS.pd;
-                else if (objectName === 'plt') symbolList = SPYDER_SYMBOLS.plt;
-                else if (objectName === 'df') symbolList = SPYDER_SYMBOLS.df;
+                if (objectName === 'np') symbolList = OMNI_SYMBOLS.np;
+                else if (objectName === 'pd') symbolList = OMNI_SYMBOLS.pd;
+                else if (objectName === 'plt') symbolList = OMNI_SYMBOLS.plt;
+                else if (objectName === 'df') symbolList = OMNI_SYMBOLS.df;
                 else {
-                    symbolList = [...SPYDER_SYMBOLS.df, ...SPYDER_SYMBOLS.np];
+                    symbolList = [...OMNI_SYMBOLS.df, ...OMNI_SYMBOLS.np];
                 }
 
                 const filtered = symbolList.filter(item => item.toLowerCase().startsWith(memberPrefix.toLowerCase()));
@@ -1139,7 +1190,6 @@ Created on ${formattedDate}
                     }
                 }));
             } else {
-                // Case 2: Identifier completion (Variables, Keywords, Built-ins)
                 const wordMatch = textBeforeCursor.match(/([a-zA-Z_]\w*)$/);
                 const prefix = wordMatch ? wordMatch[1] : "";
                 if (!prefix && !cm.state.completionActive) return null;
@@ -1150,7 +1200,6 @@ Created on ${formattedDate}
                 const seen = new Set();
                 const matched = [];
 
-                // 1. User variables created in editor (Spyder Top Priority)
                 userDefinedVariables.forEach(v => {
                     if (v.name.toLowerCase().startsWith(prefix.toLowerCase()) && !seen.has(v.name)) {
                         seen.add(v.name);
@@ -1167,7 +1216,6 @@ Created on ${formattedDate}
                     }
                 });
 
-                // 2. Modules (np, pd, plt)
                 ['np', 'pd', 'plt'].forEach(mod => {
                     if (mod.startsWith(prefix.toLowerCase()) && !seen.has(mod)) {
                         seen.add(mod);
@@ -1184,8 +1232,7 @@ Created on ${formattedDate}
                     }
                 });
 
-                // 3. Built-in functions
-                SPYDER_SYMBOLS.builtins.forEach(fn => {
+                OMNI_SYMBOLS.builtins.forEach(fn => {
                     if (fn.startsWith(prefix.toLowerCase()) && !seen.has(fn)) {
                         seen.add(fn);
                         matched.push({
@@ -1201,8 +1248,7 @@ Created on ${formattedDate}
                     }
                 });
 
-                // 4. Python Keywords
-                SPYDER_SYMBOLS.keywords.forEach(kw => {
+                OMNI_SYMBOLS.keywords.forEach(kw => {
                     if (kw.startsWith(prefix.toLowerCase()) && !seen.has(kw)) {
                         seen.add(kw);
                         matched.push({
@@ -1234,7 +1280,6 @@ Created on ${formattedDate}
             const code = editor.getValue();
             const found = new Map();
 
-            // Match assignments: variable = ...
             const assignRegex = /(?:^|\n)\s*([a-zA-Z_]\w*)\s*=(?!=)/g;
             let match;
             while ((match = assignRegex.exec(code)) !== null) {
@@ -1261,11 +1306,10 @@ Created on ${formattedDate}
                 return;
             }
 
-            // 1. Python AST verification via WASM Kernel (100% accurate, no string-escape false positives)
             if (pyodide) {
                 try {
                     pyodide.globals.set("_code_to_lint", code);
-                    const resStr = pyodide.runPython(`_spyder_lint(_code_to_lint)`);
+                    const resStr = pyodide.runPython(`_omni_lint(_code_to_lint)`);
                     const res = JSON.parse(resStr);
                     if (!res.ok && res.line) {
                         highlightErrorLine(res.line - 1, res.offset || 1, res.msg);
@@ -1276,11 +1320,10 @@ Created on ${formattedDate}
                         return;
                     }
                 } catch (e) {
-                    // Fallback to client-side scanner if kernel busy
+                    // Kernel busy with execution
                 }
             }
 
-            // 2. High-speed client-side syntax scan (Missing colons, unclosed brackets)
             const jsErr = scanClientErrors(code);
             if (jsErr) {
                 highlightErrorLine(jsErr.line, jsErr.col, jsErr.msg);
@@ -1298,13 +1341,11 @@ Created on ${formattedDate}
                 const line = lines[i];
                 const trimmed = line.trim();
 
-                // Check missing colon on control headers
                 const needsColon = /^(?:if|elif|else|for|while|def|class|try|except|finally|with)\b/g;
                 if (needsColon.test(trimmed) && !trimmed.endsWith(':') && !trimmed.endsWith('\\') && !trimmed.startsWith('#')) {
                     return { line: i, col: line.length, msg: "Missing expected ':' colon" };
                 }
 
-                // Check unclosed brackets
                 for (let chIdx = 0; chIdx < line.length; chIdx++) {
                     const ch = line[chIdx];
                     if (ch === '#' && (chIdx === 0 || line[chIdx - 1] === ' ')) break;
@@ -1334,7 +1375,7 @@ Created on ${formattedDate}
         function highlightErrorLine(lineIndex, colIndex = 1, errorMsg = "Syntax Error") {
             if (lineIndex < 0 || lineIndex >= editor.lineCount()) return;
 
-            editor.addLineClass(lineIndex, "background", "spyder-error-line");
+            editor.addLineClass(lineIndex, "background", "omni-error-line");
 
             const lineLength = editor.getLine(lineIndex).length;
             const startCol = Math.max(0, colIndex - 2);
@@ -1343,55 +1384,94 @@ Created on ${formattedDate}
             const marker = editor.markText(
                 { line: lineIndex, ch: startCol },
                 { line: lineIndex, ch: endCol },
-                { className: "spyder-error-wave", title: errorMsg }
+                { className: "omni-error-wave", title: errorMsg }
             );
             activeMarkers.push(marker);
 
             const gutterEl = document.createElement("div");
-            gutterEl.className = "spyder-gutter-marker";
+            gutterEl.className = "omni-gutter-marker";
             gutterEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i>`;
             gutterEl.title = `Line ${lineIndex + 1}: ${errorMsg}`;
             gutterEl.onclick = () => showToast(`Ln ${lineIndex + 1}: ${errorMsg}`, false);
-            editor.setGutterMarker(lineIndex, "spyder-error-gutter", gutterEl);
+            editor.setGutterMarker(lineIndex, "omni-error-gutter", gutterEl);
         }
 
         function clearDiagnostics() {
             activeMarkers.forEach(m => m.clear());
             activeMarkers = [];
             for (let i = 0; i < editor.lineCount(); i++) {
-                editor.removeLineClass(i, "background", "spyder-error-line");
-                editor.setGutterMarker(i, "spyder-error-gutter", null);
+                editor.removeLineClass(i, "background", "omni-error-line");
+                editor.setGutterMarker(i, "omni-error-gutter", null);
             }
         }
 
         function updateDiagnosticsUI(isClean, msg) {
-            const statusEl = document.getElementById("linter-status-display");
+            const bar = document.getElementById("linter-status-display");
+            if (!bar) return;
             if (isClean) {
-                statusEl.innerHTML = `
-                    <i class="fa-solid fa-check text-green-400 text-[9px]"></i>
-                    <span class="text-green-400">${msg}</span>
-                `;
+                bar.innerHTML = `<i class="fa-solid fa-check text-green-400 text-[9px]"></i><span class="text-green-400">Clean</span>`;
             } else {
-                statusEl.innerHTML = `
-                    <i class="fa-solid fa-triangle-exclamation text-rose-400 text-[9px]"></i>
-                    <span class="text-rose-400 truncate max-w-[220px]" title="${msg}">${msg}</span>
-                `;
+                bar.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-400 text-[9px]"></i><span class="text-rose-400 truncate">${msg}</span>`;
+            }
+        }
+
+        let currentBootPercent = 0;
+        let targetBootPercent = 0;
+        let progressAnimFrame = null;
+
+        function updateBootProgress(target, title, detail) {
+            targetBootPercent = Math.min(100, Math.max(0, target));
+            const bootText = document.getElementById("boot-text");
+            const bootStatus = document.getElementById("boot-status");
+
+            if (bootText && title) bootText.innerText = title;
+            if (bootStatus && detail) bootStatus.innerText = detail;
+
+            if (!progressAnimFrame) {
+                renderSmoothProgress();
+            }
+        }
+
+        function renderSmoothProgress() {
+            const bootPercent = document.getElementById("boot-percent");
+            const progressFill = document.getElementById("splash-progress-fill");
+
+            if (currentBootPercent < targetBootPercent) {
+                // Smooth spring-like lerp to the target percent
+                const delta = targetBootPercent - currentBootPercent;
+                currentBootPercent += Math.max(0.4, delta * 0.09);
+
+                if (targetBootPercent - currentBootPercent < 0.2) {
+                    currentBootPercent = targetBootPercent;
+                }
+            }
+
+            const rounded = Math.round(currentBootPercent);
+            if (bootPercent) bootPercent.innerText = `${rounded}%`;
+            if (progressFill) progressFill.style.width = `${currentBootPercent.toFixed(1)}%`;
+
+            if (currentBootPercent < targetBootPercent) {
+                progressAnimFrame = requestAnimationFrame(renderSmoothProgress);
+            } else {
+                progressAnimFrame = null;
             }
         }
 
         async function initPyodide() {
             const bootIcon = document.getElementById("boot-icon");
-            const bootText = document.getElementById("boot-text");
-            const bootStatus = document.getElementById("boot-status");
 
             try {
-                if (bootStatus) bootStatus.innerText = "Loading WASM...";
+                updateBootProgress(20, "Downloading Kernel...", "Mounting WebAssembly runtime (1/4)");
                 pyodide = await loadPyodide();
 
-                if (bootStatus) bootStatus.innerText = "Mounting Pandas, NumPy & Matplotlib...";
-                await pyodide.loadPackage(["micropip", "numpy", "matplotlib", "pandas"]);
+                updateBootProgress(45, "Configuring Environment...", "Initializing package manager (2/4)");
+                await pyodide.loadPackage("micropip");
                 micropip = pyodide.pyimport("micropip");
 
+                updateBootProgress(72, "Mounting Packages...", "Loading NumPy, Pandas & Matplotlib (3/4)");
+                await pyodide.loadPackage(["numpy", "matplotlib", "pandas"]);
+
+                updateBootProgress(90, "Setting up Studio...", "Initializing graphics canvas & file system (4/4)");
                 await pyodide.runPythonAsync(`
 import io, base64, sys, builtins, json, ast, inspect
 import pandas as pd
@@ -1401,7 +1481,7 @@ import matplotlib.pyplot as plt
 from js import showPlotMobile, requestAsyncInput
 
 pd.set_option('display.width', 1000)
-pd.set_option('display.max_columns', 10)
+pd.set_option('display.max_columns', 12)
 
 matplotlib.use("Agg")
 plt.rcParams['figure.facecolor'] = 'white'
@@ -1427,8 +1507,12 @@ with open('data.csv', 'w') as f:
     f.write(sample_csv)
 
 def custom_show(*args, **kwargs):
+    try:
+        plt.tight_layout()
+    except Exception:
+        pass
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', facecolor='white', edgecolor='none', dpi=180)
+    plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0.18, facecolor='white', edgecolor='none', dpi=180)
     buf.seek(0)
     img_b64 = base64.b64encode(buf.read()).decode('utf-8')
     buf.close()
@@ -1482,7 +1566,7 @@ async def _omni_run_code(user_code):
     if inspect.iscoroutine(res):
         await res
 
-def _spyder_lint(code_str):
+def _omni_lint(code_str):
     try:
         ast.parse(code_str)
         return json.dumps({"ok": True})
@@ -1496,13 +1580,13 @@ def _spyder_lint(code_str):
     except Exception:
         return json.dumps({"ok": True})
 
-def _get_spyder_workspace():
+def _omni_workspace():
     ignore = {
         '__name__', '__doc__', '__package__', '__loader__', '__spec__',
         '__annotations__', '__builtins__', 'io', 'base64', 'sys', 'builtins',
         'json', 'pd', 'np', 'matplotlib', 'plt', 'showPlotMobile', 'requestAsyncInput',
-        'custom_show', '_omni_async_input', 'sample_csv', 'f', '_get_spyder_workspace',
-        '_spyder_lint', '_omni_run_code', '_OmniInputTransformer', 'inspect', 'ast',
+        'custom_show', '_omni_async_input', 'sample_csv', 'f', '_omni_workspace',
+        '_omni_lint', '_omni_run_code', '_OmniInputTransformer', 'inspect', 'ast',
         '_code_to_lint', '_user_code_exec', '_line_code_exec'
     }
     vars_list = []
@@ -1514,10 +1598,12 @@ def _get_spyder_workspace():
             t = type(v).__name__
             val_prev = ""
             size_prev = ""
+            is_df = False
             
             if t == 'DataFrame':
                 size_prev = f"({v.shape[0]}, {v.shape[1]})"
                 val_prev = f"DataFrame: {v.shape[0]} rows × {v.shape[1]} cols"
+                is_df = True
             elif t == 'Series':
                 size_prev = f"({len(v)},)"
                 val_prev = f"Series ({v.dtype})"
@@ -1538,7 +1624,8 @@ def _get_spyder_workspace():
                 "name": k,
                 "type": t,
                 "size": size_prev,
-                "value": val_prev
+                "value": val_prev,
+                "is_df": is_df
             })
         except Exception:
             pass
@@ -1547,8 +1634,10 @@ def _get_spyder_workspace():
 
                 pyodide.setStdout({ batched: (msg) => log(msg) });
 
+                updateBootProgress(100, "Studio Ready", "All environments loaded successfully!");
+
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]";
-                statusText.innerText = "Spyder Ready";
+                statusText.innerText = "Python Ready";
                 statusText.classList.replace("text-gray-400", "text-green-400");
                 runBtn.disabled = false;
 
@@ -1556,20 +1645,60 @@ def _get_spyder_workspace():
                 loadProgress();
                 scheduleRealtimeLint();
 
-                if (bootIcon) bootIcon.className = "fa-solid fa-circle-check text-green-400 text-sm";
-                if (bootText) bootText.innerText = "Spyder Ready";
-                if (bootStatus) bootStatus.innerText = "Launching Lab...";
+                if (bootIcon) bootIcon.className = "fa-solid fa-circle-check text-green-400 text-xs";
 
-                setTimeout(dismissSplash, 250);
+                setTimeout(dismissSplash, 400);
 
             } catch (err) {
                 console.error(err);
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
                 statusText.innerText = "Offline Err";
-                if (bootIcon) bootIcon.className = "fa-solid fa-triangle-exclamation text-rose-500 text-sm";
-                if (bootText) bootText.innerText = "Boot Failed";
-                setTimeout(dismissSplash, 700);
+                if (bootIcon) bootIcon.className = "fa-solid fa-triangle-exclamation text-rose-500 text-xs";
+                updateBootProgress(0, "Boot Failed", "Could not initialize WebAssembly environment");
+                setTimeout(dismissSplash, 900);
             }
+        }
+
+        async function autoInstallDependencies(code) {
+            if (!navigator.onLine || !pyodide) return;
+
+            try {
+                await pyodide.loadPackagesFromImports(code, {
+                    messageCallback: (m) => {
+                        if (statusText) statusText.innerText = "Loading Module...";
+                    }
+                });
+            } catch (err) {
+                console.warn("loadPackagesFromImports notice:", err);
+            }
+
+            const importMatches = [...code.matchAll(/(?:^|\n)\s*(?:from|import)\s+([a-zA-Z0-9_]+)/g)];
+            const standardBuiltins = new Set([
+                'sys', 'os', 'math', 'time', 'json', 're', 'io', 'base64', 'ast', 'datetime',
+                'random', 'collections', 'itertools', 'functools', 'builtins', 'typing',
+                'string', 'copy', 'inspect', 'urllib', 'http', 'shutil', 'glob', 'csv', 'pathlib'
+            ]);
+
+            for (const match of importMatches) {
+                const modName = match[1];
+                if (standardBuiltins.has(modName)) continue;
+
+                const isAlreadyImported = pyodide.runPython(`
+import sys
+'${modName}' in sys.modules or '${modName}' in sys.builtin_module_names
+`);
+                if (!isAlreadyImported) {
+                    try {
+                        statusText.innerText = `Fetching ${modName}...`;
+                        showToast(`📦 Installing '${modName}' from PyPI...`);
+                        await micropip.install(modName);
+                        showToast(`✓ '${modName}' installed & ready!`);
+                    } catch (pypiErr) {
+                        console.warn(`Could not auto-install ${modName}:`, pypiErr);
+                    }
+                }
+            }
+            statusText.innerText = "Python Ready";
         }
 
         window.requestAsyncInput = function(promptText) {
@@ -1627,6 +1756,8 @@ def _get_spyder_workspace():
             const start = performance.now();
 
             try {
+                await autoInstallDependencies(code);
+
                 pyodide.globals.set("_user_code_exec", code);
                 await pyodide.runPythonAsync(`_omni_run_code(_user_code_exec)`);
                 const elapsed = ((performance.now() - start) / 1000).toFixed(2);
@@ -1642,7 +1773,6 @@ def _get_spyder_workspace():
             }
         }
 
-        // Spyder F9: Run Selection or Current Line
         async function runSelectionOrLine() {
             triggerHaptic();
             if (!pyodide) {
@@ -1654,7 +1784,6 @@ def _get_spyder_workspace():
             if (!codeToRun || !codeToRun.trim()) {
                 const cursor = editor.getCursor();
                 codeToRun = editor.getLine(cursor.line);
-                // Advance cursor down like Spyder F9
                 if (cursor.line + 1 < editor.lineCount()) {
                     editor.setCursor({ line: cursor.line + 1, ch: 0 });
                 }
@@ -1666,6 +1795,8 @@ def _get_spyder_workspace():
             switchTab('terminal');
 
             try {
+                await autoInstallDependencies(codeToRun);
+
                 pyodide.globals.set("_line_code_exec", codeToRun);
                 const res = await pyodide.runPythonAsync(`_omni_run_code(_line_code_exec)`);
                 if (res !== undefined && res !== null) {
@@ -1702,7 +1833,7 @@ def _get_spyder_workspace():
         async function refreshVariableExplorer() {
             if (!pyodide) return;
             try {
-                const jsonStr = await pyodide.runPythonAsync(`_get_spyder_workspace()`);
+                const jsonStr = await pyodide.runPythonAsync(`_omni_workspace()`);
                 currentLoadedVars = JSON.parse(jsonStr);
                 
                 currentLoadedVars.forEach(v => {
@@ -1723,7 +1854,7 @@ def _get_spyder_workspace():
             badge.innerText = `${vars.length} vars`;
 
             if (vars.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-500 text-[10px]">No active user variables in workspace.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500 text-[10px]">No active user variables in workspace.</td></tr>`;
                 return;
             }
 
@@ -1741,7 +1872,10 @@ def _get_spyder_workspace():
                     <td class="p-2 font-bold text-white">${v.name}</td>
                     <td class="p-2 ${typeColor} font-semibold">${v.type}</td>
                     <td class="p-2 text-gray-400 text-[9.5px]">${v.size}</td>
-                    <td class="p-2 text-gray-300 truncate max-w-[130px]" title="${v.value}">${v.value}</td>
+                    <td class="p-2 text-gray-300 truncate max-w-[120px]" title="${v.value}">${v.value}</td>
+                    <td class="p-2 text-right">
+                        ${v.is_df ? `<button onclick="inspectDataFrame('${v.name}')" class="px-2 py-0.5 rounded bg-indigo-600/30 text-indigo-200 text-[9px] font-bold hover:bg-indigo-600/50 transition">View</button>` : ''}
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1757,6 +1891,33 @@ def _get_spyder_workspace():
             renderVariablesTable(filtered);
         }
 
+        function inspectDataFrame(varName) {
+            triggerHaptic();
+            if (!pyodide) return;
+            try {
+                const htmlTable = pyodide.runPython(`
+globals()['${varName}'].to_html(classes="min-w-full text-left border-collapse text-[11px] font-mono", border=0)
+`);
+                const shape = pyodide.runPython(`f"{globals()['${varName}'].shape[0]} rows × {globals()['${varName}'].shape[1]} cols"`);
+                document.getElementById('df-viewer-title').innerText = `DataFrame: ${varName}`;
+                document.getElementById('df-viewer-dimensions').innerText = shape;
+                document.getElementById('df-viewer-table-container').innerHTML = htmlTable;
+
+                const modal = document.getElementById('df-viewer-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } catch (err) {
+                showToast("Could not inspect DataFrame: " + err, false);
+            }
+        }
+
+        function closeDfViewer() {
+            triggerHaptic();
+            const modal = document.getElementById('df-viewer-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
         function uploadToVirtualFS(event) {
             const file = event.target.files[0];
             if (!file || !pyodide) return;
@@ -1767,7 +1928,7 @@ def _get_spyder_workspace():
                 pyodide.FS.writeFile(file.name, data);
                 updateVirtualFSUI();
                 showToast(`Mounted '${file.name}' into virtual memory`);
-                log(`Mounted '${file.name}'. Access via pd.read_csv('${file.name}')`, "text-indigo-400");
+                log(`Mounted '${file.name}'. Ready for Python processing!`, "text-indigo-400");
             };
             reader.readAsArrayBuffer(file);
         }
@@ -1775,24 +1936,30 @@ def _get_spyder_workspace():
         function updateVirtualFSUI() {
             if (!pyodide) return;
             const container = document.getElementById("virtual-fs-list");
-            const files = pyodide.FS.readdir('.').filter(f => f.endsWith('.csv') || f.endsWith('.txt') || f.endsWith('.dat'));
+            const files = pyodide.FS.readdir('.').filter(f => 
+                f.endsWith('.csv') || f.endsWith('.txt') || f.endsWith('.dat') || f.endsWith('.pdf')
+            );
             
             if (files.length === 0) {
-                container.innerHTML = `<div class="text-[9.5px] font-mono text-gray-500">No CSV files in memory.</div>`;
+                container.innerHTML = `<div class="text-[9.5px] font-mono text-gray-500">No custom files in memory.</div>`;
                 return;
             }
 
             container.innerHTML = "";
             files.forEach(name => {
+                const isPdf = name.endsWith('.pdf');
+                const isCsv = name.endsWith('.csv');
+                const iconClass = isPdf ? 'fa-file-pdf text-rose-400' : (isCsv ? 'fa-file-csv text-indigo-400' : 'fa-file-lines text-emerald-400');
+
                 const div = document.createElement("div");
                 div.className = "flex items-center justify-between p-2 rounded-xl bg-white/5 text-[10px] font-mono text-gray-300 border border-white/5";
                 div.innerHTML = `
-                    <span class="truncate max-w-[140px] flex items-center cursor-pointer" onclick="insertCsvCode('${name}')">
-                        <i class="fa-solid fa-file-csv mr-1.5 text-indigo-400"></i>${name}
+                    <span class="truncate max-w-[140px] flex items-center cursor-pointer" onclick="${isCsv ? `insertCsvCode('${name}')` : `insertPdfCode('${name}')`}">
+                        <i class="fa-solid ${iconClass} mr-1.5"></i>${name}
                     </span>
                     <div class="flex items-center gap-2">
-                        <button onclick="insertCsvCode('${name}')" title="Insert pd.read_csv" class="px-1.5 py-0.5 rounded bg-indigo-600/20 text-indigo-300 text-[8.5px] font-sans font-semibold">Use</button>
-                        <button onclick="editVirtualCsv('${name}')" class="text-indigo-400 text-xs px-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="${isCsv ? `insertCsvCode('${name}')` : `insertPdfCode('${name}')`}" title="Insert Code" class="px-1.5 py-0.5 rounded bg-indigo-600/20 text-indigo-300 text-[8.5px] font-sans font-semibold">Use</button>
+                        ${isCsv ? `<button onclick="editVirtualCsv('${name}')" class="text-indigo-400 text-xs px-1"><i class="fa-solid fa-pen-to-square"></i></button>` : ''}
                         <button onclick="downloadFromFS('${name}')" class="text-emerald-400 text-xs px-1"><i class="fa-solid fa-download"></i></button>
                     </div>`;
                 container.appendChild(div);
@@ -1805,6 +1972,14 @@ def _get_spyder_workspace():
             insertMobile(snippet);
             switchTab('editor');
             showToast(`Inserted read_csv('${filename}')`);
+        }
+
+        function insertPdfCode(filename) {
+            triggerHaptic();
+            const snippet = `\nimport pypdf\nreader = pypdf.PdfReader('${filename}')\nprint(f"Total Pages: {len(reader.pages)}")\nprint("First Page:\\n", reader.pages[0].extract_text()[:300])\n`;
+            insertMobile(snippet);
+            switchTab('editor');
+            showToast(`Inserted PDF Reader code for '${filename}'`);
         }
 
         let csvGridData = [
@@ -2291,7 +2466,7 @@ marks = [85, 90, 78, 92, 88]
 colors = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899']
 
 # Creating figure and plotting bar chart
-plt.figure(figsize=(6, 4))
+plt.figure(figsize=(6.2, 4))
 plt.bar(subjects, marks, color=colors, width=0.55, edgecolor='black')
 
 # Adding essential labels, title and grid
@@ -2309,12 +2484,12 @@ plt.show()
 • Categories (X-Axis): ['Python', 'Data Science', 'Physics', 'Maths', 'Web Dev']
 • Values (Y-Axis): [85, 90, 78, 92, 88]
 • Essential Functions Used:
-  - plt.figure(figsize=...)
-  - plt.bar(..., color=..., width=..., edgecolor=...)
-  - plt.title(..., fontsize=...)
-  - plt.xlabel(...) & plt.ylabel(...)
-  - plt.grid(axis='y')
-  - plt.tight_layout() & plt.show()`
+  * plt.figure(figsize=...)
+  * plt.bar(..., color=..., width=..., edgecolor=...)
+  * plt.title(..., fontsize=...)
+  * plt.xlabel(...) & plt.ylabel(...)
+  * plt.grid(axis='y')
+  * plt.tight_layout() & plt.show()`
             },
 
             exp10: {
@@ -2355,12 +2530,12 @@ plt.show()
 • Hours Distribution: [6, 4, 2, 8, 4] (Total = 24 hrs)
 • Percentage Split: 25.0%, 16.7%, 8.3%, 33.3%, 16.7%
 • Essential Functions Used:
-  - plt.figure(figsize=...)
-  - plt.pie(..., labels=..., autopct='%1.1f%%', explode=..., shadow=True)
-  - plt.title(..., fontsize=...)
-  - plt.legend(title="...", bbox_to_anchor=...)
-  - plt.axis('equal')
-  - plt.tight_layout() & plt.show()`
+  * plt.figure(figsize=...)
+  * plt.pie(..., labels=..., autopct='%1.1f%%', explode=..., shadow=True)
+  * plt.title(..., fontsize=...)
+  * plt.legend(title="...", bbox_to_anchor=...)
+  * plt.axis('equal')
+  * plt.tight_layout() & plt.show()`
             }
         };
 
@@ -2369,7 +2544,7 @@ plt.show()
             const exp = collegeExperiments[k];
             if (!exp) return;
 
-            const confirmed = await showConfirm("Load Experiment", `Load "${exp.title}" into the Spyder editor? Current editor content will be replaced.`);
+            const confirmed = await showConfirm("Load Experiment", `Load "${exp.title}" into editor? Current editor content will be replaced.`);
             if (confirmed) {
                 editor.setValue(exp.code);
                 document.getElementById('active-filename').innerText = `${k}.py`;
@@ -2385,7 +2560,7 @@ plt.show()
 
             document.getElementById('preview-modal-title').innerText = exp.title;
             document.getElementById('preview-modal-output').innerText = exp.expectedOutput;
-            
+
             const loadBtn = document.getElementById('preview-modal-load-btn');
             loadBtn.onclick = () => {
                 closeSyllabusPreview();
@@ -2526,7 +2701,7 @@ plt.show()
             }
             editor.focus();
             if (t.endsWith('.')) {
-                setTimeout(() => triggerSpyderHint(editor), 40);
+                setTimeout(() => triggerOmniHint(editor), 40);
             }
         }
 
@@ -2538,7 +2713,7 @@ plt.show()
 
         async function clearEditor() {
             triggerHaptic();
-            const confirmed = await showConfirm("Reset Editor", "Clear editor and reset to clean Spyder header?");
+            const confirmed = await showConfirm("Reset Editor", "Clear editor and reset to clean template?");
             if (confirmed) {
                 editor.setValue(generateOmniTemplate());
                 document.getElementById('active-filename').innerText = 'temp.py';
@@ -2550,7 +2725,7 @@ plt.show()
             triggerHaptic();
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${id}`).classList.add('active');
-            
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 const isMatch = btn.dataset.target === id;
                 btn.classList.toggle('active', isMatch);
@@ -2576,7 +2751,7 @@ plt.show()
             outputElement.innerHTML = ""; 
             showToast("Terminal cleared");
         }
-        
+
         function copyOutput() {
             triggerHaptic();
             const text = outputElement.innerText;
