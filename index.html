@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Omni-Studio | Professional Python IDE & Computational Lab</title>
+    <title>Omni-Studio | Python & Computational Lab</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#030305">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,9 +77,9 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* Fluid Layout Transitions */
+        /* Tab Transitions */
         .tab-content { 
-            display: none; 
+            display: none !important; 
             height: 100%; 
             width: 100%; 
             flex-direction: column; 
@@ -87,7 +87,7 @@
         }
         
         .tab-content.active { 
-            display: flex; 
+            display: flex !important; 
             animation: fluidTabIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
         }
 
@@ -104,16 +104,21 @@
             0% { opacity: 0; transform: scale(0.94) translateY(10px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
+
         #workspace-wrapper {
             transition: padding 0.36s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #split-left-pane {
-            transition: width 0.05s ease-out;
+            transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #split-left-pane.resizing, #split-right-pane.resizing {
+            transition: none !important;
         }
 
         #split-right-pane {
-            transition: width 0.05s ease-out;
+            transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* Draggable Window Divider Bar */
@@ -159,7 +164,6 @@
             display: flex !important;
         }
 
-        /* Native CodeMirror Customization */
         .CodeMirror {
             background: transparent !important;
             font-size: 13.5px;
@@ -194,6 +198,7 @@
             text-align: center;
             line-height: 18px;
         }
+
         /* Interactive Spotlight Onboarding Beacon & Cutout */
         #spotlight-cutout {
             position: fixed;
@@ -201,8 +206,8 @@
             z-index: 210;
             transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
             border-radius: 14px;
-            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8), 0 0 25px 4px rgba(99, 102, 241, 0.7);
-            border: 2px solid rgba(129, 140, 248, 0.9);
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.82), 0 0 25px 4px rgba(99, 102, 241, 0.75);
+            border: 2px solid rgba(129, 140, 248, 0.95);
         }
 
         #spotlight-popover {
@@ -299,34 +304,38 @@
         }
 
         .autocomplete-dropdown {
-            position: absolute;
-            z-index: 80;
-            background: #090b12;
-            border: 1px solid rgba(99, 102, 241, 0.35);
-            box-shadow: 0 16px 36px rgba(0,0,0,0.88);
+            position: fixed;
+            z-index: 1000;
+            background: #080a10;
+            border: 1px solid rgba(99, 102, 241, 0.45);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.92), 0 0 15px rgba(99, 102, 241, 0.2);
             border-radius: 12px;
-            max-height: 190px;
-            width: 260px;
+            max-height: 220px;
+            width: 290px;
             overflow-y: auto;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11.5px;
+            font-size: 12px;
+            padding: 4px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
         }
 
         .autocomplete-item {
-            padding: 6px 10px;
+            padding: 7px 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
             color: #cbd5e1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: background 0.15s ease;
+            border-radius: 8px;
+            margin-bottom: 2px;
+            transition: all 0.12s ease;
         }
 
-        .autocomplete-item:last-child { border-bottom: none; }
         .autocomplete-item.selected, .autocomplete-item:hover {
-            background: rgba(99, 102, 241, 0.3);
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.35) 0%, rgba(168, 85, 247, 0.25) 100%);
             color: #ffffff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
         }
 
         .progress-shimmer {
@@ -351,7 +360,6 @@
     </style>
 </head>
 <body class="flex flex-col select-none">
-    <!-- Splash Screen with Live 60 FPS Boot Percentage Bar -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-400">
         <div class="relative flex items-center justify-center">
             <div class="absolute w-28 h-28 rounded-full bg-indigo-500/20 blur-2xl animate-pulse"></div>
@@ -382,12 +390,9 @@
         </a>
     </div>
 
-    <!-- Interactive Spotlight Walkthrough Layer (Real Element-Pointing Tour) -->
     <div id="spotlight-tour-layer" class="fixed inset-0 z-[200] hidden">
-        <!-- Target Highlight Cutout Ring -->
         <div id="spotlight-cutout"></div>
 
-        <!-- Floating Glassmorphic Tooltip / Callout Popover -->
         <div id="spotlight-popover" class="glass-panel p-4 rounded-2xl border border-indigo-500/40 shadow-2xl space-y-2.5">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-1.5">
@@ -410,7 +415,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-1 border-t border-white/10">
-                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 6</span>
+                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 7</span>
                 <div class="flex items-center gap-1.5">
                     <button id="tour-prev-btn" onclick="prevTourStep()" class="px-2.5 py-1 rounded-lg bg-white/5 active:bg-white/10 text-[10.5px] font-semibold text-gray-300 transition hidden">
                         Back
@@ -422,7 +427,7 @@
             </div>
         </div>
     </div>
-    <!-- Find & Replace Floating Panel Modal -->
+
     <div id="find-replace-modal" class="fixed top-14 left-1/2 -translate-x-1/2 z-[90] w-full max-w-sm px-3 hidden">
         <div class="glass-panel p-3 rounded-2xl border-indigo-500/30 shadow-2xl space-y-2 modal-enter">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
@@ -484,7 +489,6 @@
         </div>
     </div>
 
-    <!-- Keyboard Shortcuts & Tour Replay Modal -->
     <div id="shortcuts-modal" class="fixed inset-0 z-[124] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md rounded-2xl border-white/10 shadow-2xl flex flex-col modal-enter overflow-hidden">
             <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
@@ -514,11 +518,15 @@
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Ctrl + Enter</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
-                        <span class="text-gray-300">Run Selection or Line</span>
+                        <span class="text-gray-300">Run Selected Line</span>
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">F9 / Shift + Enter</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
-                        <span class="text-gray-300">Toggle Dual-Pane Split View</span>
+                        <span class="text-gray-300">Accept Autocomplete</span>
+                        <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Enter / Tab</kbd>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+                        <span class="text-gray-300">Toggle Split View</span>
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Alt + S</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
@@ -533,6 +541,7 @@
             </div>
         </div>
     </div>
+
     <!-- Virtual CSV Creator Modal -->
     <div id="csv-creator-modal" class="fixed inset-0 z-[125] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md max-h-[86vh] rounded-2xl border-white/10 shadow-2xl flex flex-col modal-enter overflow-hidden">
@@ -610,7 +619,7 @@
             <div id="df-modal-body" class="p-3.5 overflow-auto flex-1 font-mono text-[11px] no-scrollbar"></div>
         </div>
     </div>
-    <!-- Header Navigation Bar -->
+
     <header class="h-[3.75rem] pt-[var(--sat)] px-3 sm:px-4 flex items-center justify-between shrink-0 z-40 bg-[#040508]/95 border-b border-white/5 transition-colors">
         <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs shadow-md border border-white/10">
@@ -652,10 +661,9 @@
         </div>
     </header>
 
-    <!-- Main Workspace Container (Supports Single-View and Resizable Dual-Pane Split Mode) -->
     <main id="workspace-wrapper" class="flex-1 overflow-hidden p-2 pb-0 flex relative">
         
-        <!-- Left Pane: Editor (Resizable in Split Mode, 100% in Single Mode) -->
+        <!-- Left Pane: Hosts all views in Single Mode, or Editor-only in Split Mode -->
         <div id="split-left-pane" class="w-full h-full flex flex-col overflow-hidden">
             
             <!-- Tab 1: Editor Panel -->
@@ -680,8 +688,9 @@
                     </div>
 
                     <!-- CodeMirror Workspace -->
-                    <div class="flex-1 relative overflow-hidden">
+                    <div class="flex-1 relative overflow-hidden" id="editor-host-container">
                         <textarea id="code-editor"></textarea>
+                        <!-- Floating Spyder IntelliSense Dropdown -->
                         <div id="autocomplete-box" class="autocomplete-dropdown hidden"></div>
                     </div>
 
@@ -707,6 +716,7 @@
                     <button class="key-btn font-mono" onclick="insertMobile('{}')">{ }</button>
                     <button class="key-btn font-mono" onclick="insertMobile('\'\'')">" "</button>
                     <button class="key-btn font-mono" onclick="insertMobile('=')">=</button>
+                    <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('import ')">import</button>
                     <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('print()')">print</button>
                     <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('df.')">df.</button>
                     <button class="key-btn font-mono text-indigo-400" onclick="insertMobile('pd.')">pd.</button>
@@ -717,8 +727,163 @@
                 </div>
             </div>
 
-            <!-- Single-Mode Alternate Views (Mounted in left pane when split mode is inactive) -->
-            <div id="single-views-container" class="h-full flex-col flex-1"></div>
+            <!-- View: Variables -->
+            <div id="tab-variables" class="tab-content h-full">
+                <div class="flex-1 glass-panel rounded-2xl p-3.5 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
+                    <div class="flex justify-between items-center mb-2.5 border-b border-white/5 pb-2">
+                        <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fa-solid fa-cubes text-[10px]"></i> Active Workspace Memory
+                        </span>
+                        <button onclick="updateVariableExplorer()" class="text-[9px] text-gray-300 font-bold uppercase px-2.5 py-1 bg-white/5 active:bg-white/15 rounded-md transition">
+                            <i class="fa-solid fa-rotate mr-1"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="flex-1 overflow-auto no-scrollbar">
+                        <table class="w-full text-left border-collapse text-[11px]">
+                            <thead>
+                                <tr class="border-b border-white/10 text-gray-400 font-sans text-[10px] uppercase">
+                                    <th class="p-2">Name</th>
+                                    <th class="p-2">Type</th>
+                                    <th class="p-2">Size</th>
+                                    <th class="p-2">Value</th>
+                                    <th class="p-2 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="variable-table-body" class="divide-y divide-white/5">
+                                <tr>
+                                    <td colspan="5" class="p-4 text-center text-gray-500 font-sans">Run a script to inspect variables in memory.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Terminal Console -->
+            <div id="tab-terminal" class="tab-content h-full">
+                <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
+                    <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
+                        <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fa-solid fa-terminal text-[10px]"></i> Console Output
+                        </span>
+                        <div class="flex gap-1.5">
+                            <button onclick="exportConsoleLog()" class="text-[9px] text-indigo-300 font-bold uppercase px-2 py-1 bg-indigo-600/20 active:bg-indigo-600/30 border border-indigo-500/30 rounded-md transition flex items-center gap-1">
+                                <i class="fa-solid fa-file-arrow-down text-[9px]"></i> Export Log
+                            </button>
+                            <button onclick="copyOutput()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md transition">Copy</button>
+                            <button onclick="clearTerminal()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md transition">Clear</button>
+                        </div>
+                    </div>
+
+                    <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed select-text pb-2 text-[11.5px]"></div>
+
+                    <!-- Interactive >>> REPL Input Line -->
+                    <div class="mt-2 pt-2 border-t border-white/10 flex items-center gap-2 bg-black/30 rounded-xl px-2.5 py-1.5">
+                        <span class="text-indigo-400 font-mono font-bold text-xs select-none">&gt;&gt;&gt;</span>
+                        <input id="repl-input" type="text" placeholder="Evaluate Python expression (e.g. 25 * 4, df.head())..." class="flex-1 bg-transparent text-xs font-mono text-white outline-none placeholder:text-gray-600">
+                        <button onclick="executeReplCommand()" title="Execute command" class="px-2.5 py-1 rounded-lg bg-indigo-600 active:bg-indigo-500 text-white text-[10px] font-bold transition">
+                            <i class="fa-solid fa-arrow-turn-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Responsive Plot Studio -->
+            <div id="tab-plots" class="tab-content h-full">
+                <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg relative">
+                    <!-- Plot Header -->
+                    <div class="h-10 flex justify-between items-center px-3.5 bg-white/5 border-b border-white/5 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9.5px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
+                                <i class="fa-solid fa-chart-line text-indigo-400"></i> Plot Studio
+                            </span>
+                            <span id="plot-counter-pill" class="hidden text-[9px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10">0 Figs</span>
+                        </div>
+
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="copyPlotImage()" id="btn-copy-plot" class="hidden text-[9.5px] font-bold bg-white/5 hover:bg-white/10 active:scale-95 px-2.5 py-1 rounded-lg text-gray-300 border border-white/10 flex items-center gap-1 transition">
+                                <i class="fa-solid fa-copy text-[9px]"></i> Copy
+                            </button>
+                            <button onclick="downloadPlot('png')" id="btn-download-plot" class="hidden text-[9.5px] font-bold bg-indigo-600 active:bg-indigo-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1 shadow transition">
+                                <i class="fa-solid fa-download text-[9px]"></i> PNG
+                            </button>
+                            <button onclick="downloadPlot('svg')" id="btn-download-svg" class="hidden text-[9.5px] font-bold bg-purple-600 active:bg-purple-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1 shadow transition">
+                                SVG
+                            </button>
+                            <button onclick="clearPlots()" class="text-[9.5px] font-bold bg-white/10 active:bg-white/20 px-2.5 py-1 rounded-lg text-gray-300 transition">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- Plot Viewport with Floating Zoom Controls -->
+                    <div id="plot-container-viewport" class="flex-1 p-2 flex items-center justify-center overflow-hidden bg-[#090b12] relative select-none">
+                        <!-- Zoom Floating HUD -->
+                        <div id="plot-hud-controls" class="absolute top-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-lg hidden">
+                            <button onclick="adjustPlotZoom(0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></button>
+                            <button onclick="adjustPlotZoom(-0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-minus"></i></button>
+                            <button onclick="resetPlotTransform()" class="px-2 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 text-[10px] font-mono font-bold flex items-center justify-center">1:1</button>
+                        </div>
+
+                        <div id="plot-target" class="w-full h-full flex items-center justify-center">
+                            <div id="plot-placeholder" class="text-center opacity-35">
+                                <i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300 animate-pulse"></i>
+                                <p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p>
+                                <p class="text-[9px] text-gray-500 mt-1 font-sans">Run a script with plt.show() to view graphics</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filmstrip Carousel Bar -->
+                    <div id="plot-filmstrip" class="h-12 bg-black/50 border-t border-white/5 px-2 flex items-center gap-2 overflow-x-auto no-scrollbar hidden shrink-0"></div>
+                </div>
+            </div>
+
+            <!-- View: Syllabus & Virtual Storage -->
+            <div id="tab-files" class="tab-content h-full">
+                <div class="flex-1 overflow-y-auto space-y-3.5 pr-0.5 no-scrollbar pb-6">
+                    
+                    <!-- Lead Developer Profile Card with Direct GitHub Link -->
+                    <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="glass-panel p-3.5 rounded-2xl flex items-center justify-between border-indigo-500/20 active:scale-[0.99] transition block">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">A</div>
+                            <div>
+                                <h3 class="text-white font-bold text-xs leading-tight flex items-center gap-1.5">
+                                    Aravind O K <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-gray-400"></i>
+                                </h3>
+                                <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">Lead Developer • Omni-Studio</p>
+                                <span class="text-[9.5px] text-gray-400">Python Computational & Scientific Lab</span>
+                            </div>
+                        </div>
+                        <i class="fa-brands fa-github text-xl text-gray-400 hover:text-white pr-1"></i>
+                    </a>
+
+                    <!-- Virtual In-Memory Filesystem -->
+                    <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-folder-open text-indigo-400"></i> Virtual Memory Datasets
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openCsvCreatorModal()" class="px-2.5 py-1 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-[9.5px] font-bold text-indigo-200 rounded-lg active:scale-95 transition flex items-center gap-1">
+                                    <i class="fa-solid fa-plus text-[8px]"></i> New CSV
+                                </button>
+                                <label class="px-2.5 py-1 bg-white/10 active:bg-white/20 text-[9.5px] font-bold text-white rounded-lg cursor-pointer transition flex items-center gap-1">
+                                    <i class="fa-solid fa-upload text-[8px]"></i> Mount File
+                                    <input type="file" id="fs-file-uploader" class="hidden" accept=".csv,.txt,.dat,.pdf" onchange="uploadToVirtualFS(event)">
+                                </label>
+                            </div>
+                        </div>
+                        <div id="virtual-fs-list" class="space-y-1.5 max-h-40 overflow-y-auto">
+                            <div class="text-[9.5px] font-mono text-gray-500">Loading virtual files...</div>
+                        </div>
+                    </div>
+
+                    <!-- 10 Prescribed Lab Syllabus Experiments -->
+                    <div class="space-y-1.5">
+                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Official University Lab Experiments</span>
+                        <div class="grid grid-cols-1 gap-1.5" id="syllabus-grid"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Draggable Resizer Divider (Visible only in Split Mode) -->
@@ -726,7 +891,7 @@
             <div class="split-resizer-handle"></div>
         </div>
 
-        <!-- Right Pane: Secondary Workspaces (Console, Plots, Variables, Syllabus in Split Mode) -->
+        <!-- Right Pane: Secondary Workspaces in Split Mode -->
         <div id="split-right-pane" class="hidden h-full flex-col overflow-hidden flex-shrink-0">
             <!-- Right Pane Pill Bar -->
             <div class="h-8 px-2 bg-white/5 border border-white/5 rounded-xl mb-1.5 flex items-center justify-between shrink-0">
@@ -751,168 +916,8 @@
             <div id="right-views-mount" class="flex-1 overflow-hidden flex flex-col"></div>
         </div>
     </main>
-    <!-- Template Storage for Re-locatable Views (Console, Variables, Plots, Syllabus) -->
-    <div id="view-storage" class="hidden">
-        
-        <!-- View: Variables -->
-        <div id="tab-variables" class="tab-content h-full">
-            <div class="flex-1 glass-panel rounded-2xl p-3.5 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
-                <div class="flex justify-between items-center mb-2.5 border-b border-white/5 pb-2">
-                    <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-cubes text-[10px]"></i> Active Workspace Memory
-                    </span>
-                    <button onclick="updateVariableExplorer()" class="text-[9px] text-gray-300 font-bold uppercase px-2.5 py-1 bg-white/5 active:bg-white/15 rounded-md transition">
-                        <i class="fa-solid fa-rotate mr-1"></i> Refresh
-                    </button>
-                </div>
-                <div class="flex-1 overflow-auto no-scrollbar">
-                    <table class="w-full text-left border-collapse text-[11px]">
-                        <thead>
-                            <tr class="border-b border-white/10 text-gray-400 font-sans text-[10px] uppercase">
-                                <th class="p-2">Name</th>
-                                <th class="p-2">Type</th>
-                                <th class="p-2">Size</th>
-                                <th class="p-2">Value</th>
-                                <th class="p-2 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="variable-table-body" class="divide-y divide-white/5">
-                            <tr>
-                                <td colspan="5" class="p-4 text-center text-gray-500 font-sans">Run a script to inspect variables in memory.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
-        <!-- View: Terminal Console -->
-        <div id="tab-terminal" class="tab-content h-full">
-            <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
-                <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
-                    <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                        <i class="fa-solid fa-terminal text-[10px]"></i> Console Output
-                    </span>
-                    <div class="flex gap-1.5">
-                        <button onclick="exportConsoleLog()" class="text-[9px] text-indigo-300 font-bold uppercase px-2 py-1 bg-indigo-600/20 active:bg-indigo-600/30 border border-indigo-500/30 rounded-md transition flex items-center gap-1">
-                            <i class="fa-solid fa-file-arrow-down text-[9px]"></i> Export Log
-                        </button>
-                        <button onclick="copyOutput()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md transition">Copy</button>
-                        <button onclick="clearTerminal()" class="text-[9px] text-gray-300 font-bold uppercase px-2 py-1 bg-white/5 active:bg-white/15 rounded-md transition">Clear</button>
-                    </div>
-                </div>
-
-                <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed select-text pb-2 text-[11.5px]"></div>
-
-                <!-- Interactive >>> REPL Input Line -->
-                <div class="mt-2 pt-2 border-t border-white/10 flex items-center gap-2 bg-black/30 rounded-xl px-2.5 py-1.5">
-                    <span class="text-indigo-400 font-mono font-bold text-xs select-none">&gt;&gt;&gt;</span>
-                    <input id="repl-input" type="text" placeholder="Evaluate Python expression (e.g. 25 * 4, df.head())..." class="flex-1 bg-transparent text-xs font-mono text-white outline-none placeholder:text-gray-600">
-                    <button onclick="executeReplCommand()" title="Execute command" class="px-2.5 py-1 rounded-lg bg-indigo-600 active:bg-indigo-500 text-white text-[10px] font-bold transition">
-                        <i class="fa-solid fa-arrow-turn-down"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- View: Responsive Plot Studio -->
-        <div id="tab-plots" class="tab-content h-full">
-            <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg relative">
-                <!-- Plot Header -->
-                <div class="h-10 flex justify-between items-center px-3.5 bg-white/5 border-b border-white/5 shrink-0">
-                    <div class="flex items-center gap-2">
-                        <span class="text-[9.5px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
-                            <i class="fa-solid fa-chart-line text-indigo-400"></i> Plot Studio
-                        </span>
-                        <span id="plot-counter-pill" class="hidden text-[9px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10">0 Figs</span>
-                    </div>
-
-                    <div class="flex items-center gap-1.5">
-                        <button onclick="copyPlotImage()" id="btn-copy-plot" class="hidden text-[9.5px] font-bold bg-white/5 hover:bg-white/10 active:scale-95 px-2.5 py-1 rounded-lg text-gray-300 border border-white/10 flex items-center gap-1 transition">
-                            <i class="fa-solid fa-copy text-[9px]"></i> Copy
-                        </button>
-                        <button onclick="downloadPlot('png')" id="btn-download-plot" class="hidden text-[9.5px] font-bold bg-indigo-600 active:bg-indigo-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1 shadow transition">
-                            <i class="fa-solid fa-download text-[9px]"></i> PNG
-                        </button>
-                        <button onclick="downloadPlot('svg')" id="btn-download-svg" class="hidden text-[9.5px] font-bold bg-purple-600 active:bg-purple-500 px-2.5 py-1 rounded-lg text-white flex items-center gap-1 shadow transition">
-                            SVG
-                        </button>
-                        <button onclick="clearPlots()" class="text-[9.5px] font-bold bg-white/10 active:bg-white/20 px-2.5 py-1 rounded-lg text-gray-300 transition">Clear</button>
-                    </div>
-                </div>
-
-                <!-- Plot Viewport with Floating Zoom Controls -->
-                <div id="plot-container-viewport" class="flex-1 p-2 flex items-center justify-center overflow-hidden bg-[#090b12] relative select-none">
-                    <!-- Zoom Floating HUD -->
-                    <div id="plot-hud-controls" class="absolute top-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-lg hidden">
-                        <button onclick="adjustPlotZoom(0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></button>
-                        <button onclick="adjustPlotZoom(-0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-minus"></i></button>
-                        <button onclick="resetPlotTransform()" class="px-2 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 text-[10px] font-mono font-bold flex items-center justify-center">1:1</button>
-                    </div>
-
-                    <div id="plot-target" class="w-full h-full flex items-center justify-center">
-                        <div id="plot-placeholder" class="text-center opacity-35">
-                            <i class="fa-solid fa-chart-pie text-5xl mb-2 text-indigo-300 animate-pulse"></i>
-                            <p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p>
-                            <p class="text-[9px] text-gray-500 mt-1 font-sans">Run a script with plt.show() to view graphics</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Filmstrip Carousel Bar -->
-                <div id="plot-filmstrip" class="h-12 bg-black/50 border-t border-white/5 px-2 flex items-center gap-2 overflow-x-auto no-scrollbar hidden shrink-0"></div>
-            </div>
-        </div>
-
-        <!-- View: Syllabus & Virtual Storage -->
-        <div id="tab-files" class="tab-content h-full">
-            <div class="flex-1 overflow-y-auto space-y-3.5 pr-0.5 no-scrollbar pb-6">
-                
-                <!-- Lead Developer Profile Card with Direct GitHub Link -->
-                <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="glass-panel p-3.5 rounded-2xl flex items-center justify-between border-indigo-500/20 active:scale-[0.99] transition block">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">A</div>
-                        <div>
-                            <h3 class="text-white font-bold text-xs leading-tight flex items-center gap-1.5">
-                                Aravind O K <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-gray-400"></i>
-                            </h3>
-                            <p class="text-indigo-400 text-[8.5px] font-bold uppercase tracking-widest">Lead Developer • Omni-Studio</p>
-                            <span class="text-[9.5px] text-gray-400">Python Computational & Scientific Lab</span>
-                        </div>
-                    </div>
-                    <i class="fa-brands fa-github text-xl text-gray-400 hover:text-white pr-1"></i>
-                </a>
-
-                <!-- Virtual In-Memory Filesystem -->
-                <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-folder-open text-indigo-400"></i> Virtual Memory Datasets
-                        </span>
-                        <div class="flex items-center gap-1.5">
-                            <button onclick="openCsvCreatorModal()" class="px-2.5 py-1 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-[9.5px] font-bold text-indigo-200 rounded-lg active:scale-95 transition flex items-center gap-1">
-                                <i class="fa-solid fa-plus text-[8px]"></i> New CSV
-                            </button>
-                            <label class="px-2.5 py-1 bg-white/10 active:bg-white/20 text-[9.5px] font-bold text-white rounded-lg cursor-pointer transition flex items-center gap-1">
-                                <i class="fa-solid fa-upload text-[8px]"></i> Mount File
-                                <input type="file" id="fs-file-uploader" class="hidden" accept=".csv,.txt,.dat,.pdf" onchange="uploadToVirtualFS(event)">
-                            </label>
-                        </div>
-                    </div>
-                    <div id="virtual-fs-list" class="space-y-1.5 max-h-40 overflow-y-auto">
-                        <div class="text-[9.5px] font-mono text-gray-500">Loading virtual files...</div>
-                    </div>
-                </div>
-
-                <!-- 10 Prescribed Lab Syllabus Experiments -->
-                <div class="space-y-1.5">
-                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Official University Lab Experiments</span>
-                    <div class="grid grid-cols-1 gap-1.5" id="syllabus-grid"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Bottom Navigation Dock (Visible ONLY in Single-Pane Mode; Auto-Hidden in Split View) -->
+    <!-- Bottom Navigation Dock -->
     <nav id="bottom-nav-dock" class="h-[4.5rem] pb-[var(--sab)] px-3 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10 transition-all duration-300">
         <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400" data-target="editor">
             <i class="fa-solid fa-code text-lg"></i>
@@ -937,7 +942,6 @@
     </nav>
 
     <script>
-        // Clean Dynamic Docstring Generator with Date & Time (No author tags in code)
         function generateOmniTemplate() {
             const now = new Date();
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -965,7 +969,6 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         let modalResolve = null;
         let liveErrorMarks = [];
         let linterDebounceTimer = null;
-        let autocompleteItems = [];
         let plotGallery = [];
         let currentPlotIdx = -1;
         let plotScale = 1.0;
@@ -977,11 +980,16 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
 
         // Split Mode & Dynamic Pane Resizer State
         let isSplitMode = false;
-        let splitLeftRatio = 50; // percentage
+        let splitLeftRatio = 50;
         let activeSingleTab = 'editor';
         let activeSplitRightTab = 'terminal';
         let isResizingSplit = false;
-        // Interactive Spotlight Feature Walkthrough Steps (Pointing to actual elements!)
+
+        // Spyder IntelliSense State
+        let autocompleteItems = [];
+        let selectedAutocompleteIdx = 0;
+        let isAutocompleteOpen = false;
+
         let currentTourStep = 0;
         const SPOTLIGHT_TOUR_STEPS = [
             {
@@ -1070,7 +1078,6 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 cutout.style.width = `${rect.width + pad * 2}px`;
                 cutout.style.height = `${rect.height + pad * 2}px`;
 
-                // Smart Popover Positioning: Prefer below target, otherwise above
                 const popoverWidth = Math.min(310, window.innerWidth - 32);
                 let popoverLeft = Math.max(16, Math.min(window.innerWidth - popoverWidth - 16, rect.left + (rect.width / 2) - (popoverWidth / 2)));
                 
@@ -1127,7 +1134,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             modal.classList.add("hidden");
             modal.classList.remove("flex");
         }
-        // Dual-Pane / Split-Screen Architecture & Resizer Engine
+
         function toggleSplitViewMode() {
             triggerHaptic();
             setSplitMode(!isSplitMode);
@@ -1146,19 +1153,18 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 splitBtn.classList.add('bg-indigo-600', 'text-white');
                 splitBtn.classList.remove('bg-white/5', 'text-gray-300');
 
-                // Crucial: Auto-hide bottom dock in Split Mode (avoids duplicate navigation)
+                // Auto-hide bottom dock in Split Mode
                 bottomDock.style.display = 'none';
 
-                // Mount secondary workspaces to Right Pane
                 mountSplitRightViews();
                 
-                // Set initial pane widths
                 leftPane.style.width = `${splitLeftRatio}%`;
                 rightPane.style.width = `calc(${100 - splitLeftRatio}% - 8px)`;
 
-                // Ensure editor is displayed in left pane
-                document.getElementById('tab-editor').classList.add('active');
-                document.getElementById('tab-editor').style.display = 'flex';
+                const editorTab = document.getElementById('tab-editor');
+                if (editorTab) {
+                    editorTab.classList.add('active');
+                }
 
                 showToast("Dual-Pane Mode Active");
             } else {
@@ -1166,16 +1172,13 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 splitBtn.classList.remove('bg-indigo-600', 'text-white');
                 splitBtn.classList.add('bg-white/5', 'text-gray-300');
 
-                // Restore bottom dock in single-pane mode
                 bottomDock.style.display = 'flex';
 
-                // Reset pane widths
                 leftPane.style.width = '100%';
                 rightPane.style.width = '0px';
 
-                // Return views to single mode container
                 restoreSingleModeViews();
-                switchTab(activeSingleTab);
+                switchTab(activeSingleTab || 'editor');
 
                 showToast("Single View Active");
             }
@@ -1197,16 +1200,17 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 }
             });
 
-            switchSplitTab(activeSplitRightTab);
+            switchSplitTab(activeSplitRightTab || 'terminal');
         }
 
         function restoreSingleModeViews() {
-            const container = document.getElementById('single-views-container');
+            const leftPane = document.getElementById('split-left-pane');
             const views = ['tab-variables', 'tab-terminal', 'tab-plots', 'tab-files'];
             views.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
-                    container.appendChild(el);
+                    leftPane.appendChild(el);
+                    el.classList.remove('active');
                 }
             });
         }
@@ -1235,7 +1239,6 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             if (tabId === 'files') updateVirtualFSUI();
         }
 
-        // Draggable Split Divider Interactivity
         function initSplitResizer() {
             const divider = document.getElementById('split-divider');
             const workspace = document.getElementById('workspace-wrapper');
@@ -1247,7 +1250,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 const rect = workspace.getBoundingClientRect();
                 const offsetX = clientX - rect.left;
                 let ratio = (offsetX / rect.width) * 100;
-                ratio = Math.max(20, Math.min(80, ratio)); // Clamp between 20% and 80%
+                ratio = Math.max(20, Math.min(80, ratio));
 
                 splitLeftRatio = ratio;
                 leftPane.style.width = `${ratio}%`;
@@ -1255,10 +1258,27 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 if (editor) editor.refresh();
             };
 
-            divider.addEventListener('mousedown', (e) => {
+            const startDrag = () => {
                 isResizingSplit = true;
                 divider.classList.add('active-dragging');
+                leftPane.classList.add('resizing');
+                rightPane.classList.add('resizing');
                 document.body.style.cursor = 'col-resize';
+            };
+
+            const stopDrag = () => {
+                if (isResizingSplit) {
+                    isResizingSplit = false;
+                    divider.classList.remove('active-dragging');
+                    leftPane.classList.remove('resizing');
+                    rightPane.classList.remove('resizing');
+                    document.body.style.cursor = '';
+                    if (editor) editor.refresh();
+                }
+            };
+
+            divider.addEventListener('mousedown', (e) => {
+                startDrag();
                 e.preventDefault();
             });
 
@@ -1266,19 +1286,10 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 if (isResizingSplit) onMove(e.clientX);
             });
 
-            window.addEventListener('mouseup', () => {
-                if (isResizingSplit) {
-                    isResizingSplit = false;
-                    divider.classList.remove('active-dragging');
-                    document.body.style.cursor = '';
-                    if (editor) editor.refresh();
-                }
-            });
+            window.addEventListener('mouseup', stopDrag);
 
-            // Touch support for iPad / Touch laptops
-            divider.addEventListener('touchstart', (e) => {
-                isResizingSplit = true;
-                divider.classList.add('active-dragging');
+            divider.addEventListener('touchstart', () => {
+                startDrag();
             }, { passive: true });
 
             window.addEventListener('touchmove', (e) => {
@@ -1287,29 +1298,296 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 }
             }, { passive: true });
 
-            window.addEventListener('touchend', () => {
-                if (isResizingSplit) {
-                    isResizingSplit = false;
-                    divider.classList.remove('active-dragging');
-                    if (editor) editor.refresh();
-                }
-            });
+            window.addEventListener('touchend', stopDrag);
 
-            // Double click to reset to 50/50 balance
             divider.addEventListener('dblclick', () => {
                 splitLeftRatio = 50;
-                leftPane.style.width = '50%';
-                rightPane.style.width = 'calc(50% - 8px)';
+                leftPane.style.width = `50%`;
+                rightPane.style.width = `calc(50% - 8px)`;
                 if (editor) editor.refresh();
-                showToast("Panes Reset to 50/50");
+                showToast("Dividers reset to 50/50");
             });
         }
 
-        function checkViewportSizeForSplit() {
-            if (window.innerWidth >= 1024 && !isSplitMode) {
-                setSplitMode(true);
+        const PYTHON_KEYWORDS = [
+            "import", "from", "def", "class", "return", "if", "elif", "else", 
+            "for", "while", "try", "except", "finally", "with", "as", "in", 
+            "is", "not", "and", "or", "lambda", "yield", "global", "nonlocal", 
+            "pass", "break", "continue", "raise", "assert", "True", "False", "None"
+        ];
+
+        const PYTHON_BUILTINS = [
+            "print", "len", "range", "int", "float", "str", "list", "dict", 
+            "set", "tuple", "open", "type", "sum", "min", "max", "enumerate", 
+            "zip", "map", "filter", "sorted", "reversed", "abs", "round", "input"
+        ];
+
+        const LIB_AUTOCOMPLETE = {
+            "plt": [
+                { name: "plot", desc: "x, y, format, **kwargs", type: "fn" },
+                { name: "scatter", desc: "x, y, s=None, c=None", type: "fn" },
+                { name: "bar", desc: "x, height, width=0.8", type: "fn" },
+                { name: "barh", desc: "y, width, height=0.8", type: "fn" },
+                { name: "pie", desc: "x, explode, labels, autopct", type: "fn" },
+                { name: "hist", desc: "x, bins=None, range=None", type: "fn" },
+                { name: "title", desc: "label, fontsize, pad", type: "fn" },
+                { name: "xlabel", desc: "xlabel, fontsize, labelpad", type: "fn" },
+                { name: "ylabel", desc: "ylabel, fontsize, labelpad", type: "fn" },
+                { name: "grid", desc: "visible=True, linestyle='--'", type: "fn" },
+                { name: "legend", desc: "*args, loc='best'", type: "fn" },
+                { name: "show", desc: "Display rendered canvas", type: "fn" },
+                { name: "figure", desc: "figsize=(width, height)", type: "fn" },
+                { name: "subplot", desc: "nrows, ncols, index", type: "fn" },
+                { name: "subplots", desc: "nrows=1, ncols=1", type: "fn" },
+                { name: "xlim", desc: "left, right", type: "fn" },
+                { name: "ylim", desc: "bottom, top", type: "fn" },
+                { name: "xticks", desc: "ticks, labels=None", type: "fn" },
+                { name: "yticks", desc: "ticks, labels=None", type: "fn" },
+                { name: "tight_layout", desc: "pad=1.08", type: "fn" },
+                { name: "clf", desc: "Clear current figure", type: "fn" },
+                { name: "close", desc: "fig='all'", type: "fn" }
+            ],
+            "np": [
+                { name: "linspace", desc: "start, stop, num=50", type: "fn" },
+                { name: "arange", desc: "start, stop, step", type: "fn" },
+                { name: "array", desc: "object, dtype=None", type: "fn" },
+                { name: "zeros", desc: "shape, dtype=float", type: "fn" },
+                { name: "ones", desc: "shape, dtype=float", type: "fn" },
+                { name: "eye", desc: "N, M=None, k=0", type: "fn" },
+                { name: "sin", desc: "x, /, out=None", type: "fn" },
+                { name: "cos", desc: "x, /, out=None", type: "fn" },
+                { name: "tan", desc: "x, /, out=None", type: "fn" },
+                { name: "exp", desc: "x, /, out=None", type: "fn" },
+                { name: "log", desc: "x, /, out=None", type: "fn" },
+                { name: "log10", desc: "x, /, out=None", type: "fn" },
+                { name: "sqrt", desc: "x, /, out=None", type: "fn" },
+                { name: "pi", desc: "3.141592653589793", type: "const" },
+                { name: "e", desc: "2.718281828459045", type: "const" },
+                { name: "polyfit", desc: "x, y, deg", type: "fn" },
+                { name: "mean", desc: "a, axis=None", type: "fn" },
+                { name: "std", desc: "a, axis=None", type: "fn" },
+                { name: "sum", desc: "a, axis=None", type: "fn" },
+                { name: "max", desc: "a, axis=None", type: "fn" },
+                { name: "min", desc: "a, axis=None", type: "fn" },
+                { name: "reshape", desc: "a, newshape", type: "fn" }
+            ],
+            "pd": [
+                { name: "DataFrame", desc: "data=None, index, columns", type: "cls" },
+                { name: "Series", desc: "data=None, index, dtype", type: "cls" },
+                { name: "read_csv", desc: "filepath_or_buffer, sep=','", type: "fn" },
+                { name: "read_excel", desc: "io, sheet_name=0", type: "fn" },
+                { name: "pivot_table", desc: "data, values, index, aggfunc", type: "fn" },
+                { name: "concat", desc: "objs, axis=0", type: "fn" },
+                { name: "merge", desc: "left, right, how='inner'", type: "fn" },
+                { name: "isna", desc: "obj", type: "fn" }
+            ],
+            "df": [
+                { name: "head", desc: "n=5", type: "fn" },
+                { name: "tail", desc: "n=5", type: "fn" },
+                { name: "describe", desc: "percentiles=None", type: "fn" },
+                { name: "info", desc: "verbose=None", type: "fn" },
+                { name: "shape", desc: "(rows, columns)", type: "prop" },
+                { name: "columns", desc: "Index of column names", type: "prop" },
+                { name: "duplicated", desc: "subset=None, keep='first'", type: "fn" },
+                { name: "groupby", desc: "by=None, axis=0", type: "fn" },
+                { name: "sort_values", desc: "by, ascending=True", type: "fn" },
+                { name: "drop", desc: "labels=None, axis=0", type: "fn" },
+                { name: "dropna", desc: "axis=0, how='any'", type: "fn" },
+                { name: "fillna", desc: "value=None", type: "fn" },
+                { name: "to_csv", desc: "path_or_buf, index=True", type: "fn" }
+            ]
+        };
+
+        function triggerSpyderIntelliSense() {
+            if (!editor) return;
+            const cursor = editor.getCursor();
+            const line = editor.getLine(cursor.line);
+            const prefix = line.slice(0, cursor.ch);
+
+            // Pattern 1: Dot access (e.g. plt., np., pd., df.)
+            const dotMatch = prefix.match(/([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]*)$/);
+            // Pattern 2: Word typing (e.g. imp, def, ran, pr)
+            const wordMatch = prefix.match(/([a-zA-Z0-9_]{2,})$/);
+
+            let candidates = [];
+
+            if (dotMatch) {
+                const targetObj = dotMatch[1];
+                const query = dotMatch[2].toLowerCase();
+                const methods = LIB_AUTOCOMPLETE[targetObj] || [];
+                
+                candidates = methods
+                    .filter(m => m.name.toLowerCase().startsWith(query))
+                    .map(m => ({
+                        label: m.name,
+                        display: `${targetObj}.${m.name}`,
+                        type: m.type,
+                        desc: m.desc,
+                        insert: m.name,
+                        isDot: true,
+                        dotPrefix: targetObj + "."
+                    }));
+            } else if (wordMatch) {
+                const query = wordMatch[1].toLowerCase();
+
+                // 1. Python Keywords (import, def, class, etc.)
+                PYTHON_KEYWORDS.forEach(kw => {
+                    if (kw.toLowerCase().startsWith(query)) {
+                        candidates.push({
+                            label: kw,
+                            display: kw,
+                            type: "kw",
+                            desc: "Python Keyword",
+                            insert: kw + (["import", "from", "def", "class", "return", "if", "elif", "while", "for", "with", "as"].includes(kw) ? " " : "")
+                        });
+                    }
+                });
+
+                // 2. Python Built-ins (print, range, len, etc.)
+                PYTHON_BUILTINS.forEach(fn => {
+                    if (fn.toLowerCase().startsWith(query)) {
+                        candidates.push({
+                            label: fn,
+                            display: fn + "()",
+                            type: "fn",
+                            desc: "Built-in Function",
+                            insert: fn + "()"
+                        });
+                    }
+                });
+
+                // 3. User-defined code symbols (variables, defs, classes)
+                const userSymbols = extractCodeSymbols();
+                userSymbols.forEach(sym => {
+                    if (sym.label.toLowerCase().startsWith(query) && !candidates.some(c => c.label === sym.label)) {
+                        candidates.push({
+                            label: sym.label,
+                            display: sym.label,
+                            type: sym.type,
+                            desc: sym.desc,
+                            insert: sym.label + (sym.type === 'fn' ? "()" : "")
+                        });
+                    }
+                });
+            }
+
+            if (candidates.length > 0) {
+                renderAutocompleteDropdown(candidates.slice(0, 12));
+            } else {
+                closeAutocomplete();
             }
         }
+
+        function extractCodeSymbols() {
+            const code = editor.getValue();
+            const results = [];
+            const varRegex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g;
+            const fnRegex = /def\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+            const clsRegex = /class\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+            let m;
+            while ((m = varRegex.exec(code)) !== null) results.push({ label: m[1], type: "var", desc: "Local Variable" });
+            while ((m = fnRegex.exec(code)) !== null) results.push({ label: m[1], type: "fn", desc: "User Function" });
+            while ((m = clsRegex.exec(code)) !== null) results.push({ label: m[1], type: "cls", desc: "User Class" });
+            return results;
+        }
+
+        function renderAutocompleteDropdown(items) {
+            autocompleteItems = items;
+            selectedAutocompleteIdx = 0;
+            isAutocompleteOpen = true;
+
+            const box = document.getElementById("autocomplete-box");
+            const cursorCoords = editor.cursorCoords(true);
+
+            box.style.left = `${Math.min(window.innerWidth - 300, Math.max(12, cursorCoords.left))}px`;
+            box.style.top = `${cursorCoords.bottom + 4}px`;
+            box.innerHTML = "";
+
+            items.forEach((item, index) => {
+                const row = document.createElement("div");
+                row.className = `autocomplete-item ${index === 0 ? 'selected' : ''}`;
+                row.dataset.index = index;
+
+                let badgeColor = "bg-indigo-500/20 text-indigo-300 border-indigo-500/30";
+                if (item.type === 'kw') badgeColor = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+                if (item.type === 'fn') badgeColor = "bg-purple-500/20 text-purple-300 border-purple-500/30";
+                if (item.type === 'cls') badgeColor = "bg-sky-500/20 text-sky-300 border-sky-500/30";
+                if (item.type === 'prop') badgeColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 truncate">
+                        <span class="text-[8px] px-1.5 py-0.5 rounded border ${badgeColor} font-mono font-bold uppercase">${item.type}</span>
+                        <span class="font-bold text-white tracking-wide">${item.label}</span>
+                    </div>
+                    <span class="text-[9.5px] text-gray-400 font-mono truncate max-w-[110px]">${item.desc || ''}</span>
+                `;
+
+                row.onmousedown = (e) => {
+                    e.preventDefault();
+                    selectAutocompleteItem(index);
+                };
+
+                box.appendChild(row);
+            });
+
+            box.classList.remove("hidden");
+        }
+
+        function moveAutocompleteSelection(delta) {
+            if (!isAutocompleteOpen || autocompleteItems.length === 0) return;
+            selectedAutocompleteIdx = (selectedAutocompleteIdx + delta + autocompleteItems.length) % autocompleteItems.length;
+
+            const box = document.getElementById("autocomplete-box");
+            const items = box.querySelectorAll(".autocomplete-item");
+            items.forEach((it, idx) => {
+                const isSel = idx === selectedAutocompleteIdx;
+                it.classList.toggle("selected", isSel);
+                if (isSel) {
+                    it.scrollIntoView({ block: "nearest" });
+                }
+            });
+        }
+
+        function selectAutocompleteItem(index) {
+            triggerHaptic();
+            const item = autocompleteItems[index];
+            if (!item) return;
+
+            const cursor = editor.getCursor();
+            const line = editor.getLine(cursor.line);
+            const prefix = line.slice(0, cursor.ch);
+
+            let replaceStartCh = cursor.ch;
+
+            if (item.isDot) {
+                const dotIdx = prefix.lastIndexOf('.');
+                replaceStartCh = dotIdx + 1;
+            } else {
+                const match = prefix.match(/([a-zA-Z0-9_]+)$/);
+                if (match) {
+                    replaceStartCh = cursor.ch - match[1].length;
+                }
+            }
+
+            editor.replaceRange(item.insert, { line: cursor.line, ch: replaceStartCh }, { line: cursor.line, ch: cursor.ch });
+
+            // Place cursor inside parentheses for functions: ( | )
+            if (item.insert.endsWith("()")) {
+                editor.setCursor({ line: cursor.line, ch: replaceStartCh + item.insert.length - 1 });
+            }
+
+            closeAutocomplete();
+            editor.focus();
+        }
+
+        function closeAutocomplete() {
+            const box = document.getElementById("autocomplete-box");
+            if (box) box.classList.add("hidden");
+            isAutocompleteOpen = false;
+            autocompleteItems = [];
+            selectedAutocompleteIdx = 0;
+        }
+
         const outputElement = document.getElementById("output");
         const statusText = document.getElementById("status-text");
         const statusInd = document.getElementById("status-indicator");
@@ -1317,7 +1595,6 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         const runLineBtn = document.getElementById("run-line-btn");
         const timerLabel = document.getElementById("exec-timer");
 
-        // CodeMirror Setup with Keybindings
         const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), { 
             mode: { name: "python", version: 3 }, 
             theme: "nord", 
@@ -1347,8 +1624,33 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             }
         });
 
-        // Initialize with Dynamic Blank Template
-        const STORAGE_KEY = "omni_studio_clean_v7";
+        // Key interception for Spyder Autocomplete navigation (ArrowUp, ArrowDown, Enter, Tab, Esc)
+        editor.on("keydown", (cm, e) => {
+            if (isAutocompleteOpen && autocompleteItems.length > 0) {
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    moveAutocompleteSelection(1);
+                    return;
+                }
+                if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    moveAutocompleteSelection(-1);
+                    return;
+                }
+                if (e.key === "Enter" || e.key === "Tab") {
+                    e.preventDefault();
+                    selectAutocompleteItem(selectedAutocompleteIdx);
+                    return;
+                }
+                if (e.key === "Escape") {
+                    e.preventDefault();
+                    closeAutocomplete();
+                    return;
+                }
+            }
+        });
+
+        const STORAGE_KEY = "omni_studio_clean_v5";
         const savedCode = localStorage.getItem(STORAGE_KEY);
         if (savedCode && savedCode.trim()) {
             editor.setValue(savedCode);
@@ -1356,15 +1658,20 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             editor.setValue(generateOmniTemplate());
         }
 
-        editor.on("change", () => {
+        editor.on("change", (cm, changeObj) => {
             localStorage.setItem(STORAGE_KEY, editor.getValue());
             scheduleRealtimeLinter();
-            triggerAutocompleteCheck();
+
+            // Auto-trigger IntelliSense on typing or dot input
+            if (changeObj.origin === "+input" || changeObj.origin === "paste") {
+                triggerSpyderIntelliSense();
+            } else if (changeObj.origin === "+delete") {
+                triggerSpyderIntelliSense();
+            }
         });
 
         editor.on("cursorActivity", () => {
             updateCursorPosition();
-            closeAutocomplete();
         });
 
         function updateCursorPosition() {
@@ -1372,7 +1679,6 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             document.getElementById("cursor-position").innerText = `Ln ${cursor.line + 1}, Col ${cursor.ch + 1}`;
         }
 
-        // Smooth 60 FPS Animated Boot Engine
         let currentBootPercent = 0;
         let targetBootPercent = 0;
 
@@ -1402,26 +1708,39 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         requestAnimationFrame(animateBootProgress);
 
         window.addEventListener('DOMContentLoaded', () => {
-            restoreSingleModeViews();
             initSplitResizer();
             initPyodide();
             renderSyllabusList();
-            initPlotViewportInteractions();
-            checkViewportSizeForSplit();
+            checkFirstTimeTour();
+
+            // Auto-detect wide screens for Split View
+            if (window.innerWidth >= 1024) {
+                setSplitMode(true);
+            }
+
+            // Register PWA Service Worker for complete offline reliability
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js').then((reg) => {
+                    console.log("[Omni-Studio] Service Worker Registered:", reg.scope);
+                }).catch((err) => {
+                    console.warn("[Omni-Studio] Offline SW notice:", err);
+                });
+            }
         });
+
         async function initPyodide() {
             try {
-                updateBootTarget(18, "Downloading WebAssembly Core...");
+                updateBootTarget(18, "Loading WASM runtime...");
                 pyodide = await loadPyodide();
 
-                updateBootTarget(42, "Mounting micropip package resolver...");
+                updateBootTarget(42, "Initializing micropip...");
                 await pyodide.loadPackage(["micropip"]);
                 micropip = pyodide.pyimport("micropip");
 
-                updateBootTarget(72, "Mounting NumPy, Pandas & Matplotlib...");
+                updateBootTarget(68, "Mounting NumPy, Pandas & Matplotlib...");
                 await pyodide.loadPackage(["numpy", "pandas", "matplotlib"]);
 
-                updateBootTarget(90, "Configuring Plot Studio & memory...");
+                updateBootTarget(88, "Setting up graphics & virtual filesystem...");
                 await pyodide.runPythonAsync(`
 import io, base64, sys, builtins, ast, json
 import pandas as pd
@@ -1456,21 +1775,18 @@ with open('data.csv', 'w') as f:
     f.write(sample_csv)
 
 def custom_show(*args, **kwargs):
-    buf_png = io.BytesIO()
+    buf = io.BytesIO()
+    svg_buf = io.StringIO()
     plt.tight_layout()
-    plt.savefig(buf_png, format='png', bbox_inches='tight', pad_inches=0.18, facecolor='white', edgecolor='none', dpi=200)
-    buf_png.seek(0)
-    png_b64 = base64.b64encode(buf_png.read()).decode('utf-8')
-    buf_png.close()
-
-    buf_svg = io.StringIO()
-    plt.savefig(buf_svg, format='svg', bbox_inches='tight', pad_inches=0.18, facecolor='white')
-    buf_svg.seek(0)
-    svg_str = buf_svg.getvalue()
-    buf_svg.close()
-
+    plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0.18, facecolor='white', edgecolor='none', dpi=200)
+    plt.savefig(svg_buf, format='svg', bbox_inches='tight', pad_inches=0.18, facecolor='white', edgecolor='none')
+    buf.seek(0)
+    img_b64 = base64.b64encode(buf.read()).decode('utf-8')
+    svg_text = svg_buf.getvalue()
+    buf.close()
+    svg_buf.close()
     plt.close('all')
-    showPlotMobile(png_b64, svg_str)
+    showPlotMobile(img_b64, svg_text)
 
 plt.show = custom_show
 
@@ -1523,9 +1839,9 @@ def _omni_transform_code(code_str):
 
                 pyodide.setStdout({ batched: (msg) => log(msg) });
 
-                updateBootTarget(100, "Workspace Ready!");
+                updateBootTarget(100, "Ready!");
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]";
-                statusText.innerText = "Python Ready";
+                statusText.innerText = "Ready";
                 statusText.classList.replace("text-gray-400", "text-green-400");
                 runBtn.disabled = false;
                 runLineBtn.disabled = false;
@@ -1533,61 +1849,82 @@ def _omni_transform_code(code_str):
                 updateVirtualFSUI();
                 scheduleRealtimeLinter();
 
-                setTimeout(() => {
-                    dismissSplash();
-                    checkFirstTimeTour();
-                }, 450);
+                setTimeout(dismissSplash, 450);
 
             } catch (err) {
                 console.error(err);
                 statusInd.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
-                statusText.innerText = "Offline Error";
+                statusText.innerText = "Offline Mode";
                 setTimeout(dismissSplash, 800);
             }
         }
-        // Responsive Plot Studio with Infinite Zoom & Pan Engine
-        window.showPlotMobile = function(pngBase64, svgContent) {
-            const plotData = {
-                id: Date.now(),
-                png: pngBase64,
-                svg: svgContent,
-                time: new Date().toLocaleTimeString()
-            };
 
+        window.requestAsyncInput = function(promptText) {
+            triggerHaptic();
+            return new Promise((resolve) => {
+                modalResolve = resolve;
+                document.getElementById('modal-prompt-label').innerText = promptText || "Enter input:";
+                const inputField = document.getElementById('modal-input-field');
+                inputField.value = "";
+                document.getElementById('input-modal').classList.remove('hidden');
+                document.getElementById('input-modal').classList.add('flex');
+                inputField.focus();
+            });
+        };
+
+        function submitModalInput() {
+            triggerHaptic();
+            const inputField = document.getElementById('modal-input-field');
+            const val = inputField.value;
+            document.getElementById('input-modal').classList.add('hidden');
+            document.getElementById('input-modal').classList.remove('flex');
+            if (modalResolve) {
+                modalResolve(val);
+                modalResolve = null;
+            }
+        }
+
+        document.getElementById('modal-input-field').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submitModalInput();
+        });
+
+        window.showPlotMobile = function(base64Png, svgXml) {
+            const plotData = { png: base64Png, svg: svgXml, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
             plotGallery.push(plotData);
             currentPlotIdx = plotGallery.length - 1;
-            renderCurrentPlot();
-            renderPlotFilmstrip();
 
-            document.getElementById("plot-counter-pill").classList.remove("hidden");
-            document.getElementById("plot-counter-pill").innerText = `Fig ${currentPlotIdx + 1} of ${plotGallery.length}`;
-            document.getElementById("plot-hud-controls").classList.remove("hidden");
-            document.getElementById("btn-download-plot").classList.remove("hidden");
-            document.getElementById("btn-download-svg").classList.remove("hidden");
-            document.getElementById("btn-copy-plot").classList.remove("hidden");
+            renderActivePlot();
+            renderPlotFilmstrip();
 
             if (isSplitMode) {
                 switchSplitTab('plots');
             } else {
                 switchTab('plots');
             }
-            showToast("Plot generated!");
         };
 
-        function renderCurrentPlot() {
-            if (currentPlotIdx < 0 || currentPlotIdx >= plotGallery.length) return;
+        function renderActivePlot() {
+            if (currentPlotIdx < 0 || !plotGallery[currentPlotIdx]) return;
             const current = plotGallery[currentPlotIdx];
             const target = document.getElementById('plot-target');
-            
+
             target.innerHTML = `
                 <div class="omni-plot-card">
-                    <div id="plot-zoom-wrapper" class="plot-viewport-canvas flex items-center justify-center">
-                        <img src="data:image/png;base64,${current.png}" alt="Omni-Studio Plot Output" draggable="false">
-                    </div>
+                    <img id="active-plot-img" src="data:image/png;base64,${current.png}" class="plot-viewport-canvas" alt="Plot output">
                 </div>
             `;
 
             resetPlotTransform();
+            initPlotInteractions();
+
+            document.getElementById("btn-download-plot").classList.remove("hidden");
+            document.getElementById("btn-download-svg").classList.remove("hidden");
+            document.getElementById("btn-copy-plot").classList.remove("hidden");
+            document.getElementById("plot-hud-controls").classList.remove("hidden");
+
+            const counter = document.getElementById("plot-counter-pill");
+            counter.innerText = `Fig ${currentPlotIdx + 1} of ${plotGallery.length}`;
+            counter.classList.remove("hidden");
         }
 
         function renderPlotFilmstrip() {
@@ -1600,32 +1937,25 @@ def _omni_transform_code(code_str):
             strip.classList.remove("hidden");
             strip.innerHTML = "";
 
-            plotGallery.forEach((p, idx) => {
-                const thumb = document.createElement("button");
-                thumb.className = `h-9 w-12 rounded-lg overflow-hidden border transition shrink-0 ${idx === currentPlotIdx ? 'border-indigo-500 ring-2 ring-indigo-500/40' : 'border-white/10 opacity-60 hover:opacity-100'}`;
+            plotGallery.forEach((item, index) => {
+                const thumb = document.createElement("div");
+                thumb.className = `w-10 h-10 rounded-lg overflow-hidden border cursor-pointer shrink-0 transition ${index === currentPlotIdx ? 'border-indigo-500 ring-2 ring-indigo-500/40 scale-105' : 'border-white/10 opacity-60 hover:opacity-100'}`;
+                thumb.innerHTML = `<img src="data:image/png;base64,${item.png}" class="w-full h-full object-cover">`;
                 thumb.onclick = () => {
-                    currentPlotIdx = idx;
-                    renderCurrentPlot();
+                    triggerHaptic();
+                    currentPlotIdx = index;
+                    renderActivePlot();
                     renderPlotFilmstrip();
-                    document.getElementById("plot-counter-pill").innerText = `Fig ${idx + 1} of ${plotGallery.length}`;
                 };
-                thumb.innerHTML = `<img src="data:image/png;base64,${p.png}" class="w-full h-full object-cover">`;
                 strip.appendChild(thumb);
             });
         }
 
-        function initPlotViewportInteractions() {
-            const viewport = document.getElementById("plot-container-viewport");
+        function initPlotInteractions() {
+            const img = document.getElementById("active-plot-img");
+            if (!img) return;
 
-            viewport.addEventListener("wheel", (e) => {
-                if (currentPlotIdx < 0) return;
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -0.1 : 0.1;
-                adjustPlotZoom(delta);
-            }, { passive: false });
-
-            viewport.addEventListener("mousedown", (e) => {
-                if (currentPlotIdx < 0) return;
+            img.addEventListener("mousedown", (e) => {
                 isDraggingPlot = true;
                 dragStartX = e.clientX - plotTranslateX;
                 dragStartY = e.clientY - plotTranslateY;
@@ -1642,27 +1972,16 @@ def _omni_transform_code(code_str):
                 isDraggingPlot = false;
             });
 
-            viewport.addEventListener("touchstart", (e) => {
-                if (currentPlotIdx < 0 || e.touches.length !== 1) return;
-                isDraggingPlot = true;
-                dragStartX = e.touches[0].clientX - plotTranslateX;
-                dragStartY = e.touches[0].clientY - plotTranslateY;
-            });
-
-            viewport.addEventListener("touchmove", (e) => {
-                if (!isDraggingPlot || e.touches.length !== 1) return;
-                plotTranslateX = e.touches[0].clientX - dragStartX;
-                plotTranslateY = e.touches[0].clientY - dragStartY;
-                applyPlotTransform();
-            });
-
-            viewport.addEventListener("touchend", () => {
-                isDraggingPlot = false;
-            });
+            const viewport = document.getElementById("plot-container-viewport");
+            viewport.onwheel = (e) => {
+                e.preventDefault();
+                const delta = e.deltaY < 0 ? 0.12 : -0.12;
+                adjustPlotZoom(delta);
+            };
         }
 
         function adjustPlotZoom(delta) {
-            plotScale = Math.max(0.5, Math.min(3.5, plotScale + delta));
+            plotScale = Math.max(0.4, Math.min(3.5, plotScale + delta));
             applyPlotTransform();
         }
 
@@ -1674,9 +1993,9 @@ def _omni_transform_code(code_str):
         }
 
         function applyPlotTransform() {
-            const wrapper = document.getElementById("plot-zoom-wrapper");
-            if (wrapper) {
-                wrapper.style.transform = `translate(${plotTranslateX}px, ${plotTranslateY}px) scale(${plotScale})`;
+            const img = document.getElementById("active-plot-img");
+            if (img) {
+                img.style.transform = `translate(${plotTranslateX}px, ${plotTranslateY}px) scale(${plotScale})`;
             }
         }
 
@@ -1686,7 +2005,7 @@ def _omni_transform_code(code_str):
             const current = plotGallery[currentPlotIdx];
             const a = document.createElement('a');
 
-            if (format === 'svg') {
+            if (format === 'svg' && current.svg) {
                 const blob = new Blob([current.svg], { type: "image/svg+xml;charset=utf-8" });
                 a.href = URL.createObjectURL(blob);
                 a.download = `OmniPlot_Fig${currentPlotIdx + 1}_${Date.now()}.svg`;
@@ -1698,27 +2017,24 @@ def _omni_transform_code(code_str):
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            showToast(`Downloaded as ${format.toUpperCase()}!`);
+            showToast(`Downloaded ${format.toUpperCase()} image`);
         }
 
         async function copyPlotImage() {
             triggerHaptic();
             if (currentPlotIdx < 0 || !plotGallery[currentPlotIdx]) return;
-            const current = plotGallery[currentPlotIdx];
-
             try {
+                const current = plotGallery[currentPlotIdx];
                 const res = await fetch(`data:image/png;base64,${current.png}`);
                 const blob = await res.blob();
                 if (navigator.clipboard && navigator.clipboard.write) {
-                    await navigator.clipboard.write([
-                        new ClipboardItem({ 'image/png': blob })
-                    ]);
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                     showToast("Plot copied to clipboard!");
                 } else {
-                    showToast("Direct copy not supported in browser", false);
+                    showToast("Clipboard write not supported", false);
                 }
             } catch (err) {
-                showToast("Could not copy plot: " + err.message, false);
+                showToast("Could not copy plot", false);
             }
         }
 
@@ -1732,18 +2048,18 @@ def _omni_transform_code(code_str):
                     <p class="text-[10px] font-mono uppercase tracking-wider">No Graph Generated</p>
                     <p class="text-[9px] text-gray-500 mt-1 font-sans">Run a script with plt.show() to view graphics</p>
                 </div>`;
-            document.getElementById("plot-counter-pill").classList.add("hidden");
-            document.getElementById("plot-hud-controls").classList.add("hidden");
             document.getElementById("btn-download-plot").classList.add("hidden");
             document.getElementById("btn-download-svg").classList.add("hidden");
             document.getElementById("btn-copy-plot").classList.add("hidden");
+            document.getElementById("plot-hud-controls").classList.add("hidden");
+            document.getElementById("plot-counter-pill").classList.add("hidden");
             document.getElementById("plot-filmstrip").classList.add("hidden");
-            showToast("Plot Studio cleared");
+            showToast("Plots cleared");
         }
-        // Real-Time Syntax Validation & Wavy Underlines
+
         function scheduleRealtimeLinter() {
             if (linterDebounceTimer) clearTimeout(linterDebounceTimer);
-            linterDebounceTimer = setTimeout(runASTLinter, 280);
+            linterDebounceTimer = setTimeout(runASTLinter, 260);
         }
 
         async function runASTLinter() {
@@ -1803,7 +2119,6 @@ _lint()
             }
         }
 
-        // Automatic Dependency Resolver
         async function autoInstallImports(code) {
             const importRegex = /(?:^|\n)\s*(?:import|from)\s+([a-zA-Z0-9_]+)/g;
             let match;
@@ -1820,16 +2135,16 @@ _lint()
                     pyodide.pyimport(pkg);
                 } catch(e) {
                     try {
-                        log(`📦 Installing '${pkg}' from PyPI...`, "text-indigo-400 font-mono text-[11px]");
+                        log(`📦 Installing '${pkg}' via PyPI...`, "text-indigo-400 font-mono text-[11px]");
                         if (micropip) await micropip.install(pkg);
                         log(`✓ '${pkg}' installed successfully.`, "text-green-400 font-mono text-[11px]");
                     } catch(err) {
-                        log(`⚠️ Failed to load package '${pkg}': ${err.message}`, "text-amber-400 font-mono text-[11px]");
+                        log(`⚠️ Package '${pkg}' failed: ${err.message}`, "text-amber-400 font-mono text-[11px]");
                     }
                 }
             }
         }
-        // Full Script Execution Engine
+
         async function runCode() {
             triggerHaptic();
             const code = editor.getValue();
@@ -1867,7 +2182,6 @@ _lint()
             }
         }
 
-        // Single Line or Selection Execution (F9)
         async function runSelectedOrCurrentLine() {
             triggerHaptic();
             if (!pyodide) return;
@@ -1883,7 +2197,7 @@ _lint()
 
             if (isSplitMode) switchSplitTab('terminal');
             else switchTab('terminal');
-            
+
             log(`>>> ${codeToRun.trim()}`, "text-indigo-300 font-mono text-[11px]");
 
             await autoInstallImports(codeToRun);
@@ -1910,7 +2224,7 @@ _lint()
             const formattedError = `❌ Line ${lineNum} Error\n↳ ${errMsg}`;
             log(formattedError, "text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl my-1.5 font-mono text-[11px] leading-relaxed");
         }
-        // Feature: Find & Replace Engine
+
         let searchMatches = [];
         let currentSearchIdx = -1;
 
@@ -2024,7 +2338,6 @@ _lint()
             showToast(`Replaced ${count} occurrences`);
         }
 
-        // Feature: Code Formatter & Auto-Indenter
         function formatPythonCode() {
             triggerHaptic();
             const source = editor.getValue();
@@ -2041,9 +2354,7 @@ _lint()
                 let line = lines[i].trim();
 
                 if (!line) {
-                    if (formatted.length > 0 && formatted[formatted.length - 1] === "") {
-                        continue;
-                    }
+                    if (formatted.length > 0 && formatted[formatted.length - 1] === "") continue;
                     formatted.push("");
                     continue;
                 }
@@ -2056,9 +2367,7 @@ _lint()
                 formatted.push(indentStr.repeat(currentIndent) + line);
 
                 if (colonBlockKeywords.test(line)) {
-                    if (!midBlockKeywords.test(line)) {
-                        indentLevel++;
-                    }
+                    if (!midBlockKeywords.test(line)) indentLevel++;
                 } else if (dedentKeywords.test(line) && indentLevel > 0) {
                     indentLevel = Math.max(0, indentLevel - 1);
                 }
@@ -2068,7 +2377,6 @@ _lint()
             showToast("Code auto-formatted!");
         }
 
-        // Accessory Bar Tools
         function undoCode() {
             triggerHaptic();
             editor.undo();
@@ -2115,7 +2423,7 @@ _lint()
             }
             editor.focus();
         }
-        // Feature: Interactive Python REPL Console with History
+
         const replHistory = [];
         let replHistoryIndex = -1;
 
@@ -2170,7 +2478,6 @@ _exec_repl()
             }
         });
 
-        // Feature: Console Output Export Log
         function exportConsoleLog() {
             triggerHaptic();
             const text = outputElement.innerText;
@@ -2206,9 +2513,9 @@ _exec_repl()
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showToast("Log exported successfully!");
+            showToast("Log exported!");
         }
-        // Workspace Variable Explorer & Inspector
+
         async function updateVariableExplorer() {
             if (!pyodide) return;
             try {
@@ -2232,12 +2539,11 @@ def _get_vars():
             except: pass
             
         if v_type == 'DataFrame':
-            is_inspectable = True
             val_str = f"[{v.shape[0]} rows x {v.shape[1]} cols]"
         elif len(val_str) > 70:
             val_str = val_str[:67] + "..."
             
-        out.append({"name": k, "type": v_type, "size": size_str, "val": val_str, "is_inspectable": is_inspectable})
+        out.append({"name": k, "type": v_type, "size": size_str, "val": val_str, "inspect": is_inspectable})
     return json.dumps(out)
 _get_vars()
 `);
@@ -2259,17 +2565,17 @@ _get_vars()
                         <td class="p-2 text-gray-400">${v.size}</td>
                         <td class="p-2 text-gray-300 font-mono text-[10.5px] truncate max-w-[120px]">${v.val}</td>
                         <td class="p-2 text-right">
-                            ${v.is_inspectable ? `<button onclick="inspectVariableStructure('${v.name}')" class="px-2 py-0.5 rounded bg-purple-600/30 border border-purple-500/40 text-purple-300 text-[9.5px] font-bold active:scale-95 transition">View</button>` : ''}
+                            ${v.inspect ? `<button onclick="inspectDataStructure('${v.name}')" class="px-2 py-0.5 rounded bg-purple-600/30 border border-purple-500/40 text-purple-300 text-[9.5px] font-bold active:scale-95 transition">View</button>` : ''}
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
             } catch (err) {
-                // Background inspector failsafe
+                // Workspace inspector fallback
             }
         }
 
-        async function inspectVariableStructure(varName) {
+        async function inspectDataStructure(varName) {
             triggerHaptic();
             if (!pyodide) return;
             try {
@@ -2278,37 +2584,37 @@ import json
 def _inspect_var(name):
     obj = globals().get(name)
     if obj is None: return "{}"
+    
     if hasattr(obj, 'to_json'): # DataFrame
         return json.dumps({
-            "type": "dataframe",
+            "type": "DataFrame",
             "rows": json.loads(obj.head(100).to_json(orient='records')),
             "columns": list(obj.columns),
             "shape": list(obj.shape)
         })
-    elif hasattr(obj, 'tolist'): # NumPy array
-        arr = obj.tolist()
+    elif hasattr(obj, 'tolist'): # NumPy Array
+        arr_list = obj.tolist()
         return json.dumps({
             "type": "ndarray",
-            "data": arr[:100] if isinstance(arr, list) else arr,
-            "shape": list(obj.shape)
+            "data": str(obj),
+            "shape": list(obj.shape) if hasattr(obj, 'shape') else []
         })
     return "{}"
 _inspect_var('${varName}')
 `);
                 const data = JSON.parse(res);
-                if (!data.shape) return;
+                if (!data.type) return;
 
-                document.getElementById('df-modal-title').innerText = `${data.type === 'dataframe' ? 'DataFrame' : 'NumPy Array'}: ${varName}`;
-                document.getElementById('df-modal-subtitle').innerText = `Shape: ${data.shape.join(' × ')}`;
-
+                document.getElementById('df-modal-title').innerText = `${data.type}: ${varName}`;
+                
                 let html = "";
-                if (data.type === 'dataframe') {
+                if (data.type === "DataFrame") {
+                    document.getElementById('df-modal-subtitle').innerText = `${data.shape[0]} rows × ${data.shape[1]} columns (Top 100 rows)`;
                     html = `<div class="overflow-x-auto border border-white/10 rounded-xl"><table class="w-full text-left border-collapse"><thead class="bg-white/10 text-gray-300 border-b border-white/10"><tr>`;
                     data.columns.forEach(col => {
                         html += `<th class="p-2 border-r border-white/5 font-bold">${col}</th>`;
                     });
                     html += `</tr></thead><tbody class="divide-y divide-white/5">`;
-
                     data.rows.forEach(row => {
                         html += `<tr class="hover:bg-white/[0.02]">`;
                         data.columns.forEach(col => {
@@ -2318,7 +2624,8 @@ _inspect_var('${varName}')
                     });
                     html += `</tbody></table></div>`;
                 } else {
-                    html = `<div class="p-3 bg-black/40 rounded-xl border border-white/10 text-emerald-300 leading-relaxed font-mono whitespace-pre-wrap">${JSON.stringify(data.data, null, 2)}</div>`;
+                    document.getElementById('df-modal-subtitle').innerText = `Shape: (${data.shape.join(', ')})`;
+                    html = `<div class="p-3 bg-black/40 border border-white/10 rounded-xl whitespace-pre text-emerald-400 font-mono text-xs overflow-auto">${data.data}</div>`;
                 }
 
                 document.getElementById('df-modal-body').innerHTML = html;
@@ -2326,7 +2633,7 @@ _inspect_var('${varName}')
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
             } catch (err) {
-                showToast("Could not inspect data: " + err.message, false);
+                showToast("Could not inspect: " + err.message, false);
             }
         }
 
@@ -2336,135 +2643,7 @@ _inspect_var('${varName}')
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-        // IntelliSense Autocompletion Engine
-        const PYTHON_SYMBOLS = [
-            { label: "np.linspace", type: "fn", desc: "start, stop, num=50" },
-            { label: "np.arange", type: "fn", desc: "start, stop, step" },
-            { label: "np.zeros", type: "fn", desc: "shape, dtype=float" },
-            { label: "np.ones", type: "fn", desc: "shape, dtype=float" },
-            { label: "np.polyfit", type: "fn", desc: "x, y, deg" },
-            { label: "np.sin", type: "fn", desc: "x" },
-            { label: "np.cos", type: "fn", desc: "x" },
-            { label: "np.exp", type: "fn", desc: "x" },
-            { label: "np.pi", type: "const", desc: "3.141592..." },
-            { label: "pd.DataFrame", type: "cls", desc: "data, index, columns" },
-            { label: "pd.read_csv", type: "fn", desc: "filepath_or_buffer" },
-            { label: "pd.pivot_table", type: "fn", desc: "data, values, index, aggfunc" },
-            { label: "df.head", type: "fn", desc: "n=5" },
-            { label: "df.describe", type: "fn", desc: "percentiles=None" },
-            { label: "df.groupby", type: "fn", desc: "by, axis=0" },
-            { label: "df.duplicated", type: "fn", desc: "subset=None, keep='first'" },
-            { label: "plt.plot", type: "fn", desc: "*args, scalex=True, scaley=True" },
-            { label: "plt.bar", type: "fn", desc: "x, height, width=0.8" },
-            { label: "plt.pie", type: "fn", desc: "x, explode=None, labels=None, autopct=None" },
-            { label: "plt.show", type: "fn", desc: "Display figures" },
-            { label: "plt.title", type: "fn", desc: "label, loc='center'" },
-            { label: "plt.xlabel", type: "fn", desc: "xlabel" },
-            { label: "plt.ylabel", type: "fn", desc: "ylabel" },
-            { label: "plt.grid", type: "fn", desc: "visible=True" },
-            { label: "plt.legend", type: "fn", desc: "*args" }
-        ];
 
-        function triggerAutocompleteCheck() {
-            const cursor = editor.getCursor();
-            const token = editor.getTokenAt(cursor);
-            const line = editor.getLine(cursor.line);
-            const prefix = line.slice(0, cursor.ch);
-
-            const dotMatch = prefix.match(/(?:([a-zA-Z0-9_]+)\.)([a-zA-Z0-9_]*)$/);
-            const wordMatch = prefix.match(/([a-zA-Z0-9_]{2,})$/);
-
-            let candidates = [];
-
-            if (dotMatch) {
-                const root = dotMatch[1];
-                const partial = dotMatch[2].toLowerCase();
-                const targetPrefix = `${root}.`;
-                candidates = PYTHON_SYMBOLS.filter(s => s.label.startsWith(targetPrefix) && s.label.slice(targetPrefix.length).toLowerCase().startsWith(partial));
-            } else if (wordMatch) {
-                const word = wordMatch[1].toLowerCase();
-                const codeVars = extractCodeSymbols();
-                candidates = codeVars.concat(PYTHON_SYMBOLS).filter(s => s.label.toLowerCase().includes(word));
-            }
-
-            if (candidates.length > 0) {
-                renderAutocompleteBox(candidates.slice(0, 8));
-            } else {
-                closeAutocomplete();
-            }
-        }
-
-        function extractCodeSymbols() {
-            const code = editor.getValue();
-            const results = [];
-            const varRegex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g;
-            const fnRegex = /def\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
-            const clsRegex = /class\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
-            let m;
-            while ((m = varRegex.exec(code)) !== null) results.push({ label: m[1], type: "var", desc: "Variable" });
-            while ((m = fnRegex.exec(code)) !== null) results.push({ label: m[1], type: "fn", desc: "Function" });
-            while ((m = clsRegex.exec(code)) !== null) results.push({ label: m[1], type: "cls", desc: "Class" });
-            return results;
-        }
-
-        function renderAutocompleteBox(items) {
-            autocompleteItems = items;
-            const box = document.getElementById("autocomplete-box");
-            const cursorCoords = editor.cursorCoords(true);
-
-            box.style.left = `${Math.min(window.innerWidth - 270, Math.max(10, cursorCoords.left))}px`;
-            box.style.top = `${cursorCoords.bottom + 5}px`;
-            box.innerHTML = "";
-
-            items.forEach((item, index) => {
-                const div = document.createElement("div");
-                div.className = `autocomplete-item ${index === 0 ? 'selected' : ''}`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-2 truncate">
-                        <span class="text-[9px] px-1 py-0.2 rounded bg-indigo-500/20 text-indigo-300 font-bold uppercase">${item.type}</span>
-                        <span class="font-bold">${item.label}</span>
-                    </div>
-                    <span class="text-[9px] text-gray-400 font-sans truncate max-w-[90px]">${item.desc || ''}</span>
-                `;
-                div.onmousedown = (e) => {
-                    e.preventDefault();
-                    selectAutocompleteItem(index);
-                };
-                box.appendChild(div);
-            });
-
-            box.classList.remove("hidden");
-        }
-
-        function selectAutocompleteItem(index) {
-            triggerHaptic();
-            const item = autocompleteItems[index];
-            if (!item) return;
-
-            const cursor = editor.getCursor();
-            let insertText = item.label;
-            if (insertText.includes('.')) {
-                insertText = insertText.split('.')[1];
-            }
-
-            const token = editor.getTokenAt(cursor);
-            editor.replaceRange(insertText, { line: cursor.line, ch: token.start }, { line: cursor.line, ch: cursor.ch });
-
-            if (item.type === 'fn') {
-                const currentPos = editor.getCursor();
-                editor.replaceRange("()", currentPos);
-                editor.setCursor({ line: currentPos.line, ch: currentPos.ch + 1 });
-            }
-
-            closeAutocomplete();
-            editor.focus();
-        }
-
-        function closeAutocomplete() {
-            document.getElementById("autocomplete-box").classList.add("hidden");
-            autocompleteItems = [];
-        }
-        // Virtual Filesystem & CSV Creator
         function uploadToVirtualFS(event) {
             const file = event.target.files[0];
             if (!file || !pyodide) return;
@@ -2523,7 +2702,12 @@ _inspect_var('${varName}')
                 snippet = `\nwith open('${filename}', 'r') as f:\n    content = f.read()\nprint(content[:200])\n`;
             }
             insertMobile(snippet);
-            if (!isSplitMode) switchTab('editor');
+            if (isSplitMode) {
+                // Focus editor
+                editor.focus();
+            } else {
+                switchTab('editor');
+            }
             showToast(`Inserted code for '${filename}'`);
         }
 
@@ -2541,7 +2725,6 @@ _inspect_var('${varName}')
             }
         }
 
-        // CSV Spreadsheet Builder
         let csvGridData = [
             ['Student', 'Physics', 'Maths'],
             ['John', '92', '95'],
@@ -2584,6 +2767,7 @@ _inspect_var('${varName}')
                     const input = document.createElement('input');
                     input.type = 'text';
                     input.value = cellVal;
+                    input.className = "bg-transparent text-white font-mono text-xs outline-none w-full p-1";
                     input.oninput = (e) => { csvGridData[rowIndex][colIndex] = e.target.value; };
                     td.appendChild(input);
                     tr.appendChild(td);
@@ -2686,7 +2870,7 @@ _inspect_var('${varName}')
                 showToast("Could not open CSV: " + err.message, false);
             }
         }
-        // 10 Official University Lab Experiments
+
         const syllabusCatalog = [
             {
                 id: "exp1",
@@ -2929,26 +3113,30 @@ plt.show()`
 
             const confirmed = await showConfirm(
                 `Load Experiment ${exp.num}`,
-                `Load "${exp.title}" into the editor? Any unsaved edits will be replaced.`
+                `Load "${exp.title}" into the editor? Current code will be replaced.`
             );
 
             if (confirmed) {
                 editor.setValue(exp.code);
                 document.getElementById('active-filename').innerText = `exp_${exp.num}.py`;
-                if (!isSplitMode) switchTab('editor');
+                if (isSplitMode) {
+                    editor.focus();
+                } else {
+                    switchTab('editor');
+                }
                 showToast(`Loaded Exp ${exp.num}: ${exp.title}`);
             }
         }
-        // Navigation Dock Handling for Single-Pane Mode
+
         function switchTab(id) {
             triggerHaptic();
             activeSingleTab = id;
 
-            if (isSplitMode) {
-                setSplitMode(false);
-            }
+            // In Single Mode, all views are in split-left-pane
+            const leftPane = document.getElementById('split-left-pane');
+            const views = leftPane.querySelectorAll('.tab-content');
+            views.forEach(el => el.classList.remove('active'));
 
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             const target = document.getElementById(`tab-${id}`);
             if (target) target.classList.add('active');
             
@@ -2959,91 +3147,10 @@ plt.show()`
                 btn.classList.toggle('text-slate-500', !isMatch);
             });
 
-            if (id === 'editor') setTimeout(() => editor.refresh(), 30);
+            if (id === 'editor') setTimeout(() => editor.refresh(), 40);
             if (id === 'files') updateVirtualFSUI();
             if (id === 'variables') updateVariableExplorer();
         }
-
-        // Custom UI Utilities
-        function showToast(msg, isSuccess = true) {
-            const toast = document.getElementById('toast-box');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
-
-            toastMsg.innerText = msg;
-            toastIcon.className = isSuccess ? "fa-solid fa-circle-check text-green-400" : "fa-solid fa-circle-exclamation text-amber-400";
-
-            toast.classList.remove('opacity-0', '-translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', '-translate-y-4');
-            }, 2300);
-        }
-
-        function showConfirm(title, message) {
-            return new Promise((resolve) => {
-                const modal = document.getElementById('custom-confirm-modal');
-                const titleEl = document.getElementById('confirm-modal-title');
-                const msgEl = document.getElementById('confirm-modal-msg');
-                const btnOk = document.getElementById('confirm-modal-ok');
-                const btnCancel = document.getElementById('confirm-modal-cancel');
-
-                titleEl.innerText = title;
-                msgEl.innerText = message;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-
-                const cleanup = () => {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                    btnOk.onclick = null;
-                    btnCancel.onclick = null;
-                };
-
-                btnOk.onclick = () => {
-                    triggerHaptic();
-                    cleanup();
-                    resolve(true);
-                };
-
-                btnCancel.onclick = () => {
-                    triggerHaptic();
-                    cleanup();
-                    resolve(false);
-                };
-            });
-        }
-
-        window.requestAsyncInput = function(promptText) {
-            triggerHaptic();
-            return new Promise((resolve) => {
-                modalResolve = resolve;
-                document.getElementById('modal-prompt-label').innerText = promptText || "Enter input:";
-                const inputField = document.getElementById('modal-input-field');
-                inputField.value = "";
-                document.getElementById('input-modal').classList.remove('hidden');
-                document.getElementById('input-modal').classList.add('flex');
-                inputField.focus();
-            });
-        };
-
-        function submitModalInput() {
-            triggerHaptic();
-            const inputField = document.getElementById('modal-input-field');
-            const val = inputField.value;
-            document.getElementById('input-modal').classList.add('hidden');
-            document.getElementById('input-modal').classList.remove('flex');
-            if (modalResolve) {
-                modalResolve(val);
-                modalResolve = null;
-            }
-        }
-
-        document.getElementById('modal-input-field').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') submitModalInput();
-        });
 
         function triggerHaptic() {
             if (navigator.vibrate) navigator.vibrate(10);
@@ -3108,13 +3215,64 @@ plt.show()`
             }
         }
 
+        function showToast(msg, isSuccess = true) {
+            const toast = document.getElementById('toast-box');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = msg;
+            toastIcon.className = isSuccess ? "fa-solid fa-circle-check text-green-400" : "fa-solid fa-circle-exclamation text-amber-400";
+
+            toast.classList.remove('opacity-0', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', '-translate-y-4');
+            }, 2300);
+        }
+
+        function showConfirm(title, message) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('custom-confirm-modal');
+                const titleEl = document.getElementById('confirm-modal-title');
+                const msgEl = document.getElementById('confirm-modal-msg');
+                const btnOk = document.getElementById('confirm-modal-ok');
+                const btnCancel = document.getElementById('confirm-modal-cancel');
+
+                titleEl.innerText = title;
+                msgEl.innerText = message;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                const cleanup = () => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    btnOk.onclick = null;
+                    btnCancel.onclick = null;
+                };
+
+                btnOk.onclick = () => {
+                    triggerHaptic();
+                    cleanup();
+                    resolve(true);
+                };
+
+                btnCancel.onclick = () => {
+                    triggerHaptic();
+                    cleanup();
+                    resolve(false);
+                };
+            });
+        }
+
         function dismissSplash() {
             const s = document.getElementById('splash-screen');
             s.style.opacity = '0';
             setTimeout(() => { 
                 s.style.display = 'none'; 
-                editor.refresh(); 
-            }, 300);
+                if (editor) editor.refresh(); 
+            }, 350);
         }
     </script>
 </body>
