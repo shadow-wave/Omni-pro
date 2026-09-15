@@ -1037,13 +1037,23 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         ];
 
         function checkFirstTimeTour() {
+            // Guard: Never launch tour while splash screen is still visible
+            const splash = document.getElementById("splash-screen");
+            if (splash && splash.style.display !== "none") {
+                return;
+            }
             const hasSeen = localStorage.getItem("omni_spotlight_tour_v3");
             if (!hasSeen) {
-                setTimeout(startSpotlightTour, 700);
+                setTimeout(startSpotlightTour, 300);
             }
         }
 
         function startSpotlightTour() {
+            // Prevent tour if splash is still active
+            const splash = document.getElementById("splash-screen");
+            if (splash && splash.style.display !== "none") {
+                return;
+            }
             triggerHaptic();
             currentTourStep = 0;
             const layer = document.getElementById("spotlight-tour-layer");
@@ -1711,7 +1721,6 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             initSplitResizer();
             initPyodide();
             renderSyllabusList();
-            checkFirstTimeTour();
 
             // Auto-detect wide screens for Split View
             if (window.innerWidth >= 1024) {
@@ -3272,6 +3281,8 @@ plt.show()`
             setTimeout(() => { 
                 s.style.display = 'none'; 
                 if (editor) editor.refresh(); 
+                // Launch first-time tour only after splash screen is completely removed from view
+                checkFirstTimeTour();
             }, 350);
         }
     </script>
