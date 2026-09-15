@@ -1,11 +1,11 @@
 {
-"name": "Omni-Studio",
+"name": "Omni-Studio | Computational Python IDE",
 "short_name": "Omni-Studio",
-"description": "Offline Computational Python & Data Science Lab with interactive plotting, real-time error analysis, and virtual file mounting.",
+"description": "High-performance offline WebAssembly Python IDE with interactive Plot Studio, dual-pane layout, real-time AST linting, and virtual filesystem.",
 "start_url": "./index.html",
 "scope": "./",
 "display": "standalone",
-"orientation": "portrait-primary",
+"orientation": "any",
 "background_color": "#030305",
 "theme_color": "#030305",
 "icons": [
@@ -14,6 +14,20 @@
 "sizes": "512x512",
 "type": "image/svg+xml",
 "purpose": "any maskable"
+}
+],
+"shortcuts": [
+{
+"name": "New Script",
+"short_name": "Editor",
+"description": "Open Python Editor",
+"url": "./index.html"
+},
+{
+"name": "University Experiments",
+"short_name": "Syllabus",
+"description": "View 10 Prescribed University Lab Experiments",
+"url": "./index.html#syllabus"
 }
 ],
 "categories": [
