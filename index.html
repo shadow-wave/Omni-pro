@@ -58,7 +58,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
 
-    <!-- Pyodide Python WASM Engine & Icons -->
+    <!-- Pyodide Python WASM Engine & FontAwesome -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -121,7 +121,7 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Ultra-Smooth Animated Shimmer for Progress Bar */
+        /* Fluid Animated Shimmer for Progress Bar */
         @keyframes shimmerGlow {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
@@ -187,13 +187,13 @@
             padding: 4px !important;
             font-family: 'JetBrains Mono', monospace !important;
             font-size: 12px !important;
-            max-height: 200px !important;
+            max-height: 220px !important;
             z-index: 1000 !important;
-            min-width: 190px !important;
+            min-width: 210px !important;
         }
 
         .CodeMirror-hint {
-            padding: 4px 8px !important;
+            padding: 5px 8px !important;
             border-radius: 6px !important;
             color: #cbd5e1 !important;
             display: flex !important;
@@ -214,13 +214,16 @@
             border-radius: 4px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             text-transform: uppercase;
+            margin-left: 8px;
         }
 
-        .hint-badge.fn { background: rgba(99, 102, 241, 0.25); color: #a5b4fc; }
-        .hint-badge.var { background: rgba(245, 158, 11, 0.25); color: #fcd34d; }
-        .hint-badge.kw { background: rgba(56, 189, 248, 0.25); color: #7dd3fc; }
+        .hint-badge.fn { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .hint-badge.cls { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+        .hint-badge.var { background: rgba(245, 158, 11, 0.25); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .hint-badge.mod { background: rgba(99, 102, 241, 0.25); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4); }
+        .hint-badge.kw { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
 
-        /* Multi-Device Responsive Plot Canvas (Prevents Laptop & iPad Oversized Cutoff) */
+        /* Multi-Device Responsive Plot Canvas */
         .omni-plot-card {
             background: #ffffff;
             border-radius: 14px;
@@ -350,7 +353,11 @@
             </div>
             <div id="boot-status" class="text-center text-[10px] text-gray-500 font-mono">Loading WebAssembly runtime...</div>
         </div>
-        <div class="absolute bottom-6 text-[10px] text-gray-600 font-bold uppercase tracking-widest">Aravind O K</div>
+        
+        <!-- Interactive Author Link -->
+        <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="absolute bottom-6 flex items-center gap-1.5 text-[10px] text-gray-500 hover:text-indigo-400 active:text-indigo-300 font-bold uppercase tracking-widest transition">
+            <i class="fa-brands fa-github text-xs"></i> Aravind O K
+        </a>
     </div>
 
     <!-- Python Input Modal -->
@@ -435,7 +442,7 @@
         </div>
     </div>
 
-    <!-- Virtual CSV & File Creator Modal -->
+    <!-- Virtual CSV Creator Modal -->
     <div id="csv-creator-modal" class="fixed inset-0 z-[125] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md max-h-[86vh] rounded-2xl border-white/10 shadow-2xl flex flex-col modal-sheet-enter overflow-hidden">
             <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
@@ -517,11 +524,11 @@
         
         <!-- Action Buttons -->
         <div class="flex items-center gap-1.5">
-            <button id="run-selection-btn" onclick="runSelectionOrLine()" title="Run Selection / Current Line" class="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/5 hover:bg-white/10 active:bg-indigo-600/30 text-indigo-300 font-bold text-xs border border-white/10 transition">
+            <button id="run-selection-btn" onclick="runSelectionOrLine()" title="Run Selection / Current Line (F9)" class="h-8 px-2.5 rounded-lg flex items-center gap-1.5 bg-white/5 hover:bg-white/10 active:bg-indigo-600/30 text-indigo-300 font-bold text-xs border border-white/10 transition">
                 <i class="fa-solid fa-play text-[8px] text-indigo-400"></i>
                 <span class="text-[10px]">Line</span>
             </button>
-            <button id="run-btn" onclick="runCode()" disabled title="Run Script" class="h-8 px-3.5 rounded-lg flex items-center gap-1.5 bg-indigo-600 active:bg-indigo-500 text-white font-bold text-xs disabled:opacity-30 transition shadow-md shadow-indigo-600/20">
+            <button id="run-btn" onclick="runCode()" disabled title="Run Script (Ctrl+Enter)" class="h-8 px-3.5 rounded-lg flex items-center gap-1.5 bg-indigo-600 active:bg-indigo-500 text-white font-bold text-xs disabled:opacity-30 transition shadow-md shadow-indigo-600/20">
                 <i class="fa-solid fa-play text-[9px]"></i>
                 <span>Run</span>
             </button>
@@ -576,21 +583,22 @@
                 <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('np.')">np.</button>
                 <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('pd.')">pd.</button>
                 <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('plt.')">plt.</button>
+                <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('def ')">def</button>
                 <button class="key-btn font-mono text-indigo-300" onclick="insertMobile('print()')">print</button>
                 <button class="key-btn text-amber-400" onclick="backspaceCode()"><i class="fa-solid fa-delete-left"></i></button>
                 <button class="key-btn text-rose-400" onclick="clearEditor()"><i class="fa-solid fa-trash-can"></i></button>
             </div>
         </div>
 
-        <!-- Tab 2: Variable Explorer -->
+        <!-- Tab 2: Variable & Function Explorer -->
         <div id="tab-variables" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
                 <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
                     <div class="flex items-center gap-2">
                         <span class="text-[9.5px] text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-cube text-[10px]"></i> Variable Explorer
+                            <i class="fa-solid fa-cube text-[10px]"></i> Workspace Explorer
                         </span>
-                        <span id="vars-count-badge" class="px-1.5 py-0.2 rounded bg-white/5 text-[9px] text-gray-400 font-mono">0 vars</span>
+                        <span id="vars-count-badge" class="px-1.5 py-0.2 rounded bg-white/5 text-[9px] text-gray-400 font-mono">0 symbols</span>
                     </div>
                     <button onclick="refreshVariableExplorer()" class="text-[9px] text-indigo-300 font-bold px-2 py-0.8 bg-indigo-600/20 active:bg-indigo-600/40 rounded border border-indigo-500/30 flex items-center gap-1">
                         <i class="fa-solid fa-arrows-rotate text-[8px]"></i> Refresh
@@ -599,24 +607,24 @@
 
                 <div class="mb-2 bg-black/40 border border-white/10 rounded-xl px-2.5 py-1.5 flex items-center gap-2 shrink-0">
                     <i class="fa-solid fa-magnifying-glass text-[9px] text-gray-500"></i>
-                    <input id="var-search-input" oninput="filterVariablesTable()" type="text" placeholder="Filter variables..." class="bg-transparent text-[10.5px] font-mono text-white outline-none w-full">
+                    <input id="var-search-input" oninput="filterVariablesTable()" type="text" placeholder="Filter variables & functions..." class="bg-transparent text-[10.5px] font-mono text-white outline-none w-full">
                 </div>
 
                 <div class="flex-1 overflow-auto rounded-xl border border-white/10 bg-black/30">
                     <table class="w-full text-left border-collapse text-[10.5px] font-mono">
                         <thead class="bg-white/5 text-gray-400 text-[9px] uppercase tracking-wider sticky top-0 border-b border-white/10">
                             <tr>
-                                <th class="p-2">Name</th>
+                                <th class="p-2">Identifier</th>
                                 <th class="p-2">Type</th>
-                                <th class="p-2">Size</th>
-                                <th class="p-2">Value</th>
-                                <th class="p-2 text-right">Inspect</th>
+                                <th class="p-2">Size / Signature</th>
+                                <th class="p-2">Preview Value</th>
+                                <th class="p-2 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody id="variables-table-body">
                             <tr>
                                 <td colspan="5" class="p-4 text-center text-gray-500 text-[10px]">
-                                    Run code to inspect variables in memory.
+                                    Run code to inspect variables & functions in memory.
                                 </td>
                             </tr>
                         </tbody>
@@ -641,7 +649,7 @@
             </div>
         </div>
 
-        <!-- Tab 4: Plots (Responsive for Mobile, iPad & Laptop) -->
+        <!-- Tab 4: Plots (Responsive Viewport) -->
         <div id="tab-plots" class="tab-content">
             <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg">
                 <div class="h-9 flex justify-between items-center px-3 bg-white/5 border-b border-white/5 shrink-0">
@@ -669,20 +677,25 @@
         <!-- Tab 5: College Lab Syllabus & Datasets -->
         <div id="tab-files" class="tab-content">
             <div class="flex-1 overflow-y-auto space-y-3 pr-0.5 no-scrollbar pb-6">
-                <!-- Developer Badge -->
-                <div class="glass-panel p-3 rounded-2xl flex items-center gap-3 border-indigo-500/20">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-xs shadow-md">A</div>
-                    <div>
-                        <h3 class="text-white font-bold text-xs leading-tight">Aravind O K</h3>
-                        <p class="text-indigo-400 text-[8px] font-bold uppercase tracking-widest">Omni-Studio</p>
-                        <span class="text-[9px] text-gray-400">Python Lab Record & Computational Suite</span>
+                <!-- Academic Module Header with Clickable Developer GitHub Link -->
+                <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="glass-panel p-3 rounded-2xl flex items-center gap-3 border-indigo-500/20 hover:border-indigo-500/40 active:scale-[0.99] transition block">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-xs shadow-md">
+                        A
                     </div>
-                </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-white font-bold text-xs leading-tight">Aravind O K</h3>
+                            <i class="fa-brands fa-github text-xs text-gray-400"></i>
+                        </div>
+                        <p class="text-indigo-400 text-[8px] font-bold uppercase tracking-widest">Lead Developer • Omni-Studio</p>
+                        <span class="text-[9px] text-gray-400">Computational Physics & Python Lab</span>
+                    </div>
+                </a>
 
                 <!-- Progress Bar -->
                 <div class="glass-panel p-3 rounded-2xl">
                     <div class="flex justify-between items-center mb-1.5">
-                        <span class="text-[8.5px] text-gray-400 font-bold uppercase tracking-wider">Lab Record Experiments Completed</span>
+                        <span class="text-[8.5px] text-gray-400 font-bold uppercase tracking-wider">Curriculum Experiments Completed</span>
                         <span id="progress-percent" class="text-xs font-mono text-indigo-400 font-bold">0%</span>
                     </div>
                     <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -693,7 +706,7 @@
                 <!-- College Syllabus Experiments Library (1 - 10) -->
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between ml-1">
-                        <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-widest">College Lab Experiments (1 - 10)</span>
+                        <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-widest">Lab Syllabus (Experiments 1 - 10)</span>
                         <span class="text-[8.5px] font-mono text-indigo-400">Tap to load / inspect</span>
                     </div>
                     <div class="grid grid-cols-1 gap-1.5">
@@ -764,7 +777,7 @@
                                 <span class="font-mono text-[9px] text-indigo-400 bg-indigo-500/20 px-1.5 py-0.5 rounded mr-2">05</span>
                                 <div>
                                     <div class="text-white font-semibold">Prime Number Verification</div>
-                                    <div class="text-[9.5px] text-gray-400">Square root optimized search</div>
+                                    <div class="text-[9.5px] text-gray-400">Square root optimized factor search</div>
                                 </div>
                             </div>
                             <div class="flex items-center gap-1.5 ml-2">
@@ -851,7 +864,7 @@
                     </div>
                 </div>
 
-                <!-- Virtual Datasets & Files Manager -->
+                <!-- Virtual Memory Files & CSV Manager -->
                 <div class="glass-panel p-3 rounded-2xl border-white/5 space-y-2">
                     <div class="flex items-center justify-between">
                         <span class="text-[8.5px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -893,7 +906,7 @@
         </button>
         <button onclick="switchTab('variables')" class="nav-btn flex flex-col items-center gap-1 text-slate-500 transition" data-target="variables">
             <i class="fa-solid fa-cube text-base"></i>
-            <span class="text-[8.5px] font-bold">Variables</span>
+            <span class="text-[8.5px] font-bold">Workspace</span>
         </button>
         <button onclick="switchTab('terminal')" class="nav-btn flex flex-col items-center gap-1 text-slate-500 transition" data-target="terminal">
             <i class="fa-solid fa-terminal text-base"></i>
@@ -910,32 +923,14 @@
     </nav>
 
     <script>
-        // Offline Service Worker
+        // Offline Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const swCode = `
-                    const CACHE_NAME = 'omni-studio-final-v1';
-                    self.addEventListener('install', (e) => self.skipWaiting());
-                    self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
-                    self.addEventListener('fetch', (e) => {
-                        if (e.request.method !== 'GET') return;
-                        e.respondWith(
-                            caches.match(e.request).then((res) => res || fetch(e.request).then((netRes) => {
-                                if (netRes && netRes.status === 200) {
-                                    const copy = netRes.clone();
-                                    caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
-                                }
-                                return netRes;
-                            })).catch(() => caches.match(e.request))
-                        );
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
             });
         }
 
-        // Clean Omni-Studio Template (Starts clean with dynamic timestamp)
+        // Clean Omni-Studio Template (Clean docstring with Date & Time, NO Author Tag)
         function generateOmniTemplate() {
             const now = new Date();
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -947,8 +942,6 @@
 Omni-Studio Editor
 
 Created on ${formattedDate}
-
-@author: Aravind O K
 """
 
 `;
@@ -961,9 +954,15 @@ Created on ${formattedDate}
         let modalResolve = null;
         let activeMarkers = [];
         let lintDebounceTimer = null;
-        let userDefinedVariables = [];
 
-        // IntelliSense Symbol Definitions
+        // Enhanced Symbol Storage for IntelliSense
+        let userSymbols = {
+            functions: [],
+            classes: [],
+            variables: []
+        };
+
+        // Built-in Module Symbol Tables
         const OMNI_SYMBOLS = {
             np: [
                 'abs', 'all', 'any', 'arange', 'arccos', 'arcsin', 'arctan', 'argmax', 'argmin',
@@ -1109,7 +1108,7 @@ Created on ${formattedDate}
         editor.on("change", () => {
             localStorage.setItem("omni_clean_v3_code", editor.getValue());
             scheduleRealtimeLint();
-            scanUserVariables();
+            scanUserSymbols();
         });
 
         editor.on("keydown", function(cm, e) {
@@ -1136,7 +1135,7 @@ Created on ${formattedDate}
 
         window.addEventListener('DOMContentLoaded', () => {
             initPyodide();
-            scanUserVariables();
+            scanUserSymbols();
             scheduleRealtimeLint();
         });
 
@@ -1149,6 +1148,7 @@ Created on ${formattedDate}
             });
         }
 
+        // Improved Context-Sensitive Autocomplete with Functions & Classes
         function omniHintCompleter(cm) {
             const cur = cm.getCursor();
             const token = cm.getTokenAt(cur);
@@ -1200,7 +1200,48 @@ Created on ${formattedDate}
                 const seen = new Set();
                 const matched = [];
 
-                userDefinedVariables.forEach(v => {
+                // 1. User Defined Functions (High Priority)
+                userSymbols.functions.forEach(fn => {
+                    if (fn.name.toLowerCase().startsWith(prefix.toLowerCase()) && !seen.has(fn.name)) {
+                        seen.add(fn.name);
+                        matched.push({
+                            text: fn.name + "()",
+                            displayText: `${fn.name}(${fn.params})`,
+                            hint: (cm, data, completion) => {
+                                const from = completion.from || data.from;
+                                const to = completion.to || data.to;
+                                cm.replaceRange(fn.name + "()", from, to);
+                                cm.setCursor({ line: from.line, ch: from.ch + fn.name.length + 1 });
+                            },
+                            render: (el, s, d) => {
+                                el.innerHTML = `
+                                    <span class="font-mono text-purple-300 font-semibold">${d.displayText}</span>
+                                    <span class="hint-badge fn">fn</span>
+                                `;
+                            }
+                        });
+                    }
+                });
+
+                // 2. User Defined Classes
+                userSymbols.classes.forEach(cls => {
+                    if (cls.name.toLowerCase().startsWith(prefix.toLowerCase()) && !seen.has(cls.name)) {
+                        seen.add(cls.name);
+                        matched.push({
+                            text: cls.name,
+                            displayText: cls.name,
+                            render: (el, s, d) => {
+                                el.innerHTML = `
+                                    <span class="font-mono text-sky-300 font-semibold">${d.displayText}</span>
+                                    <span class="hint-badge cls">class</span>
+                                `;
+                            }
+                        });
+                    }
+                });
+
+                // 3. User Defined Variables
+                userSymbols.variables.forEach(v => {
                     if (v.name.toLowerCase().startsWith(prefix.toLowerCase()) && !seen.has(v.name)) {
                         seen.add(v.name);
                         matched.push({
@@ -1216,6 +1257,7 @@ Created on ${formattedDate}
                     }
                 });
 
+                // 4. Common Modules
                 ['np', 'pd', 'plt'].forEach(mod => {
                     if (mod.startsWith(prefix.toLowerCase()) && !seen.has(mod)) {
                         seen.add(mod);
@@ -1224,23 +1266,30 @@ Created on ${formattedDate}
                             displayText: mod,
                             render: (el, s, d) => {
                                 el.innerHTML = `
-                                    <span class="font-mono text-purple-300 font-semibold">${d.displayText}</span>
-                                    <span class="hint-badge fn">mod</span>
+                                    <span class="font-mono text-indigo-300 font-semibold">${d.displayText}</span>
+                                    <span class="hint-badge mod">mod</span>
                                 `;
                             }
                         });
                     }
                 });
 
+                // 5. Python Built-in Functions
                 OMNI_SYMBOLS.builtins.forEach(fn => {
                     if (fn.startsWith(prefix.toLowerCase()) && !seen.has(fn)) {
                         seen.add(fn);
                         matched.push({
                             text: fn + "()",
                             displayText: fn,
+                            hint: (cm, data, completion) => {
+                                const from = completion.from || data.from;
+                                const to = completion.to || data.to;
+                                cm.replaceRange(fn + "()", from, to);
+                                cm.setCursor({ line: from.line, ch: from.ch + fn.length + 1 });
+                            },
                             render: (el, s, d) => {
                                 el.innerHTML = `
-                                    <span class="font-mono text-indigo-300">${d.displayText}</span>
+                                    <span class="font-mono text-emerald-300">${d.displayText}()</span>
                                     <span class="hint-badge fn">fn</span>
                                 `;
                             }
@@ -1248,6 +1297,7 @@ Created on ${formattedDate}
                     }
                 });
 
+                // 6. Keywords
                 OMNI_SYMBOLS.keywords.forEach(kw => {
                     if (kw.startsWith(prefix.toLowerCase()) && !seen.has(kw)) {
                         seen.add(kw);
@@ -1256,7 +1306,7 @@ Created on ${formattedDate}
                             displayText: kw,
                             render: (el, s, d) => {
                                 el.innerHTML = `
-                                    <span class="font-mono text-sky-300">${d.displayText}</span>
+                                    <span class="font-mono text-slate-400">${d.displayText}</span>
                                     <span class="hint-badge kw">kw</span>
                                 `;
                             }
@@ -1276,20 +1326,45 @@ Created on ${formattedDate}
             };
         }
 
-        function scanUserVariables() {
+        // Advanced AST/Regex Symbol Scanner for Functions, Classes, and Variables
+        function scanUserSymbols() {
             const code = editor.getValue();
-            const found = new Map();
+            const funcs = [];
+            const classes = [];
+            const vars = new Map();
 
-            const assignRegex = /(?:^|\n)\s*([a-zA-Z_]\w*)\s*=(?!=)/g;
-            let match;
-            while ((match = assignRegex.exec(code)) !== null) {
-                const varName = match[1];
-                if (!['if', 'elif', 'while', 'for', 'return', 'import', 'from'].includes(varName)) {
-                    found.set(varName, { name: varName, type: 'variable', size: '-', value: 'Defined' });
+            // 1. Detect Functions: def func_name(args):
+            const funcRegex = /(?:^|\n)[ \t]*def\s+([a-zA-Z_]\w*)\s*\((.*?)\)\s*:/g;
+            let fMatch;
+            while ((fMatch = funcRegex.exec(code)) !== null) {
+                const fName = fMatch[1];
+                const fParams = fMatch[2].trim();
+                funcs.push({ name: fName, params: fParams, type: 'function' });
+            }
+
+            // 2. Detect Classes: class ClassName:
+            const classRegex = /(?:^|\n)[ \t]*class\s+([a-zA-Z_]\w*)\s*(?:\((.*?)\))?\s*:/g;
+            let cMatch;
+            while ((cMatch = classRegex.exec(code)) !== null) {
+                classes.push({ name: cMatch[1], type: 'class' });
+            }
+
+            // 3. Detect Variables: var_name = ...
+            const assignRegex = /(?:^|\n)[ \t]*([a-zA-Z_]\w*)\s*=(?!=)/g;
+            let vMatch;
+            const reserved = new Set(['if', 'elif', 'else', 'for', 'while', 'return', 'import', 'from', 'def', 'class', 'try', 'except', 'with']);
+            while ((vMatch = assignRegex.exec(code)) !== null) {
+                const varName = vMatch[1];
+                if (!reserved.has(varName) && !funcs.some(f => f.name === varName) && !classes.some(c => c.name === varName)) {
+                    vars.set(varName, { name: varName, type: 'variable', size: '-', value: 'Defined in editor' });
                 }
             }
 
-            userDefinedVariables = Array.from(found.values());
+            userSymbols = {
+                functions: funcs,
+                classes: classes,
+                variables: Array.from(vars.values())
+            };
         }
 
         function scheduleRealtimeLint() {
@@ -1320,7 +1395,7 @@ Created on ${formattedDate}
                         return;
                     }
                 } catch (e) {
-                    // Kernel busy with execution
+                    // Kernel busy
                 }
             }
 
@@ -1437,7 +1512,6 @@ Created on ${formattedDate}
             const progressFill = document.getElementById("splash-progress-fill");
 
             if (currentBootPercent < targetBootPercent) {
-                // Smooth spring-like lerp to the target percent
                 const delta = targetBootPercent - currentBootPercent;
                 currentBootPercent += Math.max(0.4, delta * 0.09);
 
@@ -1464,14 +1538,14 @@ Created on ${formattedDate}
                 updateBootProgress(20, "Downloading Kernel...", "Mounting WebAssembly runtime (1/4)");
                 pyodide = await loadPyodide();
 
-                updateBootProgress(45, "Configuring Environment...", "Initializing package manager (2/4)");
+                updateBootProgress(45, "Configuring Packages...", "Initializing package manager (2/4)");
                 await pyodide.loadPackage("micropip");
                 micropip = pyodide.pyimport("micropip");
 
-                updateBootProgress(72, "Mounting Packages...", "Loading NumPy, Pandas & Matplotlib (3/4)");
+                updateBootProgress(72, "Mounting Analytics Core...", "Loading NumPy, Pandas & Matplotlib (3/4)");
                 await pyodide.loadPackage(["numpy", "matplotlib", "pandas"]);
 
-                updateBootProgress(90, "Setting up Studio...", "Initializing graphics canvas & file system (4/4)");
+                updateBootProgress(90, "Setting up Studio...", "Initializing graphics & virtual file system (4/4)");
                 await pyodide.runPythonAsync(`
 import io, base64, sys, builtins, json, ast, inspect
 import pandas as pd
@@ -1599,8 +1673,19 @@ def _omni_workspace():
             val_prev = ""
             size_prev = ""
             is_df = False
+            is_fn = False
             
-            if t == 'DataFrame':
+            if inspect.isfunction(v):
+                t = "function"
+                sig = str(inspect.signature(v))
+                size_prev = sig
+                val_prev = f"def {k}{sig}"
+                is_fn = True
+            elif inspect.isclass(v):
+                t = "class"
+                size_prev = "class"
+                val_prev = f"class {k}"
+            elif t == 'DataFrame':
                 size_prev = f"({v.shape[0]}, {v.shape[1]})"
                 val_prev = f"DataFrame: {v.shape[0]} rows × {v.shape[1]} cols"
                 is_df = True
@@ -1612,20 +1697,21 @@ def _omni_workspace():
                 val_prev = f"ndarray {v.dtype}"
             elif t in ('list', 'tuple', 'set'):
                 size_prev = f"{len(v)}"
-                val_prev = str(v)[:40]
+                val_prev = str(v)[:45]
             elif t == 'dict':
                 size_prev = f"{len(v)}"
-                val_prev = str(v)[:40]
+                val_prev = str(v)[:45]
             else:
                 size_prev = "1"
-                val_prev = str(v)[:40]
+                val_prev = str(v)[:45]
                 
             vars_list.append({
                 "name": k,
                 "type": t,
                 "size": size_prev,
                 "value": val_prev,
-                "is_df": is_df
+                "is_df": is_df,
+                "is_fn": is_fn
             })
         except Exception:
             pass
@@ -1828,53 +1914,51 @@ import sys
             }
         }
 
-        let currentLoadedVars = [];
+        let currentLoadedWorkspaceSymbols = [];
 
         async function refreshVariableExplorer() {
             if (!pyodide) return;
             try {
                 const jsonStr = await pyodide.runPythonAsync(`_omni_workspace()`);
-                currentLoadedVars = JSON.parse(jsonStr);
-                
-                currentLoadedVars.forEach(v => {
-                    const idx = userDefinedVariables.findIndex(u => u.name === v.name);
-                    if (idx >= 0) userDefinedVariables[idx] = v;
-                    else userDefinedVariables.push(v);
-                });
-
-                renderVariablesTable(currentLoadedVars);
+                currentLoadedWorkspaceSymbols = JSON.parse(jsonStr);
+                renderVariablesTable(currentLoadedWorkspaceSymbols);
             } catch (err) {
                 console.error(err);
             }
         }
 
-        function renderVariablesTable(vars) {
+        function renderVariablesTable(symbols) {
             const tbody = document.getElementById("variables-table-body");
             const badge = document.getElementById("vars-count-badge");
-            badge.innerText = `${vars.length} vars`;
+            badge.innerText = `${symbols.length} symbols`;
 
-            if (vars.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500 text-[10px]">No active user variables in workspace.</td></tr>`;
+            if (symbols.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500 text-[10px]">No active user symbols in workspace.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = "";
-            vars.forEach(v => {
+            symbols.forEach(v => {
                 const tr = document.createElement("tr");
                 tr.className = "border-b border-white/5 hover:bg-white/[0.02] transition";
 
                 let typeColor = "text-indigo-400";
                 if (v.type === 'DataFrame' || v.type === 'Series') typeColor = "text-emerald-400";
-                else if (v.type === 'ndarray') typeColor = "text-purple-400";
+                else if (v.type === 'function') typeColor = "text-purple-400";
+                else if (v.type === 'class') typeColor = "text-sky-400";
+                else if (v.type === 'ndarray') typeColor = "text-cyan-400";
                 else if (v.type === 'int' || v.type === 'float') typeColor = "text-amber-400";
 
                 tr.innerHTML = `
-                    <td class="p-2 font-bold text-white">${v.name}</td>
+                    <td class="p-2 font-bold text-white flex items-center gap-1.5">
+                        <span class="hint-badge ${v.type === 'function' ? 'fn' : (v.type === 'class' ? 'cls' : 'var')}">${v.type === 'function' ? 'fn' : (v.type === 'class' ? 'cls' : 'var')}</span>
+                        <span>${v.name}</span>
+                    </td>
                     <td class="p-2 ${typeColor} font-semibold">${v.type}</td>
                     <td class="p-2 text-gray-400 text-[9.5px]">${v.size}</td>
-                    <td class="p-2 text-gray-300 truncate max-w-[120px]" title="${v.value}">${v.value}</td>
+                    <td class="p-2 text-gray-300 truncate max-w-[130px]" title="${v.value}">${v.value}</td>
                     <td class="p-2 text-right">
-                        ${v.is_df ? `<button onclick="inspectDataFrame('${v.name}')" class="px-2 py-0.5 rounded bg-indigo-600/30 text-indigo-200 text-[9px] font-bold hover:bg-indigo-600/50 transition">View</button>` : ''}
+                        ${v.is_df ? `<button onclick="inspectDataFrame('${v.name}')" class="px-2 py-0.5 rounded bg-indigo-600/30 text-indigo-200 text-[9px] font-bold hover:bg-indigo-600/50 transition">View</button>` : '<span class="text-gray-600 text-[9px]">-</span>'}
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1883,7 +1967,7 @@ import sys
 
         function filterVariablesTable() {
             const query = document.getElementById("var-search-input").value.toLowerCase();
-            const filtered = currentLoadedVars.filter(v => 
+            const filtered = currentLoadedWorkspaceSymbols.filter(v => 
                 v.name.toLowerCase().includes(query) || 
                 v.type.toLowerCase().includes(query) || 
                 v.value.toLowerCase().includes(query)
