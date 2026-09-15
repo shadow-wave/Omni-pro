@@ -197,6 +197,12 @@
             line-height: 18px;
         }
 
+        /* Drag and Drop Drop-Zone Glow */
+        .editor-dragover {
+            box-shadow: inset 0 0 0 2px #6366f1, 0 0 24px rgba(99, 102, 241, 0.35) !important;
+            background-color: rgba(99, 102, 241, 0.06) !important;
+        }
+
         /* Interactive Feature Walkthrough Spotlight Elements */
         #spotlight-cutout {
             position: fixed;
@@ -397,7 +403,7 @@
         <div id="spotlight-popover" class="glass-panel p-4 rounded-2xl border border-indigo-500/40 shadow-2xl space-y-2.5">
             <div class="flex items-center justify-between">
                 <span id="tour-step-badge" class="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9px] font-mono font-bold uppercase tracking-wider">
-                    Feature 1/8
+                    Feature 1/9
                 </span>
                 <button onclick="skipInteractiveTour()" class="text-[11px] text-gray-400 hover:text-white flex items-center gap-1 transition px-1.5 py-0.5 rounded hover:bg-white/10">
                     <span>Skip</span> <i class="fa-solid fa-xmark text-[9px]"></i>
@@ -414,7 +420,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-1 border-t border-white/10">
-                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 8</span>
+                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 9</span>
                 <div class="flex items-center gap-1.5">
                     <button id="tour-prev-btn" onclick="prevTourStep()" class="px-2.5 py-1 rounded-lg bg-white/5 active:bg-white/10 text-[10.5px] font-semibold text-gray-300 transition hidden">
                         Back
@@ -523,16 +529,20 @@
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">F9 / Shift + Enter</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+                        <span class="text-gray-300">Open / Import .py Script</span>
+                        <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Ctrl + O</kbd>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+                        <span class="text-gray-300">Save Python Script (.py)</span>
+                        <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Ctrl + S</kbd>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
                         <span class="text-gray-300">Accept Autocomplete</span>
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Enter / Tab</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
                         <span class="text-gray-300">Toggle Dual-Pane Mode</span>
                         <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Alt + S</kbd>
-                    </div>
-                    <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
-                        <span class="text-gray-300">Save Python Script (.py)</span>
-                        <kbd class="px-2 py-0.5 rounded bg-black/60 text-indigo-300 border border-white/10 text-[10px] font-mono">Ctrl + S</kbd>
                     </div>
                     <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between text-xs">
                         <span class="text-gray-300">Find & Replace</span>
@@ -675,25 +685,27 @@
             
             <!-- Tab 1: Editor Panel -->
             <div id="tab-editor" class="tab-content active">
-                <div class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 flex flex-col shadow-lg relative">
+                <div id="editor-drop-zone" class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 flex flex-col shadow-lg relative transition-all duration-200">
                     
-                    <!-- Comprehensive Editor Header with Save, Open, Rename, Search & Format -->
+                    <!-- Comprehensive Editor Header with Import/Open, Save, Rename, Search & Format -->
                     <div id="editor-header-bar" class="h-8 px-2.5 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
                         <div class="flex items-center gap-1.5 text-gray-300 truncate">
                             <i class="fa-brands fa-python text-indigo-400"></i>
-                            <span id="active-filename" onclick="renameActiveFile()" title="Click to rename script" class="cursor-pointer hover:text-indigo-300 underline decoration-dotted underline-offset-2 truncate max-w-[130px] sm:max-w-[200px]">script.py</span>
+                            <span id="active-filename" onclick="renameActiveFile()" title="Click to rename script" class="cursor-pointer hover:text-indigo-300 underline decoration-dotted underline-offset-2 truncate max-w-[110px] sm:max-w-[180px]">script.py</span>
                         </div>
                         
                         <div class="flex items-center gap-1 sm:gap-1.5">
-                            <!-- Open Local Python File (.py) -->
-                            <label id="btn-open-file" title="Open .py Script from device" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white text-gray-400 transition cursor-pointer">
-                                <i class="fa-solid fa-folder-open text-[10.5px] text-amber-400"></i>
-                                <input type="file" id="py-file-uploader" accept=".py,.txt" class="hidden" onchange="openPythonScript(event)">
-                            </label>
+                            <!-- Import / Open Local Python File (.py) -->
+                            <button onclick="triggerFileInput()" id="btn-open-file" title="Import / Open .py Script (Ctrl+O)" class="h-6 px-2 flex items-center gap-1 rounded bg-amber-500/10 hover:bg-amber-500/20 active:scale-95 text-amber-300 border border-amber-500/20 transition font-sans text-[10px] font-semibold">
+                                <i class="fa-solid fa-folder-open text-[10px]"></i>
+                                <span class="hidden sm:inline">Open</span>
+                            </button>
+                            <input type="file" id="py-file-uploader" accept=".py,.txt" class="hidden" onchange="openPythonScript(event)">
 
                             <!-- Save / Download Python Script (.py) -->
-                            <button id="btn-save-file" onclick="downloadPythonScript()" title="Save Script to Device (Ctrl+S)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 active:text-white text-gray-400 transition">
-                                <i class="fa-solid fa-floppy-disk text-[10.5px] text-emerald-400"></i>
+                            <button onclick="downloadPythonScript()" id="btn-save-file" title="Save Script to Device (Ctrl+S)" class="h-6 px-2 flex items-center gap-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 active:scale-95 text-emerald-300 border border-emerald-500/20 transition font-sans text-[10px] font-semibold">
+                                <i class="fa-solid fa-floppy-disk text-[10px]"></i>
+                                <span class="hidden sm:inline">Save</span>
                             </button>
 
                             <div class="w-[1px] h-3.5 bg-white/10 mx-0.5"></div>
@@ -714,7 +726,7 @@
                         </div>
                     </div>
 
-                    <!-- CodeMirror Workspace -->
+                    <!-- CodeMirror Workspace with Drag & Drop Listener -->
                     <div class="flex-1 relative overflow-hidden" id="editor-host-container">
                         <textarea id="code-editor"></textarea>
                     </div>
@@ -1039,16 +1051,22 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 desc: "Executes your entire Python program client-side in WebAssembly with auto-installation of PyPI packages."
             },
             {
+                targetSelector: "#btn-open-file",
+                title: "Import / Open Python Script",
+                badge: "File Management",
+                desc: "Open and import external .py scripts directly from your device or drag & drop files onto the editor. Shortcut: Ctrl+O."
+            },
+            {
                 targetSelector: "#btn-save-file",
                 title: "Save Python Script",
                 badge: "File Management",
                 desc: "Download your current code as a standard .py file to your device at any time. Shortcut: Ctrl+S."
             },
             {
-                targetSelector: "#btn-open-file",
-                title: "Open Local File",
+                targetSelector: "#active-filename",
+                title: "Rename Script",
                 badge: "File Management",
-                desc: "Open and edit existing Python scripts (.py) directly from your smartphone, tablet, or PC storage."
+                desc: "Click here to rename your script to any custom name (e.g. simulation.py) before saving."
             },
             {
                 targetSelector: "#btn-find-replace",
@@ -1173,7 +1191,13 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             modal.classList.remove("flex");
         }
 
-        // Dedicated Python File Actions: Save, Open, Rename
+        // Dedicated Python File Actions: Save, Open/Import, Rename & Drag & Drop
+        function triggerFileInput() {
+            triggerHaptic();
+            const uploader = document.getElementById('py-file-uploader');
+            uploader.click();
+        }
+
         function downloadPythonScript() {
             triggerHaptic();
             const code = editor.getValue();
@@ -1191,19 +1215,39 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             showToast(`Saved '${filename}' to device!`);
         }
 
-        function openPythonScript(event) {
+        async function openPythonScript(event) {
             triggerHaptic();
             const file = event.target.files[0];
             if (!file) return;
+
+            await loadFileIntoEditor(file);
+            event.target.value = '';
+        }
+
+        async function loadFileIntoEditor(file) {
+            const currentCode = editor.getValue().trim();
+            const isTemplateOrEmpty = !currentCode || currentCode.includes('Created on') && currentCode.split('\n').length <= 7;
+
+            if (!isTemplateOrEmpty) {
+                const proceed = await showConfirm(
+                    `Open "${file.name}"?`,
+                    `Current editor content will be replaced by "${file.name}". Unsaved changes will be overwritten.`
+                );
+                if (!proceed) return;
+            }
 
             const reader = new FileReader();
             reader.onload = function(e) {
                 editor.setValue(e.target.result);
                 document.getElementById('active-filename').innerText = file.name;
                 showToast(`Opened '${file.name}'`);
+                if (isSplitMode) {
+                    editor.focus();
+                } else {
+                    switchTab('editor');
+                }
             };
             reader.readAsText(file);
-            event.target.value = '';
         }
 
         function renameActiveFile() {
@@ -1216,6 +1260,41 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 document.getElementById('active-filename').innerText = cleanName;
                 showToast(`Renamed to ${cleanName}`);
             }
+        }
+
+        // Setup Drag and Drop onto Code Editor
+        function initEditorDragAndDrop() {
+            const dropZone = document.getElementById('editor-drop-zone');
+            if (!dropZone) return;
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropZone.classList.add('editor-dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropZone.classList.remove('editor-dragover');
+                }, false);
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files && files.length > 0) {
+                    const file = files[0];
+                    if (file.name.endsWith('.py') || file.name.endsWith('.txt') || file.type.includes('text')) {
+                        loadFileIntoEditor(file);
+                    } else {
+                        showToast("Please drop a valid .py or text file", false);
+                    }
+                }
+            }, false);
         }
 
         const SCIENTIFIC_PACKAGES = [
@@ -1630,6 +1709,8 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
                 "Shift-Enter": () => runSelectedOrCurrentLine(),
                 "F9": () => runSelectedOrCurrentLine(),
                 "Alt-S": () => toggleSplitViewMode(),
+                "Ctrl-O": () => triggerFileInput(),
+                "Cmd-O": () => triggerFileInput(),
                 "Ctrl-S": () => downloadPythonScript(),
                 "Cmd-S": () => downloadPythonScript(),
                 "Ctrl-F": () => openFindReplaceModal(false),
@@ -1909,6 +1990,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
 
         window.addEventListener('DOMContentLoaded', () => {
             initSplitResizer();
+            initEditorDragAndDrop();
             initPyodide();
             renderSyllabusList();
 
