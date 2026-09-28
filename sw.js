@@ -1,104 +1,132 @@
-// Omni-Studio Production Service Worker
-// Version bump ensures clients automatically receive the latest index.html updates
-const CACHE_VERSION = 'omni-studio-v3.1.0';
-const STATIC_CACHE = `static-${CACHE_VERSION}`;
-const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
+/**
+ * Omni-Studio Service Worker
+ * Version: 6.0.0
+ * 
+ * Provides offline caching for the Omni-Studio IDE, local Tailwind engine,
+ * CodeMirror suite, and Pyodide WebAssembly packages (NumPy, Pandas, Matplotlib).
+ */
 
-// Essential App Shell Assets
-const STATIC_ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap',
-  'https://cdn.tailwindcss.com',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/searchcursor.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js'
+const CACHE_VERSION = 'omni-studio-v6';
+const RUNTIME_CACHE = 'omni-runtime-v6';
+
+// Core local assets that must be pre-cached immediately on installation
+const PRECACHE_LOCAL_ASSETS = [
+    './',
+    './index.html',
+    './manifest.json',
+    './tailwind.js'
 ];
 
-// Install Event: Cache app shell immediately and skip waiting
+// Essential third-party editor scripts and CDN dependencies
+const PRECACHE_CDN_ASSETS = [
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/searchcursor.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+    'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js'
+];
+
+// Install Event: Precaches local shell and CDN assets
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('[SW] Non-critical asset cache warning:', err);
-      });
-    }).then(() => self.skipWaiting())
-  );
-});
+    event.waitUntil(
+        caches.open(CACHE_VERSION).then(async (cache) => {
+            // Cache core local assets first (resilient to missing files)
+            for (const url of PRECACHE_LOCAL_ASSETS) {
+                try {
+                    const response = await fetch(url, { cache: 'no-cache' });
+                    if (response.ok) {
+                        await cache.put(url, response);
+                    }
+                } catch (err) {
+                    console.warn(`[SW] Precache skipped for local: ${url}`, err);
+                }
+            }
 
-// Activate Event: Clear all previous versions of static & runtime caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((name) => {
-          if (name !== STATIC_CACHE && name !== RUNTIME_CACHE) {
-            console.log('[SW] Purging outdated cache store:', name);
-            return caches.delete(name);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// Fetch Event: Network-first for HTML navigation, Cache-first with background fill for WASM/CDNs
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-
-  const url = new URL(req.url);
-
-  // Strategy A: HTML navigation requests (Network-First to always fetch code updates immediately)
-  if (req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(
-      fetch(req)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const clone = networkResponse.clone();
-            caches.open(STATIC_CACHE).then((cache) => cache.put(req, clone));
-          }
-          return networkResponse;
-        })
-        .catch(() => caches.match('./index.html') || caches.match('./'))
+            // Cache critical CDN dependencies
+            for (const url of PRECACHE_CDN_ASSETS) {
+                try {
+                    const response = await fetch(url, { mode: 'cors' });
+                    if (response.ok || response.type === 'opaque') {
+                        await cache.put(url, response);
+                    }
+                } catch (err) {
+                    console.warn(`[SW] Precache skipped for CDN: ${url}`, err);
+                }
+            }
+        }).then(() => self.skipWaiting())
     );
-    return;
-  }
+});
 
-  // Strategy B: CDN, WebAssembly (.wasm), Wheels (.whl), data packages (Cache-First)
-  event.respondWith(
-    caches.match(req).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+// Activate Event: Purges old cache versions and takes immediate client control
+self.addEventListener('activate', (event) => {
+    const currentCaches = [CACHE_VERSION, RUNTIME_CACHE];
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (!currentCaches.includes(cacheName)) {
+                        console.log(`[SW] Deleting deprecated cache: ${cacheName}`);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
+});
 
-      return fetch(req).then((networkResponse) => {
-        if (
-          networkResponse &&
-          networkResponse.status === 200 &&
-          (url.hostname.includes('jsdelivr.net') ||
-           url.hostname.includes('cdnjs.cloudflare.com') ||
-           url.hostname.includes('fonts.gstatic.com') ||
-           url.hostname.includes('fonts.googleapis.com') ||
-           url.pathname.endsWith('.whl') ||
-           url.pathname.endsWith('.wasm') ||
-           url.pathname.endsWith('.data') ||
-           url.pathname.endsWith('.json'))
-        ) {
-          const clone = networkResponse.clone();
-          caches.open(RUNTIME_CACHE).then((cache) => cache.put(req, clone));
-        }
-        return networkResponse;
-      }).catch((err) => {
-        console.warn('[SW] Offline fetch fallback for:', req.url, err);
-      });
-    })
-  );
+// Fetch Event: Cache-First for static assets/WASM, Network-First for navigation
+self.addEventListener('fetch', (event) => {
+    const request = event.request;
+
+    // Only handle standard HTTP/HTTPS GET requests
+    if (request.method !== 'GET') return;
+    if (!request.url.startsWith('http://') && !request.url.startsWith('https://')) return;
+
+    // 1. Navigation requests (Page reload, URL direct hits): Network-first with offline fallback
+    if (request.mode === 'navigate') {
+        event.respondWith(
+            fetch(request).catch(async () => {
+                const cache = await caches.open(CACHE_VERSION);
+                const cachedPage = await cache.match('./index.html') || await cache.match('./');
+                return cachedPage || Response.error();
+            })
+        );
+        return;
+    }
+
+    // 2. Static Assets, Pyodide WASM, Packages (.whl), Fonts, and Scripts: Cache-First Strategy
+    event.respondWith(
+        caches.match(request).then(async (cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+
+            // If not found in cache, download from network and save to dynamic runtime cache
+            try {
+                const networkResponse = await fetch(request);
+
+                // Cache valid responses or opaque CDN responses (status 0)
+                if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+                    const runtimeCache = await caches.open(RUNTIME_CACHE);
+                    runtimeCache.put(request, networkResponse.clone());
+                }
+
+                return networkResponse;
+            } catch (error) {
+                // Return broken/offline fallback if network fails
+                return cachedResponse || Response.error();
+            }
+        })
+    );
+});
+
+// Message listener to trigger manual skipWaiting from web UI if needed
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
 });
