@@ -25,36 +25,79 @@
         }
     </style>
 
-    <!-- Local Tailwind Engine from GitHub Repo with CDN Fallback -->
+    <!-- Seamless Dual-Fallback Tailwind CSS Engine -->
     <script>
-        function applyTailwindConfig() {
-            if (window.tailwind) {
-                window.tailwind.config = {
-                    theme: {
-                        extend: {
-                            fontFamily: {
-                                sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
-                                mono: ['JetBrains Mono', 'monospace'],
-                            },
-                            spacing: {
-                                'safe-top': 'env(safe-area-inset-top)',
-                                'safe-bottom': 'env(safe-area-inset-bottom)',
+        (function() {
+            var cdnUrl = 'https://cdn.tailwindcss.com';
+            
+            // GitHub Pages-ലെ ട്രെയിലിംഗ് സ്ലാഷ് പ്രശ്നം ഒഴിവാക്കി കൃത്യമായ ലോക്കൽ പാത കണ്ടെത്തുന്നു
+            var cleanHref = window.location.href.split('#')[0].split('?')[0];
+            if (!cleanHref.endsWith('/') && !cleanHref.endsWith('.html')) {
+                cleanHref += '/';
+            }
+            var localUrl = new URL('tailwind.js', cleanHref).href;
+
+            function applyTailwindConfig() {
+                if (window.tailwind) {
+                    window.tailwind.config = {
+                        theme: {
+                            extend: {
+                                fontFamily: {
+                                    sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
+                                    mono: ['JetBrains Mono', 'monospace'],
+                                },
+                                spacing: {
+                                    'safe-top': 'env(safe-area-inset-top)',
+                                    'safe-bottom': 'env(safe-area-inset-bottom)',
+                                }
                             }
                         }
+                    };
+                }
+            }
+
+            function loadScript(src, onSuccess, onError) {
+                var script = document.createElement('script');
+                script.src = src;
+                script.async = false;
+                script.onload = function() {
+                    if (window.tailwind) {
+                        applyTailwindConfig();
+                        if (onSuccess) onSuccess();
+                    } else {
+                        if (onError) onError();
                     }
                 };
+                script.onerror = function() {
+                    if (onError) onError();
+                };
+                document.head.appendChild(script);
             }
-        }
-    </script>
-    <script src="./tailwind.js" onerror="this.onerror=null; this.src='https://cdn.tailwindcss.com';" onload="applyTailwindConfig()"></script>
-    <script>
-        var twCheckInterval = setInterval(function() {
-            if (window.tailwind) {
-                applyTailwindConfig();
-                clearInterval(twCheckInterval);
-            }
-        }, 50);
-        setTimeout(function() { clearInterval(twCheckInterval); }, 3000);
+
+            // Dual Fallback:
+            // ഓൺലൈൻ ആണെങ്കിൽ: ആദ്യം വേഗതയേറിയ CDN -> പരാജയപ്പെട്ടാൽ ഉടൻ തന്നെ ലോക്കൽ tailwind.js
+            // ഓഫ്‌ലൈൻ ആണെങ്കിൽ: ആദ്യം ലോക്കൽ tailwind.js -> പരാജയപ്പെട്ടാൽ CDN
+            var isOnline = (typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
+            var primary = isOnline ? cdnUrl : localUrl;
+            var fallback = isOnline ? localUrl : cdnUrl;
+
+            loadScript(primary, 
+                function() {
+                    console.log('[Omni-Studio] Successfully loaded Tailwind from:', primary);
+                }, 
+                function() {
+                    console.warn('[Omni-Studio] Primary Tailwind source failed (' + primary + '). Switching to fallback:', fallback);
+                    loadScript(fallback, 
+                        function() {
+                            console.log('[Omni-Studio] Successfully loaded fallback Tailwind from:', fallback);
+                        }, 
+                        function() {
+                            console.error('[Omni-Studio] Both CDN and Local Tailwind failed to load.');
+                        }
+                    );
+                }
+            );
+        })();
     </script>
     
     <!-- CodeMirror 5 Suite & Pyodide Core -->
