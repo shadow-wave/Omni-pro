@@ -18,9 +18,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS Engine -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS Engine: Loads local repo file first; falls back to CDN if local file is missing -->
+    <script src="./tailwind.js" onerror="this.onerror=null;this.src='https://cdn.tailwindcss.com';"></script>
     <script>
+        window.tailwind = window.tailwind || {};
         tailwind.config = {
             theme: {
                 extend: {
@@ -34,7 +35,7 @@
                     }
                 }
             }
-        }
+        };
     </script>
     
     <!-- CodeMirror 5 Suite & Pyodide Core -->
@@ -56,6 +57,28 @@
             --sab: env(safe-area-inset-bottom);
         }
 
+        /* 
+           CRITICAL ANTI-FOUC & MODAL SHIELD
+           Guarantees all hidden panels and dialogs remain strictly invisible,
+           even if network latency delays or drops the Tailwind engine script.
+        */
+        .hidden, [hidden] {
+            display: none !important;
+        }
+
+        #splash-screen {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            background-color: #030305 !important;
+            z-index: 99999 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
         * {
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -70,6 +93,7 @@
             background-color: #030305;
             color: #f1f5f9;
             overscroll-behavior: none;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
         }
 
         .glass-panel {
@@ -305,7 +329,7 @@
             transform: scale(0.985);
         }
 
-        /* Spyder-Grade IntelliSense Overlay - True Viewport Fixed Positioning */
+        /* Spyder-Grade IntelliSense Overlay */
         .autocomplete-dropdown {
             position: fixed !important;
             z-index: 9999;
@@ -366,7 +390,7 @@
 </head>
 <body class="flex flex-col select-none">
 
-    <!-- Splash Boot Loader -->
+    <!-- Splash Boot Loader (Forced fixed full-screen via inline styles) -->
     <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#030305] flex flex-col items-center justify-center p-6 transition-opacity duration-400">
         <div class="relative flex items-center justify-center">
             <div class="absolute w-28 h-28 rounded-full bg-indigo-500/20 blur-2xl animate-pulse"></div>
@@ -977,7 +1001,7 @@
         </button>
     </nav>
 
-    <!-- Floating Spyder-Grade IntelliSense Overlay (Root Body Mount to avoid overflow clipping) -->
+    <!-- Floating Spyder-Grade IntelliSense Overlay -->
     <div id="autocomplete-box" class="autocomplete-dropdown hidden"></div>
 
     <script>
