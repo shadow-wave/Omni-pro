@@ -1,24 +1,24 @@
 /**
  * Omni-Studio Service Worker
- * Version: 6.0.0
+ * Version: 7.0.0
  * 
- * Provides offline caching for the Omni-Studio IDE, local Tailwind engine,
+ * Provides offline caching for the Omni-Studio IDE, official Tailwind engine,
  * CodeMirror suite, and Pyodide WebAssembly packages (NumPy, Pandas, Matplotlib).
  */
 
-const CACHE_VERSION = 'omni-studio-v6';
-const RUNTIME_CACHE = 'omni-runtime-v6';
+const CACHE_VERSION = 'omni-studio-v7';
+const RUNTIME_CACHE = 'omni-runtime-v7';
 
-// Core local assets that must be pre-cached immediately on installation
+// Core local shell assets that must be pre-cached immediately on installation
 const PRECACHE_LOCAL_ASSETS = [
     './',
     './index.html',
-    './manifest.json',
-    './tailwind.js'
+    './manifest.json'
 ];
 
 // Essential third-party editor scripts and CDN dependencies
 const PRECACHE_CDN_ASSETS = [
+    'https://cdn.tailwindcss.com',
     'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/nord.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js',
