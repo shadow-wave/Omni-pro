@@ -18,85 +18,90 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <!-- Critical Anti-FOUC & Modal Shield -->
-    <style>
-        .hidden, [hidden] {
-            display: none !important;
-        }
-    </style>
-
-    <!-- Seamless Dual-Fallback Tailwind CSS Engine -->
+    <!-- Tailwind CSS Engine: 3-Level Fail-Safe -->
+    <!--
+        Priority:
+        1) Local ./tailwind.js
+        2) jsDelivr Tailwind browser engine
+        3) Official Tailwind Play CDN
+        The rest of the application is unchanged.
+    -->
     <script>
-        (function() {
-            var cdnUrl = 'https://cdn.tailwindcss.com';
-            
-            // GitHub Pages-ലെ ട്രെയിലിംഗ് സ്ലാഷ് പ്രശ്നം ഒഴിവാക്കി കൃത്യമായ ലോക്കൽ പാത കണ്ടെത്തുന്നു
-            var cleanHref = window.location.href.split('#')[0].split('?')[0];
-            if (!cleanHref.endsWith('/') && !cleanHref.endsWith('.html')) {
-                cleanHref += '/';
-            }
-            var localUrl = new URL('tailwind.js', cleanHref).href;
+        (function () {
+            const sources = [
+                "./tailwind.js",
+                "https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js",
+                "https://cdn.tailwindcss.com"
+            ];
 
-            function applyTailwindConfig() {
-                if (window.tailwind) {
-                    window.tailwind.config = {
-                        theme: {
-                            extend: {
-                                fontFamily: {
-                                    sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
-                                    mono: ['JetBrains Mono', 'monospace'],
-                                },
-                                spacing: {
-                                    'safe-top': 'env(safe-area-inset-top)',
-                                    'safe-bottom': 'env(safe-area-inset-bottom)',
-                                }
+            const LOAD_TIMEOUT = 4000;
+
+            function configureTailwind() {
+                if (!window.tailwind) return false;
+
+                window.tailwind.config = {
+                    theme: {
+                        extend: {
+                            fontFamily: {
+                                sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
+                                mono: ['JetBrains Mono', 'monospace'],
+                            },
+                            spacing: {
+                                'safe-top': 'env(safe-area-inset-top)',
+                                'safe-bottom': 'env(safe-area-inset-bottom)',
                             }
                         }
-                    };
-                }
-            }
-
-            function loadScript(src, onSuccess, onError) {
-                var script = document.createElement('script');
-                script.src = src;
-                script.async = false;
-                script.onload = function() {
-                    if (window.tailwind) {
-                        applyTailwindConfig();
-                        if (onSuccess) onSuccess();
-                    } else {
-                        if (onError) onError();
                     }
                 };
-                script.onerror = function() {
-                    if (onError) onError();
+
+                return true;
+            }
+
+            function loadTailwind(index) {
+                if (index >= sources.length) {
+                    console.error("[Omni-Studio] All Tailwind sources failed.");
+                    return;
+                }
+
+                const src = sources[index];
+                const script = document.createElement("script");
+                let settled = false;
+
+                const cleanup = () => {
+                    script.onload = null;
+                    script.onerror = null;
+                    clearTimeout(timeoutId);
                 };
+
+                const next = () => {
+                    if (settled) return;
+                    settled = true;
+                    cleanup();
+                    script.remove();
+                    console.warn("[Omni-Studio] Tailwind source failed, trying fallback:", src);
+                    loadTailwind(index + 1);
+                };
+
+                script.onload = () => {
+                    if (settled) return;
+                    if (configureTailwind()) {
+                        settled = true;
+                        cleanup();
+                        console.info("[Omni-Studio] Tailwind loaded from:", src);
+                    } else {
+                        next();
+                    }
+                };
+
+                script.onerror = next;
+
+                const timeoutId = setTimeout(next, LOAD_TIMEOUT);
+
+                script.src = src;
                 document.head.appendChild(script);
             }
 
-            // Dual Fallback:
-            // ഓൺലൈൻ ആണെങ്കിൽ: ആദ്യം വേഗതയേറിയ CDN -> പരാജയപ്പെട്ടാൽ ഉടൻ തന്നെ ലോക്കൽ tailwind.js
-            // ഓഫ്‌ലൈൻ ആണെങ്കിൽ: ആദ്യം ലോക്കൽ tailwind.js -> പരാജയപ്പെട്ടാൽ CDN
-            var isOnline = (typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
-            var primary = isOnline ? cdnUrl : localUrl;
-            var fallback = isOnline ? localUrl : cdnUrl;
-
-            loadScript(primary, 
-                function() {
-                    console.log('[Omni-Studio] Successfully loaded Tailwind from:', primary);
-                }, 
-                function() {
-                    console.warn('[Omni-Studio] Primary Tailwind source failed (' + primary + '). Switching to fallback:', fallback);
-                    loadScript(fallback, 
-                        function() {
-                            console.log('[Omni-Studio] Successfully loaded fallback Tailwind from:', fallback);
-                        }, 
-                        function() {
-                            console.error('[Omni-Studio] Both CDN and Local Tailwind failed to load.');
-                        }
-                    );
-                }
-            );
+            loadTailwind(0);
         })();
     </script>
     
@@ -121,6 +126,7 @@
 
         * {
             -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
             box-sizing: border-box;
         }
 
@@ -265,28 +271,23 @@
             background-color: rgba(99, 102, 241, 0.06) !important;
         }
 
-        /* Responsive Feature Tour Spotlight Elements */
-        #spotlight-tour-layer {
-            transition: opacity 0.25s ease-out;
-            touch-action: auto;
-        }
-
+        /* Interactive Feature Walkthrough Spotlight Elements */
         #spotlight-cutout {
             position: fixed;
             pointer-events: none;
             z-index: 210;
-            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
             border-radius: 14px;
-            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.84), 0 0 20px 3px rgba(99, 102, 241, 0.8);
-            border: 2px solid #818cf8;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.82), 0 0 25px 4px rgba(99, 102, 241, 0.75);
+            border: 2px solid rgba(129, 140, 248, 0.95);
         }
 
         #spotlight-popover {
             position: fixed;
             z-index: 220;
-            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-            max-width: 320px;
-            width: calc(100vw - 28px);
+            transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 310px;
+            width: calc(100vw - 32px);
             pointer-events: auto;
         }
 
@@ -372,7 +373,7 @@
             transform: scale(0.985);
         }
 
-        /* Spyder-Grade IntelliSense Overlay */
+        /* Spyder-Grade IntelliSense Overlay - True Viewport Fixed Positioning */
         .autocomplete-dropdown {
             position: fixed !important;
             z-index: 9999;
@@ -464,16 +465,16 @@
         </a>
     </div>
 
-    <!-- Responsive Interactive Spotlight Walkthrough Layer -->
-    <div id="spotlight-tour-layer" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50" onclick="handleBackdropTourClick(event)">
+    <!-- Interactive Spotlight Walkthrough Layer -->
+    <div id="spotlight-tour-layer" class="fixed inset-0 z-[200] hidden">
         <div id="spotlight-cutout"></div>
-        <div id="spotlight-popover" onclick="event.stopPropagation()" class="glass-panel p-4 rounded-2xl border border-indigo-500/40 shadow-2xl space-y-3 modal-enter">
-            <div class="flex items-center justify-between border-b border-white/10 pb-2">
-                <span id="tour-step-badge" class="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9.5px] font-mono font-bold uppercase tracking-wider">
+        <div id="spotlight-popover" class="glass-panel p-4 rounded-2xl border border-indigo-500/40 shadow-2xl space-y-2.5">
+            <div class="flex items-center justify-between">
+                <span id="tour-step-badge" class="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9px] font-mono font-bold uppercase tracking-wider">
                     Feature 1/9
                 </span>
-                <button onclick="skipInteractiveTour()" class="h-7 px-2.5 rounded-lg bg-white/5 hover:bg-white/15 active:bg-white/20 text-gray-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition">
-                    <span>Skip</span> <i class="fa-solid fa-xmark text-[10px]"></i>
+                <button onclick="skipInteractiveTour()" class="text-[11px] text-gray-400 hover:text-white flex items-center gap-1 transition px-1.5 py-0.5 rounded hover:bg-white/10">
+                    <span>Skip</span> <i class="fa-solid fa-xmark text-[9px]"></i>
                 </button>
             </div>
 
@@ -482,18 +483,18 @@
                     Feature Title
                 </h4>
                 <p id="tour-step-desc" class="text-[11px] text-gray-300 mt-1 leading-relaxed">
-                    Description of capability.
+                    Description of button capability.
                 </p>
             </div>
 
             <div class="flex items-center justify-between pt-1 border-t border-white/10">
-                <span id="tour-step-indicator" class="text-[10px] font-mono text-gray-400">1 of 9</span>
-                <div class="flex items-center gap-2">
-                    <button id="tour-prev-btn" onclick="prevTourStep()" class="h-8 px-3 rounded-xl bg-white/10 active:bg-white/20 text-xs font-semibold text-gray-200 transition hidden">
+                <span id="tour-step-indicator" class="text-[9.5px] font-mono text-gray-400">1 of 9</span>
+                <div class="flex items-center gap-1.5">
+                    <button id="tour-prev-btn" onclick="prevTourStep()" class="px-2.5 py-1 rounded-lg bg-white/5 active:bg-white/10 text-[10.5px] font-semibold text-gray-300 transition hidden">
                         Back
                     </button>
-                    <button id="tour-next-btn" onclick="nextTourStep()" class="h-8 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5">
-                        <span>Next</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    <button id="tour-next-btn" onclick="nextTourStep()" class="px-3.5 py-1 rounded-lg bg-indigo-600 active:bg-indigo-500 text-[10.5px] font-bold text-white shadow-md shadow-indigo-600/30 transition flex items-center gap-1">
+                        <span>Next</span> <i class="fa-solid fa-arrow-right text-[9px]"></i>
                     </button>
                 </div>
             </div>
@@ -562,7 +563,7 @@
         </div>
     </div>
 
-    <!-- Shortcuts & Help Guide Modal -->
+    <!-- Shortcuts & Tour Guide Modal -->
     <div id="shortcuts-modal" class="fixed inset-0 z-[124] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
         <div class="glass-panel w-full max-w-md rounded-2xl border-white/10 shadow-2xl flex flex-col modal-enter overflow-hidden">
             <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between shrink-0 bg-white/5">
@@ -581,7 +582,7 @@
             </div>
             
             <div class="p-4 space-y-3 overflow-y-auto max-h-[70vh] no-scrollbar text-xs font-mono">
-                <button onclick="startSpotlightTourFromMenu()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-indigo-600/30 to-purple-600/30 hover:from-indigo-600/40 hover:to-purple-600/40 border border-indigo-500/40 text-indigo-200 font-sans font-bold flex items-center justify-between transition active:scale-[0.98]">
+                <button onclick="startSpotlightTourFromMenu()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-indigo-600/30 to-purple-600/30 hover:from-indigo-600/40 hover:to-purple-600/40 border border-indigo-500/40 text-indigo-200 font-sans font-bold flex items-center justify-between transition">
                     <span class="flex items-center gap-2"><i class="fa-solid fa-compass text-indigo-400"></i> Start Interactive Feature Tour</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
@@ -726,7 +727,7 @@
             </button>
 
             <!-- Guide / Shortcuts Trigger -->
-            <button id="btn-help-guide" onclick="openShortcutsModal()" title="Help & Shortcuts" class="w-8 h-8 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-300 text-xs border border-white/10 transition">
+            <button id="btn-help-guide" onclick="openShortcutsModal()" title="Help & Tour (F1)" class="w-8 h-8 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-300 text-xs border border-white/10 transition">
                 <i class="fa-solid fa-question"></i>
             </button>
 
@@ -747,14 +748,14 @@
     <!-- Main Dynamic Workspace -->
     <main id="workspace-wrapper" class="flex-1 overflow-hidden p-2 pb-0 flex relative">
         
-        <!-- Left Pane -->
+        <!-- Left Pane: Hosts all views in Single Mode, or Editor-only in Dual-Pane Mode -->
         <div id="split-left-pane" class="w-full h-full flex flex-col overflow-hidden">
             
             <!-- Tab 1: Editor Panel -->
             <div id="tab-editor" class="tab-content active">
                 <div id="editor-drop-zone" class="flex-1 rounded-2xl glass-panel overflow-hidden border-white/5 flex flex-col shadow-lg relative transition-all duration-200">
                     
-                    <!-- Editor Header -->
+                    <!-- Comprehensive Editor Header with Import/Open, Save, Rename, Search & Format -->
                     <div id="editor-header-bar" class="h-8 px-2.5 bg-white/5 border-b border-white/5 flex items-center justify-between text-[10.5px] font-mono text-gray-400">
                         <div class="flex items-center gap-1.5 text-gray-300 truncate">
                             <i class="fa-brands fa-python text-indigo-400"></i>
@@ -762,14 +763,14 @@
                         </div>
                         
                         <div class="flex items-center gap-1 sm:gap-1.5">
-                            <!-- Import / Open .py -->
+                            <!-- Import / Open Local Python File (.py) -->
                             <button onclick="triggerFileInput()" id="btn-open-file" title="Import / Open .py Script (Ctrl+O)" class="h-6 px-2 flex items-center gap-1 rounded bg-amber-500/10 hover:bg-amber-500/20 active:scale-95 text-amber-300 border border-amber-500/20 transition font-sans text-[10px] font-semibold">
                                 <i class="fa-solid fa-folder-open text-[10px]"></i>
                                 <span class="hidden sm:inline">Open</span>
                             </button>
                             <input type="file" id="py-file-uploader" accept=".py,.txt" class="hidden" onchange="openPythonScript(event)">
 
-                            <!-- Save / Download .py -->
+                            <!-- Save / Download Python Script (.py) -->
                             <button onclick="downloadPythonScript()" id="btn-save-file" title="Save Script to Device (Ctrl+S)" class="h-6 px-2 flex items-center gap-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 active:scale-95 text-emerald-300 border border-emerald-500/20 transition font-sans text-[10px] font-semibold">
                                 <i class="fa-solid fa-floppy-disk text-[10px]"></i>
                                 <span class="hidden sm:inline">Save</span>
@@ -793,7 +794,7 @@
                         </div>
                     </div>
 
-                    <!-- CodeMirror Workspace -->
+                    <!-- CodeMirror Workspace with Drag & Drop Listener -->
                     <div class="flex-1 relative overflow-hidden" id="editor-host-container">
                         <textarea id="code-editor"></textarea>
                     </div>
@@ -863,7 +864,7 @@
                 </div>
             </div>
 
-            <!-- View: Terminal Console -->
+            <!-- View: Terminal Console with Interactive REPL -->
             <div id="tab-terminal" class="tab-content h-full">
                 <div class="flex-1 glass-panel rounded-2xl p-3 font-mono text-xs flex flex-col border-white/5 overflow-hidden shadow-lg">
                     <div class="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
@@ -881,7 +882,7 @@
 
                     <div id="output" class="flex-1 overflow-y-auto whitespace-pre-wrap text-emerald-400 leading-relaxed select-text pb-2 text-[11.5px]"></div>
 
-                    <!-- REPL Input Line -->
+                    <!-- Interactive >>> REPL Input Line -->
                     <div class="mt-2 pt-2 border-t border-white/10 flex items-center gap-2 bg-black/30 rounded-xl px-2.5 py-1.5">
                         <span class="text-indigo-400 font-mono font-bold text-xs select-none">&gt;&gt;&gt;</span>
                         <input id="repl-input" type="text" placeholder="Evaluate Python expression (e.g. np.sin(np.pi/2), df.head())..." class="flex-1 bg-transparent text-xs font-mono text-white outline-none placeholder:text-gray-600">
@@ -895,6 +896,7 @@
             <!-- View: High-DPI Plot Studio -->
             <div id="tab-plots" class="tab-content h-full">
                 <div class="flex-1 glass-panel rounded-2xl flex flex-col border-white/5 overflow-hidden shadow-lg relative">
+                    <!-- Plot Header -->
                     <div class="h-10 flex justify-between items-center px-3.5 bg-white/5 border-b border-white/5 shrink-0">
                         <div class="flex items-center gap-2">
                             <span class="text-[9.5px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
@@ -917,6 +919,7 @@
                         </div>
                     </div>
 
+                    <!-- Plot Viewport with Floating Zoom HUD -->
                     <div id="plot-container-viewport" class="flex-1 p-2 flex items-center justify-center overflow-hidden bg-[#090b12] relative select-none">
                         <div id="plot-hud-controls" class="absolute top-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-lg hidden">
                             <button onclick="adjustPlotZoom(0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></button>
@@ -933,6 +936,7 @@
                         </div>
                     </div>
 
+                    <!-- Filmstrip Carousel Bar -->
                     <div id="plot-filmstrip" class="h-12 bg-black/50 border-t border-white/5 px-2 flex items-center gap-2 overflow-x-auto no-scrollbar hidden shrink-0"></div>
                 </div>
             </div>
@@ -940,6 +944,8 @@
             <!-- View: Syllabus & Virtual Storage -->
             <div id="tab-files" class="tab-content h-full">
                 <div class="flex-1 overflow-y-auto space-y-3.5 pr-0.5 no-scrollbar pb-6">
+                    
+                    <!-- Lead Developer Profile Card with Direct GitHub Link -->
                     <a href="https://github.com/shadow-wave/Omni-pro" target="_blank" rel="noopener noreferrer" class="glass-panel p-3.5 rounded-2xl flex items-center justify-between border-indigo-500/20 active:scale-[0.99] transition block">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-md">A</div>
@@ -954,6 +960,7 @@
                         <i class="fa-brands fa-github text-xl text-gray-400 hover:text-white pr-1"></i>
                     </a>
 
+                    <!-- Virtual In-Memory Filesystem -->
                     <div class="glass-panel p-3.5 rounded-2xl border-white/5 space-y-2.5">
                         <div class="flex items-center justify-between">
                             <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -974,6 +981,7 @@
                         </div>
                     </div>
 
+                    <!-- 10 Prescribed University Lab Experiments -->
                     <div class="space-y-1.5">
                         <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Official University Lab Experiments</span>
                         <div class="grid grid-cols-1 gap-1.5" id="syllabus-grid"></div>
@@ -982,13 +990,14 @@
             </div>
         </div>
 
-        <!-- Draggable Resizer Divider -->
+        <!-- Draggable Resizer Divider (Visible only in Split Mode) -->
         <div id="split-divider" class="split-resizer hidden" title="Drag to resize panes (Double-click to reset 50/50)">
             <div class="split-resizer-handle"></div>
         </div>
 
-        <!-- Right Pane (Dual Pane) -->
+        <!-- Right Pane: Secondary Workspaces in Dual-Pane Mode -->
         <div id="split-right-pane" class="hidden h-full flex-col overflow-hidden flex-shrink-0">
+            <!-- Right Pane Pill Bar -->
             <div class="h-8 px-2 bg-white/5 border border-white/5 rounded-xl mb-1.5 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-1">
                     <button onclick="switchSplitTab('variables')" class="split-nav-btn px-2.5 py-1 rounded-lg text-[10px] font-bold text-gray-400 hover:text-white transition" data-target="variables">
@@ -1007,11 +1016,12 @@
                 <span class="text-[9px] font-mono text-gray-500 uppercase tracking-widest px-1">Dual Pane</span>
             </div>
 
+            <!-- Right Pane View Mount Point -->
             <div id="right-views-mount" class="flex-1 overflow-hidden flex flex-col"></div>
         </div>
     </main>
 
-    <!-- Bottom Navigation Dock -->
+    <!-- Bottom Navigation Dock (Auto-hidden in Dual-Pane Mode) -->
     <nav id="bottom-nav-dock" class="h-[4.5rem] pb-[var(--sab)] px-3 flex justify-around items-center shrink-0 z-40 bg-[#040508]/95 border-t border-white/10 transition-all duration-300">
         <button onclick="switchTab('editor')" class="nav-btn active flex flex-col items-center gap-1 text-indigo-400" data-target="editor">
             <i class="fa-solid fa-code text-lg"></i>
@@ -1035,7 +1045,7 @@
         </button>
     </nav>
 
-    <!-- Floating IntelliSense Overlay -->
+    <!-- Floating Spyder-Grade IntelliSense Overlay (Root Body Mount to avoid overflow clipping) -->
     <div id="autocomplete-box" class="autocomplete-dropdown hidden"></div>
 
     <script>
@@ -1087,90 +1097,86 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         let selectedAutocompleteIdx = 0;
         let isAutocompleteOpen = false;
 
-        // Feature Tour State & Configuration
+        // Interactive Tour Step Configurations
         let currentTourStep = 0;
         const SPOTLIGHT_TOUR_STEPS = [
             {
                 targetSelector: "#split-view-btn",
                 title: "Dual-Pane Split View",
-                badge: "Layout",
-                desc: "Work side-by-side! Splits screen into Code Editor and Live Output. Shortcut: Alt+S."
+                badge: "Workstation Layout",
+                desc: "Work side-by-side! Splits screen into Editor (left) and Console/Plots (right). Tap here or press Alt+S."
             },
             {
                 targetSelector: "#run-line-btn",
-                title: "Run Line (F9)",
-                badge: "Execution",
-                desc: "Run only the selected line or current active line without executing the full script."
+                title: "Run Selected Line (F9)",
+                badge: "Interactive Execution",
+                desc: "Execute only the current line or selected code without running your entire script. Press F9 or Shift+Enter."
             },
             {
                 targetSelector: "#run-btn",
-                title: "Run Full Program",
-                badge: "Runtime",
-                desc: "Executes your complete script client-side in WebAssembly with auto-installation of PyPI packages."
+                title: "Run Full Script",
+                badge: "WASM Core",
+                desc: "Executes your entire Python program client-side in WebAssembly with auto-installation of PyPI packages."
             },
             {
                 targetSelector: "#btn-open-file",
-                title: "Open .py Script",
-                badge: "File System",
-                desc: "Import external Python files from your computer or phone. Shortcut: Ctrl+O."
+                title: "Import / Open Python Script",
+                badge: "File Management",
+                desc: "Open and import external .py scripts directly from your device or drag & drop files onto the editor. Shortcut: Ctrl+O."
             },
             {
                 targetSelector: "#btn-save-file",
-                title: "Save Script",
-                badge: "File System",
-                desc: "Download your script directly to your device storage as a standard .py file (Ctrl+S)."
+                title: "Save Python Script",
+                badge: "File Management",
+                desc: "Download your current code as a standard .py file to your device at any time. Shortcut: Ctrl+S."
             },
             {
                 targetSelector: "#active-filename",
                 title: "Rename Script",
-                badge: "Editor",
-                desc: "Tap the filename to set a custom title before saving your experiment."
+                badge: "File Management",
+                desc: "Click here to rename your script to any custom name (e.g. simulation.py) before saving."
             },
             {
                 targetSelector: "#btn-find-replace",
                 title: "Find & Replace",
                 badge: "Editor Tools",
-                desc: "Instantly search and replace variables or syntax across your code (Ctrl+F)."
+                desc: "Quick search and replace with occurrence counter. Shortcut: Ctrl+F or Ctrl+H."
             },
             {
                 targetSelector: "#btn-format-code",
                 title: "Auto-Format Code",
-                badge: "Code Quality",
-                desc: "Automatically fixes Python indentations and formatting blocks (Shift+Alt+F)."
+                badge: "Code Clean",
+                desc: "Automatically fixes Python indentations and block structures on demand. Shortcut: Shift+Alt+F."
             },
             {
-                targetSelector: "#editor-accessory-bar",
-                title: "Quick Accessory Bar",
-                badge: "Mobile Keys",
-                desc: "Fast touch shortcuts for indentations (TAB), brackets, colons, and data science imports."
+                targetSelector: "#editor-diagnostics-bar",
+                title: "Live AST Linter",
+                badge: "Real-Time Feedback",
+                desc: "Catches syntax bugs, unclosed brackets, and missing colons in real time with red wavy underlines."
             }
         ];
 
         function checkFirstTimeTour() {
-            const hasSeen = localStorage.getItem("omni_tour_completed_v4");
+            const splash = document.getElementById("splash-screen");
+            if (splash && splash.style.display !== "none") return;
+            const hasSeen = localStorage.getItem("omni_spotlight_tour_v3");
             if (!hasSeen) {
-                setTimeout(startSpotlightTour, 500);
+                setTimeout(startSpotlightTour, 300);
             }
         }
 
         function startSpotlightTour() {
+            const splash = document.getElementById("splash-screen");
+            if (splash && splash.style.display !== "none") return;
             triggerHaptic();
             currentTourStep = 0;
             const layer = document.getElementById("spotlight-tour-layer");
             layer.classList.remove("hidden");
-            layer.classList.add("flex");
             renderSpotlightStep();
-        }
-
-        function startSpotlightTourFromMenu() {
-            closeShortcutsModal();
-            setTimeout(startSpotlightTour, 150);
         }
 
         function renderSpotlightStep() {
             const step = SPOTLIGHT_TOUR_STEPS[currentTourStep];
-            if (!step) return;
-
             const target = document.querySelector(step.targetSelector);
             const cutout = document.getElementById("spotlight-cutout");
             const popover = document.getElementById("spotlight-popover");
@@ -1183,35 +1189,29 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             document.getElementById("tour-prev-btn").classList.toggle("hidden", currentTourStep === 0);
             const nextBtn = document.getElementById("tour-next-btn");
             if (currentTourStep === SPOTLIGHT_TOUR_STEPS.length - 1) {
-                nextBtn.innerHTML = `<span>Finish</span> <i class="fa-solid fa-check text-[10px]"></i>`;
+                nextBtn.innerHTML = `<span>Finish</span> <i class="fa-solid fa-check text-[9px]"></i>`;
             } else {
-                nextBtn.innerHTML = `<span>Next</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>`;
+                nextBtn.innerHTML = `<span>Next</span> <i class="fa-solid fa-arrow-right text-[9px]"></i>`;
             }
 
-            if (target && target.offsetParent !== null) {
+            if (target) {
                 const rect = target.getBoundingClientRect();
-                const pad = 5;
-                cutout.style.display = "block";
+                const pad = 4;
                 cutout.style.left = `${Math.max(4, rect.left - pad)}px`;
                 cutout.style.top = `${Math.max(4, rect.top - pad)}px`;
                 cutout.style.width = `${rect.width + pad * 2}px`;
                 cutout.style.height = `${rect.height + pad * 2}px`;
 
-                const popoverWidth = Math.min(320, window.innerWidth - 24);
-                let popoverLeft = Math.max(12, Math.min(window.innerWidth - popoverWidth - 12, rect.left + (rect.width / 2) - (popoverWidth / 2)));
+                const popoverWidth = Math.min(310, window.innerWidth - 32);
+                let popoverLeft = Math.max(16, Math.min(window.innerWidth - popoverWidth - 16, rect.left + (rect.width / 2) - (popoverWidth / 2)));
                 
                 let popoverTop = rect.bottom + 12;
-                if (popoverTop + 200 > window.innerHeight) {
-                    popoverTop = Math.max(16, rect.top - 200);
+                if (popoverTop + 180 > window.innerHeight) {
+                    popoverTop = Math.max(16, rect.top - 180);
                 }
 
                 popover.style.left = `${popoverLeft}px`;
                 popover.style.top = `${popoverTop}px`;
-            } else {
-                cutout.style.display = "none";
-                popover.style.left = "50%";
-                popover.style.top = "50%";
-                popover.style.transform = "translate(-50%, -50%)";
             }
         }
 
@@ -1235,17 +1235,14 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
 
         function skipInteractiveTour() {
             triggerHaptic();
-            localStorage.setItem("omni_tour_completed_v4", "true");
-            const layer = document.getElementById("spotlight-tour-layer");
-            layer.classList.add("hidden");
-            layer.classList.remove("flex");
-            showToast("Tour completed!");
+            localStorage.setItem("omni_spotlight_tour_v3", "true");
+            document.getElementById("spotlight-tour-layer").classList.add("hidden");
+            showToast("Tour completed! Enjoy coding.");
         }
 
-        function handleBackdropTourClick(e) {
-            if (e.target.id === "spotlight-tour-layer") {
-                nextTourStep();
-            }
+        function startSpotlightTourFromMenu() {
+            closeShortcutsModal();
+            startSpotlightTour();
         }
 
         function openShortcutsModal() {
@@ -1262,6 +1259,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             modal.classList.remove("flex");
         }
 
+        // Dedicated Python File Actions: Save, Open/Import, Rename & Drag & Drop
         function triggerFileInput() {
             triggerHaptic();
             const uploader = document.getElementById('py-file-uploader');
@@ -1332,6 +1330,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             }
         }
 
+        // Setup Drag and Drop onto Code Editor
         function initEditorDragAndDrop() {
             const dropZone = document.getElementById('editor-drop-zone');
             if (!dropZone) return;
@@ -1857,6 +1856,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             document.getElementById("cursor-position").innerText = `Ln ${cursor.line + 1}, Col ${cursor.ch + 1}`;
         }
 
+        // Dual-Pane Resizer & Split-View Controller
         function toggleSplitViewMode() {
             triggerHaptic();
             setSplitMode(!isSplitMode);
@@ -2027,6 +2027,7 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
             });
         }
 
+        // Smooth Boot Animation Lifecycle
         let currentBootPercent = 0;
         let targetBootPercent = 0;
 
@@ -2205,6 +2206,7 @@ def _omni_transform_code(code_str):
             }
         }
 
+        // Terminal Prompt Async Bridge
         window.requestAsyncInput = function(promptText) {
             triggerHaptic();
             return new Promise((resolve) => {
@@ -2403,6 +2405,7 @@ def _omni_transform_code(code_str):
             showToast("Plots cleared");
         }
 
+        // Real-Time AST Keystroke Linter
         function scheduleRealtimeLinter() {
             if (linterDebounceTimer) clearTimeout(linterDebounceTimer);
             linterDebounceTimer = setTimeout(runASTLinter, 260);
@@ -2461,6 +2464,7 @@ _lint()
                     statusElem.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-[9px]"></i><span>Ln ${report.line}: ${report.msg}</span>`;
                 }
             } catch (err) {
+                // Background linter failsafe
             }
         }
 
@@ -2916,6 +2920,7 @@ _get_vars()
                     tbody.appendChild(tr);
                 });
             } catch (err) {
+                // Workspace inspector fallback
             }
         }
 
@@ -2929,14 +2934,15 @@ def _inspect_var(name):
     obj = globals().get(name)
     if obj is None: return "{}"
     
-    if hasattr(obj, 'to_json'):
+    if hasattr(obj, 'to_json'): # DataFrame
         return json.dumps({
             "type": "DataFrame",
             "rows": json.loads(obj.head(100).to_json(orient='records')),
             "columns": list(obj.columns),
             "shape": list(obj.shape)
         })
-    elif hasattr(obj, 'tolist'):
+    elif hasattr(obj, 'tolist'): # NumPy Array
+        arr_list = obj.tolist()
         return json.dumps({
             "type": "ndarray",
             "data": str(obj),
@@ -3213,7 +3219,7 @@ _inspect_var('${varName}')
             }
         }
 
-        // 10 Official University Lab Experiments
+        // 10 Official Prescribed University Experiments
         const syllabusCatalog = [
             {
                 id: "exp1",
@@ -3262,7 +3268,7 @@ number = int(input("Enter an integer: "))
 if number % 2 == 0:
     print(f"\\n{number} is an Even number.")
 else:
-    print(f"\\n{number} is Odd number.")`
+    print(f"\\n{number} is an Odd number.")`
             },
             {
                 id: "exp4",
