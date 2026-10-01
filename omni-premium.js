@@ -54,6 +54,9 @@
     add('Toggle focus mode', 'Alt + Z', toggleFocusMode);
     add('Toggle full screen', 'F11', toggleFullscreen);
     add('Format Python code', 'Shift + Alt + F', () => window.formatPythonCode?.());
+    add('Previous plot', '←', () => window.navigatePlot?.(-1));
+    add('Next plot', '→', () => window.navigatePlot?.(1));
+    add('Fit active plot', '', () => window.fitPlotToViewport?.());
     add('Open live studio homepage', '', () => window.open('https://shadow-wave.github.io/Omni-pro/', '_blank', 'noopener'));
     add('Copy share link', '', async () => {
       try { await navigator.clipboard.writeText(location.href); toast('Share link copied'); }
@@ -90,6 +93,12 @@
     window.addEventListener('keydown', event => {
       if (event.altKey && event.key.toLowerCase() === 'z') { event.preventDefault(); toggleFocusMode(); }
       if (event.key === 'Escape' && document.body.classList.contains('omni-focus-mode') && !q('#omni-command-palette:not(.hidden)')) toggleFocusMode();
+      const isTyping = event.target.closest?.('input, textarea, [contenteditable="true"], .CodeMirror');
+      const plotOpen = q('#tab-plots.active');
+      if (!isTyping && plotOpen && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+        event.preventDefault();
+        window.navigatePlot?.(event.key === 'ArrowLeft' ? -1 : 1);
+      }
     });
   }
 

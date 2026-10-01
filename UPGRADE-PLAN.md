@@ -17,6 +17,8 @@
 14. Lazy scientific runtime: NumPy, Pandas and Matplotlib are loaded only on import.
 15. Shared, de-duplicated automatic package loading with Pyodide-first and micropip fallback.
 16. Explicit deployment and security documentation.
+17. Idle-time warm-up for NumPy, Matplotlib/Pyplot, and Pandas, with slow-network and Data Saver protection.
+18. Premium Plot Studio interactions: bounded plot history, responsive pan/zoom, accessible figure gallery, metadata, and safer resource cleanup.
 
 ## Next high-value phase
 - Build a true static `tailwind.css` at build time, eliminating runtime Tailwind compilation.

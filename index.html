@@ -311,18 +311,19 @@
         .plot-viewport-canvas {
             touch-action: none;
             cursor: grab;
-            transition: transform 0.06s ease-out;
+            transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
             transform-origin: center center;
             max-width: 100%;
             max-height: 100%;
+            will-change: transform;
         }
 
         .plot-viewport-canvas:active { cursor: grabbing; }
 
         .omni-plot-card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), 0 0 1px 1px rgba(255, 255, 255, 0.14);
+            background: linear-gradient(145deg, #ffffff, #eef2ff);
+            border-radius: 18px;
+            box-shadow: 0 22px 55px -12px rgba(0, 0, 0, 0.78), 0 0 0 1px rgba(255, 255, 255, 0.18);
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -330,7 +331,8 @@
             padding: 6px;
             max-height: calc(100dvh - 11rem);
             max-width: 100%;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: plotReveal .32s cubic-bezier(.16,1,.3,1) both;
+            transition: box-shadow .2s ease, transform .2s ease;
         }
 
         .omni-plot-card img, .omni-plot-card svg {
@@ -342,6 +344,8 @@
             display: block;
             border-radius: 10px;
         }
+
+        @keyframes plotReveal { from { opacity: 0; transform: scale(.975) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
         /* Key Buttons & Touch Targets */
         .key-btn {
@@ -919,6 +923,7 @@
                                 <i class="fa-solid fa-chart-line text-indigo-400"></i> Plot Studio
                             </span>
                             <span id="plot-counter-pill" class="hidden text-[9px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/10">0 Figs</span>
+                            <span id="plot-meta" class="hidden text-[8.5px] font-mono text-gray-500 truncate max-w-[120px]"></span>
                         </div>
 
                         <div class="flex items-center gap-1.5">
@@ -940,7 +945,9 @@
                         <div id="plot-hud-controls" class="absolute top-3 right-3 z-30 flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-lg hidden">
                             <button onclick="adjustPlotZoom(0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></button>
                             <button onclick="adjustPlotZoom(-0.15)" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 flex items-center justify-center text-xs"><i class="fa-solid fa-minus"></i></button>
-                            <button onclick="resetPlotTransform()" class="px-2 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 text-[10px] font-mono font-bold flex items-center justify-center">1:1</button>
+                            <button onclick="fitPlotToViewport()" title="Fit to viewport" class="px-2 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 text-[10px] font-mono font-bold flex items-center justify-center">Fit</button>
+                            <button onclick="resetPlotTransform()" title="Reset zoom and pan" class="px-2 h-7 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 text-[10px] font-mono font-bold flex items-center justify-center">1:1</button>
+                            <span id="plot-zoom-label" class="min-w-8 text-center text-[9px] font-mono text-indigo-200">100%</span>
                         </div>
 
                         <div id="plot-target" class="w-full h-full flex items-center justify-center">
@@ -1100,6 +1107,8 @@ Created on ${dayName} ${monthName} ${dateNum} ${timeStr} ${year}
         let isDraggingPlot = false;
         let dragStartX = 0;
         let dragStartY = 0;
+        let plotInteractionAbort = null;
+        const MAX_PLOT_HISTORY = 12;
 
         // Dual-Pane State
         let isSplitMode = false;
@@ -2227,6 +2236,7 @@ def _omni_transform_code(code_str):
                     ]);
                 } catch (_) {}
                 requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(dismissSplash, 220)));
+                scheduleScienceWarmup();
 
             } catch (err) {
                 console.error(err);
@@ -2269,6 +2279,8 @@ def _omni_transform_code(code_str):
         window.showPlotMobile = function(base64Png, svgXml) {
             const plotData = { png: base64Png, svg: svgXml, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
             plotGallery.push(plotData);
+            const discarded = plotGallery.length > MAX_PLOT_HISTORY;
+            if (discarded) plotGallery.shift();
             currentPlotIdx = plotGallery.length - 1;
 
             renderActivePlot();
@@ -2279,6 +2291,7 @@ def _omni_transform_code(code_str):
             } else {
                 switchTab('plots');
             }
+            if (discarded) showToast(`Plot history keeps the latest ${MAX_PLOT_HISTORY} figures`);
         };
 
         function renderActivePlot() {
@@ -2288,7 +2301,7 @@ def _omni_transform_code(code_str):
 
             target.innerHTML = `
                 <div class="omni-plot-card">
-                    <img id="active-plot-img" src="data:image/png;base64,${current.png}" class="plot-viewport-canvas" alt="Plot output">
+                    <img id="active-plot-img" src="data:image/png;base64,${current.png}" class="plot-viewport-canvas" alt="Plot output, figure ${currentPlotIdx + 1}" draggable="false" decoding="async">
                 </div>
             `;
 
@@ -2303,6 +2316,15 @@ def _omni_transform_code(code_str):
             const counter = document.getElementById("plot-counter-pill");
             counter.innerText = `Fig ${currentPlotIdx + 1} of ${plotGallery.length}`;
             counter.classList.remove("hidden");
+
+            const img = document.getElementById("active-plot-img");
+            img?.addEventListener('load', () => {
+                const meta = document.getElementById('plot-meta');
+                if (meta) {
+                    meta.textContent = `${img.naturalWidth}×${img.naturalHeight} · ${current.time}`;
+                    meta.classList.remove('hidden');
+                }
+            }, { once: true });
         }
 
         function renderPlotFilmstrip() {
@@ -2316,9 +2338,13 @@ def _omni_transform_code(code_str):
             strip.innerHTML = "";
 
             plotGallery.forEach((item, index) => {
-                const thumb = document.createElement("div");
+                const thumb = document.createElement("button");
+                thumb.type = 'button';
+                thumb.title = `Open figure ${index + 1} (${item.time})`;
+                thumb.setAttribute('aria-label', `Open figure ${index + 1}`);
+                thumb.setAttribute('aria-current', String(index === currentPlotIdx));
                 thumb.className = `w-10 h-10 rounded-lg overflow-hidden border cursor-pointer shrink-0 transition ${index === currentPlotIdx ? 'border-indigo-500 ring-2 ring-indigo-500/40 scale-105' : 'border-white/10 opacity-60 hover:opacity-100'}`;
-                thumb.innerHTML = `<img src="data:image/png;base64,${item.png}" class="w-full h-full object-cover">`;
+                thumb.innerHTML = `<img src="data:image/png;base64,${item.png}" class="w-full h-full object-cover" alt="Figure ${index + 1} preview">`;
                 thumb.onclick = () => {
                     triggerHaptic();
                     currentPlotIdx = index;
@@ -2332,30 +2358,36 @@ def _omni_transform_code(code_str):
         function initPlotInteractions() {
             const img = document.getElementById("active-plot-img");
             if (!img) return;
-
-            img.addEventListener("mousedown", (e) => {
+            plotInteractionAbort?.abort();
+            plotInteractionAbort = new AbortController();
+            const signal = plotInteractionAbort.signal;
+            img.addEventListener("pointerdown", (e) => {
+                e.preventDefault();
                 isDraggingPlot = true;
                 dragStartX = e.clientX - plotTranslateX;
                 dragStartY = e.clientY - plotTranslateY;
-            });
+                img.setPointerCapture?.(e.pointerId);
+            }, { signal });
 
-            window.addEventListener("mousemove", (e) => {
+            window.addEventListener("pointermove", (e) => {
                 if (!isDraggingPlot) return;
                 plotTranslateX = e.clientX - dragStartX;
                 plotTranslateY = e.clientY - dragStartY;
                 applyPlotTransform();
-            });
+            }, { signal });
 
-            window.addEventListener("mouseup", () => {
+            window.addEventListener("pointerup", () => {
                 isDraggingPlot = false;
-            });
+            }, { signal });
+
+            img.addEventListener('dblclick', resetPlotTransform, { signal });
 
             const viewport = document.getElementById("plot-container-viewport");
-            viewport.onwheel = (e) => {
+            viewport.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 const delta = e.deltaY < 0 ? 0.12 : -0.12;
                 adjustPlotZoom(delta);
-            };
+            }, { passive: false, signal });
         }
 
         function adjustPlotZoom(delta) {
@@ -2370,11 +2402,25 @@ def _omni_transform_code(code_str):
             applyPlotTransform();
         }
 
+        function fitPlotToViewport() {
+            resetPlotTransform();
+            showToast('Plot fitted to viewport');
+        }
+
         function applyPlotTransform() {
             const img = document.getElementById("active-plot-img");
             if (img) {
-                img.style.transform = `translate(${plotTranslateX}px, ${plotTranslateY}px) scale(${plotScale})`;
+                img.style.transform = `translate3d(${plotTranslateX}px, ${plotTranslateY}px, 0) scale(${plotScale})`;
             }
+            const label = document.getElementById('plot-zoom-label');
+            if (label) label.textContent = `${Math.round(plotScale * 100)}%`;
+        }
+
+        function navigatePlot(direction) {
+            if (plotGallery.length < 2) return;
+            currentPlotIdx = (currentPlotIdx + direction + plotGallery.length) % plotGallery.length;
+            renderActivePlot();
+            renderPlotFilmstrip();
         }
 
         function downloadPlot(format = 'png') {
@@ -2382,10 +2428,12 @@ def _omni_transform_code(code_str):
             if (currentPlotIdx < 0 || !plotGallery[currentPlotIdx]) return;
             const current = plotGallery[currentPlotIdx];
             const a = document.createElement('a');
+            let objectUrl = null;
 
             if (format === 'svg' && current.svg) {
                 const blob = new Blob([current.svg], { type: "image/svg+xml;charset=utf-8" });
-                a.href = URL.createObjectURL(blob);
+                objectUrl = URL.createObjectURL(blob);
+                a.href = objectUrl;
                 a.download = `OmniPlot_Fig${currentPlotIdx + 1}_${Date.now()}.svg`;
             } else {
                 a.href = `data:image/png;base64,${current.png}`;
@@ -2395,6 +2443,7 @@ def _omni_transform_code(code_str):
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            if (objectUrl) setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
             showToast(`Downloaded ${format.toUpperCase()} image`);
         }
 
@@ -2418,6 +2467,8 @@ def _omni_transform_code(code_str):
 
         function clearPlots() {
             triggerHaptic();
+            plotInteractionAbort?.abort();
+            plotInteractionAbort = null;
             plotGallery = [];
             currentPlotIdx = -1;
             document.getElementById("plot-target").innerHTML = `
@@ -2431,6 +2482,7 @@ def _omni_transform_code(code_str):
             document.getElementById("btn-copy-plot").classList.add("hidden");
             document.getElementById("plot-hud-controls").classList.add("hidden");
             document.getElementById("plot-counter-pill").classList.add("hidden");
+            document.getElementById("plot-meta").classList.add("hidden");
             document.getElementById("plot-filmstrip").classList.add("hidden");
             showToast("Plots cleared");
         }
@@ -2503,25 +2555,62 @@ _lint()
         const stdlibModules = new Set(['math', 'sys', 'os', 'io', 're', 'json', 'random', 'time', 'datetime', 'itertools', 'functools', 'collections', 'ast', 'base64', 'builtins', 'asyncio', 'csv', 'statistics', 'typing', 'pathlib', 'string', 'textwrap', 'traceback', 'unittest']);
         const packageAliases = { sklearn: 'scikit-learn', PIL: 'pillow', bs4: 'beautifulsoup4', yaml: 'pyyaml' };
 
-        async function loadLearnerPackage(moduleName) {
+        async function loadLearnerPackage(moduleName, options = {}) {
+            const { silent = false } = options;
             const packageName = packageAliases[moduleName] || moduleName;
             if (omniPackageLoads.has(packageName)) return omniPackageLoads.get(packageName);
             const loading = (async () => {
                 try { pyodide.pyimport(moduleName); return; } catch (_) {}
-                log(`📦 Preparing '${packageName}'…`, "text-indigo-400 font-mono text-[11px]");
+                if (!silent) log(`📦 Preparing '${packageName}'…`, "text-indigo-400 font-mono text-[11px]");
                 if (pyodidePackages.has(packageName)) await pyodide.loadPackage(packageName);
                 else if (micropip) await micropip.install(packageName);
                 else throw new Error('Python package installer is not ready');
                 pyodide.pyimport(moduleName);
                 if (packageName === 'matplotlib') await pyodide.runPythonAsync('_omni_configure_matplotlib()');
-                log(`✓ '${packageName}' is ready.`, "text-green-400 font-mono text-[11px]");
+                if (!silent) log(`✓ '${packageName}' is ready.`, "text-green-400 font-mono text-[11px]");
             })().catch(err => {
                 omniPackageLoads.delete(packageName);
-                log(`⚠️ '${packageName}' is unavailable. Connect once to install it, then it can be cached.`, "text-amber-400 font-mono text-[11px]");
+                if (!silent) log(`⚠️ '${packageName}' is unavailable. Connect once to install it, then it can be cached.`, "text-amber-400 font-mono text-[11px]");
                 throw err;
             });
             omniPackageLoads.set(packageName, loading);
             return loading;
+        }
+
+        function scheduleScienceWarmup() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const slowConnection = connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType);
+            if (!navigator.onLine || slowConnection) {
+                if (!navigator.onLine) window.addEventListener('online', scheduleScienceWarmup, { once: true });
+                return;
+            }
+
+            const warm = async () => {
+                if (document.visibilityState === 'hidden' || !pyodide) return;
+                try {
+                    // Sequential and silent: preserve responsiveness while preparing the
+                    // most-used scientific tools for near-instant learner imports.
+                    await loadLearnerPackage('numpy', { silent: true });
+                    await loadLearnerPackage('matplotlib', { silent: true });
+                    await loadLearnerPackage('pandas', { silent: true });
+                    console.info('[Omni-Studio] Scientific runtime warmed in the background.');
+                } catch (error) {
+                    // Optional warm-up must never affect an otherwise ready workspace.
+                    console.info('[Omni-Studio] Scientific warm-up deferred.', error?.message || error);
+                }
+            };
+
+            const beginWhenIdle = () => {
+                if (document.visibilityState === 'hidden') {
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.visibilityState === 'visible') scheduleScienceWarmup();
+                    }, { once: true });
+                    return;
+                }
+                if ('requestIdleCallback' in window) window.requestIdleCallback(warm, { timeout: 9000 });
+                else setTimeout(warm, 600);
+            };
+            setTimeout(beginWhenIdle, 1800);
         }
 
         async function autoInstallImports(code) {

@@ -65,8 +65,8 @@ plt.show()
 
 - **Smart Python runtime** — browser-based Python with WebAssembly, stdout terminal output, error feedback, and asynchronous `input()` support.
 - **Clean code workspace** — CodeMirror editor with line numbers, active-line styling, bracket completion, syntax status, and keyboard shortcuts.
-- **Scientific learning tools** — on-demand NumPy, Pandas, Matplotlib, SciPy and compatible PyPI packages through `micropip`.
-- **Plot Studio** — view generated charts inside the app, with image/SVG output actions.
+- **Scientific learning tools** — NumPy, Matplotlib/Pyplot, and Pandas warm up quietly after the workspace is ready on suitable connections; other compatible packages remain on-demand through `micropip`.
+- **Plot Studio** — a high-DPI, fluid plot canvas with pan, wheel zoom, Fit/reset controls, figure carousel, image/SVG export, clipboard copy, and plot metadata.
 - **Virtual files** — import files into the Python filesystem, inspect them, and download generated results.
 - **Recovery built in** — debounced autosave, crash/session recovery, snapshots, workspace JSON import/export.
 - **Offline-first PWA** — installable manifest, service worker, local-first Tailwind loading, safe cache updates, and online/offline status.
@@ -76,7 +76,7 @@ plt.show()
 
 ## Performance philosophy
 
-Omni Studio deliberately avoids loading every data-science package during startup. The runtime loads **only the package your current program imports**, keeps concurrent requests de-duplicated, and lets the browser reuse cached downloads. That means a basic Python exercise starts faster while advanced notebooks still have the libraries they need.
+Omni Studio deliberately avoids loading every data-science package during startup. Once the workspace is visibly ready, it uses idle time to warm up the most common scientific stack — **NumPy, Matplotlib/Pyplot, and Pandas** — sequentially and without blocking the interface. On Data Saver, 2G/slow-2G, or offline connections, this optional work is deferred. Other imports remain on-demand, concurrent requests are de-duplicated, and browser caches are reused.
 
 Not every PyPI package can run in a browser: packages requiring unsupported native binaries may fail in WebAssembly. Omni Studio shows a clear terminal message in that case.
 
@@ -111,6 +111,7 @@ Open `http://localhost:8080` in a modern browser. GitHub Pages deployment is alr
 | <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Export workspace |
 | <kbd>F1</kbd> | Show shortcuts |
 | <kbd>Alt</kbd> + <kbd>Z</kbd> | Toggle distraction-free focus mode |
+| <kbd>←</kbd> / <kbd>→</kbd> | Browse previous/next figure while Plot Studio is open |
 
 ## Project guide
 

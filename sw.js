@@ -1,5 +1,5 @@
-const CACHE_VERSION = 'omni-studio-v8';
-const RUNTIME_CACHE = 'omni-studio-runtime-v8';
+const CACHE_VERSION = 'omni-studio-v9';
+const RUNTIME_CACHE = 'omni-studio-runtime-v9';
 const APP_SHELL = ['./','./index.html','./manifest.json','./tailwind.js','./critical.css','./omni-upgrade.js','./omni-premium.js','./sw.js'];
 const CDN_HOSTS = new Set(['cdn.tailwindcss.com','cdn.jsdelivr.net','cdnjs.cloudflare.com','fonts.googleapis.com','fonts.gstatic.com']);
 
