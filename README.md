@@ -1,52 +1,134 @@
-# Omni Studio
+<div align="center">
 
-An offline-first, browser-based Python learning environment. It pairs a focused CodeMirror editor with Pyodide, a terminal, plots, file tools, syntax feedback, a variable explorer, workspace recovery, and installable-PWA support.
+# ⚡ Omni Studio
 
-## What is improved
+### A beautiful, offline-first Python learning studio — in your browser and on Android.
 
-- **Fast start:** NumPy, Pandas, Matplotlib and other optional packages are no longer loaded at boot. They load only when the learner imports them.
-- **Automatic imports:** standard Pyodide packages load on demand; other compatible packages are installed through `micropip` when online. Installed browser assets are reused by the browser/service-worker cache.
-- **Offline-first:** the app shell and previously used CDN assets are cached. It stays usable offline after one successful online visit.
-- **Resilient interface:** local Tailwind is tried first, followed by two CDN fallbacks; the critical startup UI never depends on Tailwind.
-- **Learning workflow:** run file/current line, AST syntax feedback, plots, virtual files, command palette (`Ctrl/Cmd+K`), snapshots, import/export and crash/session recovery.
-- **Accessible, responsive UI:** keyboard-first controls, visible focus, reduced-motion support, mobile layout, and light fluent interactions.
+[![Live Studio](https://img.shields.io/badge/Launch-Live%20Studio-6d5dfc?style=for-the-badge&logo=googlechrome&logoColor=white)](https://shadow-wave.github.io/Omni-pro/)
+[![Android APK](https://img.shields.io/badge/Download-Android%20APK-34a853?style=for-the-badge&logo=android&logoColor=white)](https://github.com/shadow-wave/Omni-pro/releases/download/v1.0.0/Omni-Studio.apk)
+[![Release](https://img.shields.io/github/v/release/shadow-wave/Omni-pro?display_name=tag&style=for-the-badge&color=ff6b35)](https://github.com/shadow-wave/Omni-pro/releases/tag/v1.0.0)
+[![License](https://img.shields.io/badge/License-MIT-0ea5e9?style=for-the-badge)](LICENSE)
 
-## Run locally
+**[Launch the web app](https://shadow-wave.github.io/Omni-pro/)** · **[Download Android APK](https://github.com/shadow-wave/Omni-pro/releases/download/v1.0.0/Omni-Studio.apk)** · **[Read deployment guide](DEPLOYMENT.md)** · **[Report a security issue](SECURITY.md)**
 
-Service workers and Pyodide must be served over HTTP (not by opening `index.html` directly). From this folder, run:
+</div>
+
+---
+
+## Learn Python without the setup tax
+
+Omni Studio is a focused Python learning environment for students, explorers, and computational projects. Open it, write Python, run it — no local Python installation, terminal configuration, or separate package setup required.
+
+It runs Python through **Pyodide/WebAssembly** inside the browser, pairing a premium dark workspace with an interactive editor, terminal, plots, files, code feedback, recovery tools, and an installable app experience.
+
+> [!TIP]
+> For the fastest experience, use the [web studio](https://shadow-wave.github.io/Omni-pro/) once while online. After the initial cache is ready, Omni Studio can reopen offline with previously fetched runtime assets.
+
+## Choose your workspace
+
+| Web Studio | Android App |
+| :--- | :--- |
+| [Open Omni Studio →](https://shadow-wave.github.io/Omni-pro/) | [Download `Omni-Studio.apk` →](https://github.com/shadow-wave/Omni-pro/releases/download/v1.0.0/Omni-Studio.apk) |
+| No install. Works on modern desktop and mobile browsers. | Official Android build, version **v1.0.0**. |
+| Install from your browser menu for a PWA-like experience. | Download only from the [official release](https://github.com/shadow-wave/Omni-pro/releases/tag/v1.0.0). |
+
+## Why Omni Studio feels different
+
+| ⚡ Fast by default | 🧠 Built for learning | 📦 Packages on demand |
+| :--- | :--- | :--- |
+| The base Python runtime starts first. Heavy scientific tools do not delay every launch. | Run a file or current line, view syntax feedback, inspect variables, use the terminal, and explore virtual files in one calm workspace. | Write `import numpy`, `import pandas as pd`, or `import matplotlib.pyplot as plt`. Omni Studio loads what is needed when it is needed. |
+
+| 📊 From code to insight | 🛟 Never lose your work | 📡 Online or cached offline |
+| :--- | :--- | :--- |
+| Matplotlib output appears in the built-in Plot Studio. Save or inspect generated work without switching applications. | Automatic session recovery, workspace snapshots, and JSON import/export help you keep moving after an accidental refresh. | Local-first styling, CDN fallbacks, and a service-worker cache make the experience resilient on unreliable connections. |
+
+## Your first minute
+
+1. **Launch** the [web studio](https://shadow-wave.github.io/Omni-pro/) or install the [Android APK](https://github.com/shadow-wave/Omni-pro/releases/download/v1.0.0/Omni-Studio.apk).
+2. Paste a small program, then press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> to run it.
+3. Import a library when you need it. The first import may take a moment; later use is cached where the browser permits.
+4. Open the command palette with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> for snapshots, import/export, shortcuts, and more.
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+scores = pd.DataFrame({"Student": ["Asha", "Noah", "Maya"], "Score": [92, 87, 96]})
+print(scores)
+
+scores.plot(x="Student", y="Score", kind="bar", legend=False, color="#6366f1")
+plt.title("Python is ready")
+plt.show()
+```
+
+## Feature tour
+
+- **Smart Python runtime** — browser-based Python with WebAssembly, stdout terminal output, error feedback, and asynchronous `input()` support.
+- **Clean code workspace** — CodeMirror editor with line numbers, active-line styling, bracket completion, syntax status, and keyboard shortcuts.
+- **Scientific learning tools** — on-demand NumPy, Pandas, Matplotlib, SciPy and compatible PyPI packages through `micropip`.
+- **Plot Studio** — view generated charts inside the app, with image/SVG output actions.
+- **Virtual files** — import files into the Python filesystem, inspect them, and download generated results.
+- **Recovery built in** — debounced autosave, crash/session recovery, snapshots, workspace JSON import/export.
+- **Offline-first PWA** — installable manifest, service worker, local-first Tailwind loading, safe cache updates, and online/offline status.
+- **Designed with care** — responsive layout, keyboard-first navigation, visible focus states, reduced-motion support, and fluent micro-interactions.
+
+## Performance philosophy
+
+Omni Studio deliberately avoids loading every data-science package during startup. The runtime loads **only the package your current program imports**, keeps concurrent requests de-duplicated, and lets the browser reuse cached downloads. That means a basic Python exercise starts faster while advanced notebooks still have the libraries they need.
+
+Not every PyPI package can run in a browser: packages requiring unsupported native binaries may fail in WebAssembly. Omni Studio shows a clear terminal message in that case.
+
+## Offline, privacy, and safety
+
+- The Python runtime executes in the browser’s WebAssembly sandbox; it does not install or run Python on the host machine.
+- Once the app shell and relevant assets have been cached by a successful online visit, they can be reused offline.
+- A first-ever offline launch cannot fetch Pyodide or a new package. Connect once to prepare those assets.
+- Do not store passwords, API keys, or private data in client-side code or browser storage.
+- Installing arbitrary packages retrieves third-party code. Classroom and public deployments should use an allow-list policy.
+
+Read the full [security policy](SECURITY.md) before a public deployment.
+
+## Run from source
+
+Clone or download this repository, then serve it over HTTP — opening `index.html` directly prevents service-worker features from working correctly.
 
 ```bash
 python -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`. For GitHub Pages, publish this folder at the repository root (or configure Pages for this folder).
+Open `http://localhost:8080` in a modern browser. GitHub Pages deployment is already supported; see [DEPLOYMENT.md](DEPLOYMENT.md) for the release checklist and local/CDN fallback details.
 
-## Offline behavior
+## Keyboard shortcuts
 
-1. Open the site once while online and wait for it to reach **Ready**.
-2. Reload once so the service worker can control the page.
-3. The app shell and assets already fetched from CDNs will be available offline.
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> | Run current program |
+| <kbd>Shift</kbd> + <kbd>Enter</kbd> | Run selected text or current line |
+| <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> | Open command palette |
+| <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>S</kbd> | Save recovery session |
+| <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Export workspace |
+| <kbd>F1</kbd> | Show shortcuts |
 
-A fresh, fully offline install cannot download Pyodide, CodeMirror, or packages. To make that scenario possible, vendor those upstream assets into an `assets/` folder and update the corresponding URLs in `index.html`; do not copy third-party files without reviewing their licences.
+## Project guide
 
-## Package installation
+| File | Purpose |
+| :--- | :--- |
+| `index.html` | Main learning environment and browser runtime integration |
+| `omni-upgrade.js` | Command palette, recovery, diagnostics, PWA UX, and workspace tools |
+| `critical.css` | Fast, dependency-free startup styling and accessibility polish |
+| `sw.js` | Versioned offline-first service worker and runtime cache |
+| `manifest.json` | Installable PWA metadata |
 
-Writing `import numpy`, `import pandas as pd`, or `import matplotlib.pyplot as plt` loads the relevant Pyodide package only when necessary. Other imports attempt a `micropip` installation where Pyodide supports the package. Some PyPI distributions include native extensions and cannot run in WebAssembly; Omni Studio reports that clearly instead of silently failing.
+## Contributing and licence
 
-Package installs fetch third-party code. For classroom or production deployments, restrict or allow-list package names before exposing the app to untrusted users.
+Ideas, bug reports, and improvements are welcome. Keep changes fast on lower-powered devices, accessible by keyboard, and safe for a browser-hosted learning environment.
 
-## Deployment checklist
+This repository’s original code is available under the [MIT License](LICENSE). Pyodide, CodeMirror, Tailwind, and other third-party dependencies retain their own licences.
 
-- Keep HTTPS enabled (GitHub Pages provides this).
-- Do not commit secrets: this is a client-side application.
-- Bump `CACHE_VERSION` in `sw.js` whenever release assets change.
-- Test an initial online launch, an offline reload, a slow network, and a mobile browser.
-- Review `SECURITY.md` before public deployment.
+<div align="center">
 
-## Project files
+**If Omni Studio helps you learn, please consider starring the repository.**
 
-`index.html` contains the application; `omni-upgrade.js` adds recovery and productivity features; `critical.css` styles the initial shell; `sw.js` provides caching; and `manifest.json` supplies PWA metadata.
+Made for curious Python learners. ✨
 
-## Licence
-
-MIT for this repository’s original code. Third-party libraries retain their own licences.
+</div>
