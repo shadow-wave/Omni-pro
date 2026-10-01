@@ -1,6 +1,6 @@
-const CACHE_VERSION = 'omni-studio-v7';
-const RUNTIME_CACHE = 'omni-studio-runtime-v7';
-const APP_SHELL = ['./','./index.html','./manifest.json','./tailwind.js','./critical.css','./omni-upgrade.js','./sw.js'];
+const CACHE_VERSION = 'omni-studio-v8';
+const RUNTIME_CACHE = 'omni-studio-runtime-v8';
+const APP_SHELL = ['./','./index.html','./manifest.json','./tailwind.js','./critical.css','./omni-upgrade.js','./omni-premium.js','./sw.js'];
 const CDN_HOSTS = new Set(['cdn.tailwindcss.com','cdn.jsdelivr.net','cdnjs.cloudflare.com','fonts.googleapis.com','fonts.gstatic.com']);
 
 self.addEventListener('install', event => {

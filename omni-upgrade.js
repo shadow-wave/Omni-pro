@@ -155,23 +155,45 @@
       ['Clear terminal', '', () => window.clearTerminal?.()],
       ['Reload app', '', () => location.reload()]
     ];
+    let visibleCommands = commands;
+    let activeCommand = 0;
     const render = (filter = '') => {
       const list = qs('#omni-command-list');
       list.innerHTML = '';
-      commands.filter(c => c[0].toLowerCase().includes(filter.toLowerCase())).forEach((cmd) => {
+      visibleCommands = commands.filter(c => c[0].toLowerCase().includes(filter.toLowerCase()));
+      activeCommand = Math.max(0, Math.min(activeCommand, visibleCommands.length - 1));
+      visibleCommands.forEach((cmd, index) => {
         const b = document.createElement('button');
         b.type = 'button'; b.className = 'omni-command-item';
+        b.dataset.commandIndex = index;
+        b.setAttribute('role', 'option');
+        b.setAttribute('aria-selected', String(index === activeCommand));
+        if (index === activeCommand) b.classList.add('omni-command-active');
         b.innerHTML = `<span>${cmd[0]}</span><kbd>${cmd[1] || ''}</kbd>`;
         b.onclick = () => { closePalette(); cmd[2](); };
         list.appendChild(b);
       });
     };
-    const openPalette = () => { state.commandOpen = true; wrap.classList.remove('hidden'); wrap.classList.add('flex'); render(); input.value=''; setTimeout(() => input.focus(), 0); };
+    const openPalette = () => { state.commandOpen = true; activeCommand = 0; wrap.classList.remove('hidden'); wrap.classList.add('flex'); render(); input.value=''; setTimeout(() => input.focus(), 0); };
     const closePalette = () => { state.commandOpen = false; wrap.classList.add('hidden'); wrap.classList.remove('flex'); };
     window.omniOpenCommandPalette = openPalette;
     window.omniCloseCommandPalette = closePalette;
-    input.addEventListener('input', () => render(input.value));
-    input.addEventListener('keydown', e => { if (e.key === 'Escape') closePalette(); if (e.key === 'Enter') qs('#omni-command-list button')?.click(); });
+    window.omniRegisterCommand = (name, shortcut, action) => {
+      if (typeof name !== 'string' || typeof action !== 'function') return false;
+      commands.push([name, shortcut || '', action]);
+      return true;
+    };
+    input.addEventListener('input', () => { activeCommand = 0; render(input.value); });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closePalette(); return; }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeCommand = Math.max(0, Math.min(visibleCommands.length - 1, activeCommand + (e.key === 'ArrowDown' ? 1 : -1)));
+        render(input.value);
+        qs(`#omni-command-list button[data-command-index="${activeCommand}"]`)?.scrollIntoView({ block: 'nearest' });
+      }
+      if (e.key === 'Enter') qs(`#omni-command-list button[data-command-index="${activeCommand}"]`)?.click();
+    });
     wrap.addEventListener('pointerdown', e => { if (e.target === wrap) closePalette(); });
   }
 

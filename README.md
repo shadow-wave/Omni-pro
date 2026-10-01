@@ -71,6 +71,8 @@ plt.show()
 - **Recovery built in** — debounced autosave, crash/session recovery, snapshots, workspace JSON import/export.
 - **Offline-first PWA** — installable manifest, service worker, local-first Tailwind loading, safe cache updates, and online/offline status.
 - **Designed with care** — responsive layout, keyboard-first navigation, visible focus states, reduced-motion support, and fluent micro-interactions.
+- **Focus when it matters** — `Alt + Z` opens a distraction-free editor view; command palette actions are now searchable and arrow-key navigable.
+- **Update without surprises** — when a cached release is ready, Omni Studio offers a clear, user-controlled refresh instead of interrupting work.
 
 ## Performance philosophy
 
@@ -108,6 +110,7 @@ Open `http://localhost:8080` in a modern browser. GitHub Pages deployment is alr
 | <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>S</kbd> | Save recovery session |
 | <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Export workspace |
 | <kbd>F1</kbd> | Show shortcuts |
+| <kbd>Alt</kbd> + <kbd>Z</kbd> | Toggle distraction-free focus mode |
 
 ## Project guide
 
@@ -121,7 +124,7 @@ Open `http://localhost:8080` in a modern browser. GitHub Pages deployment is alr
 
 ## Contributing and licence
 
-Ideas, bug reports, and improvements are welcome. Keep changes fast on lower-powered devices, accessible by keyboard, and safe for a browser-hosted learning environment.
+Ideas, bug reports, and improvements are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for the project principles, local testing checklist, and pull-request guidance. GitHub issue forms are included for focused bug reports and feature proposals.
 
 This repository’s original code is available under the [MIT License](LICENSE). Pyodide, CodeMirror, Tailwind, and other third-party dependencies retain their own licences.
 
